@@ -1,0 +1,21 @@
+# GitHub Linguist configuration — Atlas Electoral de Costa Rica
+# Generated presentation files must not dominate repository language statistics.
+
+salidas/** linguist-generated=true
+*.html linguist-generated=true
+*.js linguist-generated=true
+*.css linguist-generated=true
+*.svg linguist-generated=true
+
+# The analytical core is Python. Classify Jupyter notebooks as Python
+# for repository language statistics.
+*.ipynb linguist-language=Python linguist-detectable=true
+*.py linguist-detectable=true
+
+# Documentation and data assets should not affect language statistics.
+docs/** linguist-documentation=true
+assets/** linguist-documentation=true
+*.md linguist-documentation=true
+*.json linguist-documentation=true
+*.geojson linguist-documentation=true
+*.csv linguist-documentation=true
