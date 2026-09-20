@@ -1,0 +1,20 @@
+﻿anio,nombre,partido,escanos,escanos_pct,magnitud,mayoria_inicial,antecedente_candidatura,antecedente_legislativo_electo,eleccion_siguiente,cambio_voto_legislativo_pp,cambio_escanos,nombre_original
+1953,José Figueres Ferrer,LIBERACION NACIONAL,30.0,66.6666666667,45.0,True,False,False,1958.0,-23.066848229,-10.0,José Figueres Ferrer
+1958,Mario Echandi Jiménez,UNION NACIONAL,10.0,22.2222222222,45.0,False,True,True,1962.0,-8.0959958751,-1.0,Mario Echandi Jiménez
+1962,Francisco José Orlich Bolmarcich,LIBERACION NACIONAL,29.0,50.8771929825,57.0,True,True,True,1966.0,0.0819781524,0.0,Francisco José Orlich Bolmarcich
+1966,José Joaquín Trejos Fernández,UNIFICACION NACIONAL,26.0,45.6140350877,57.0,False,False,False,1970.0,-7.2657668808,-4.0,José Joaquín Trejos Fernández
+1970,José Figueres Ferrer,LIBERACION NACIONAL,32.0,56.1403508772,57.0,True,True,False,1974.0,-9.8367451871,-5.0,José Figueres Ferrer
+1974,Daniel Oduber Quirós,LIBERACION NACIONAL,27.0,47.3684210526,57.0,False,True,True,1978.0,-2.0202786246,-2.0,Daniel Oduber Quirós
+1978,Rodrigo Carazo Odio,UNIDAD,27.0,47.3684210526,57.0,False,True,True,1982.0,-14.3316140978,-9.0,Rodrigo Carazo Odio
+1982,Luis Alberto Monge Álvarez,LIBERACION NACIONAL,33.0,57.8947368421,57.0,True,True,True,1986.0,-7.3175998528,-4.0,Luis Alberto Monge Álvarez
+1986,Óscar Arias Sánchez,LIBERACION NACIONAL,29.0,50.8771929825,57.0,True,True,True,1990.0,-5.9494326232,-4.0,Óscar Arias Sánchez
+1990,Rafael Ángel Calderón Fournier,UNIDAD SOCIAL CRISTIANA,29.0,50.8771929825,57.0,True,True,True,1994.0,-5.8353407048,-4.0,Rafael Ángel Calderón Fournier
+1994,José María Figueres Olsen,LIBERACION NACIONAL,28.0,49.1228070175,57.0,False,False,False,1998.0,-9.7760729857,-5.0,José María Figueres Olsen
+1998,Miguel Ángel Rodríguez Echeverría,UNIDAD SOCIAL CRISTIANA,27.0,47.3684210526,57.0,False,True,True,2002.0,-11.4044852993,-8.0,Miguel Ángel Rodríguez Echeverría
+2002,Abel Pacheco de la Espriella,UNIDAD SOCIAL CRISTIANA,19.0,33.3333333333,57.0,False,True,True,2006.0,-21.955055519,-14.0,Abel Pacheco de la Espriella
+2006,Óscar Arias Sánchez,LIBERACION NACIONAL,25.0,43.8596491228,57.0,False,True,True,2010.0,0.7294949525,-1.0,Óscar Arias Sánchez
+2010,Laura Chinchilla Miranda,LIBERACION NACIONAL,24.0,42.1052631579,57.0,False,True,True,2014.0,-11.5631102672,-6.0,Laura Chinchilla Miranda
+2014,Luis Guillermo Solís Rivera,ACCION CIUDADANA,13.0,22.8070175439,57.0,False,False,False,2018.0,-7.2320791247,-3.0,Luis Guillermo Solís Rivera
+2018,Carlos Alvarado Quesada,ACCION CIUDADANA,10.0,17.5438596491,57.0,False,False,False,2022.0,-14.0997297096,-10.0,Carlos Alvarado Quesada
+2022,Rodrigo Chaves Robles,PROGRESO SOCIAL DEMOCRATICO,10.0,17.5438596491,57.0,False,False,False,2026.0,-14.4527336917,-10.0,Rodrigo Chaves Robles
+2026,Laura Fernández Delgado,PUEBLO SOBERANO,31.0,54.3859649123,57.0,True,True,False,,,,Laura Fernández Delgado

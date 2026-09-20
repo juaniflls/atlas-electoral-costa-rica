@@ -1,0 +1,91 @@
+﻿ambito,variable_x,variable_y,observaciones,pearson,spearman,interpretacion
+Nacional,abstencion_pct,invalidos_pct,19,-0.06309803,-0.3842105263,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,nep,19,0.7005992674,0.6596491228,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,concentracion_2,19,-0.7854677993,-0.798245614,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,margen,19,0.1566340732,0.1,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,gallagher,19,0.5485718928,0.449122807,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,mujeres_electas_pct,19,0.6782119457,0.4133699525,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,mujeres_candidatas_pct,19,0.631807137,0.3842105263,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,divergencia_arenas,19,0.7464278406,0.7561403509,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,abstencion_pct,volatilidad_nominal,18,0.2655019132,0.3292053664,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,nep,19,-0.4746152807,-0.7298245614,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,concentracion_2,19,0.416621918,0.6456140351,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,margen,19,0.5115365846,0.3140350877,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,gallagher,19,-0.5180380326,-0.650877193,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,mujeres_electas_pct,19,-0.6574443782,-0.9173294904,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,mujeres_candidatas_pct,19,-0.7073582206,-0.8649122807,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,divergencia_arenas,19,0.0648719859,-0.4245614035,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,invalidos_pct,volatilidad_nominal,18,0.208336968,-0.0794633643,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,concentracion_2,19,-0.9571729115,-0.9561403509,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,margen,19,-0.3353048651,-0.2771929825,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,gallagher,19,0.7378710001,0.7421052632,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,mujeres_electas_pct,19,0.7659216494,0.6939338139,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,mujeres_candidatas_pct,19,0.7504162702,0.7298245614,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,divergencia_arenas,19,0.4359823219,0.6859649123,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,nep,volatilidad_nominal,18,0.1813427217,0.2301341589,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,concentracion_2,margen,19,0.2150282292,0.1596491228,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,concentracion_2,gallagher,19,-0.7048002015,-0.6596491228,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,concentracion_2,mujeres_electas_pct,19,-0.7747322753,-0.6042237391,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,concentracion_2,mujeres_candidatas_pct,19,-0.7737264734,-0.6649122807,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,concentracion_2,divergencia_arenas,19,-0.6076767865,-0.7368421053,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,concentracion_2,volatilidad_nominal,18,-0.1780545105,-0.2693498452,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,margen,gallagher,19,-0.1913093145,-0.2105263158,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,margen,mujeres_electas_pct,19,-0.2238682755,-0.3227803672,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,margen,mujeres_candidatas_pct,19,-0.3536446659,-0.4315789474,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,margen,divergencia_arenas,19,0.0479574873,-0.0754385965,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,margen,volatilidad_nominal,18,0.0506439431,0.0939112487,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,gallagher,mujeres_electas_pct,19,0.7970948849,0.7352708092,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,gallagher,mujeres_candidatas_pct,19,0.6956927512,0.6280701754,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,gallagher,divergencia_arenas,19,0.3077335251,0.5333333333,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,gallagher,volatilidad_nominal,18,0.1934942815,0.2363261094,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,mujeres_electas_pct,mujeres_candidatas_pct,19,0.9363688166,0.8830285795,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,mujeres_electas_pct,divergencia_arenas,19,0.4510684681,0.5109956222,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,mujeres_electas_pct,volatilidad_nominal,18,0.2121919001,0.242237193,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,mujeres_candidatas_pct,divergencia_arenas,19,0.500464861,0.6105263158,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,mujeres_candidatas_pct,volatilidad_nominal,18,0.0505741682,0.0773993808,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Nacional,divergencia_arenas,volatilidad_nominal,18,0.1193011702,0.1475748194,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,invalidos_pct,133,0.0619892225,-0.0746013609,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,nep,133,0.5596159385,0.5658532355,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,concentracion_2,133,-0.615071167,-0.6240295447,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,margen,133,0.1686130142,0.1747227635,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,gallagher,133,0.4384398809,0.3884473735,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,mujeres_electas_pct,133,0.3756452352,0.3814187265,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,mujeres_candidatas_pct,133,0.4738620655,0.4046119554,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,divergencia_arenas,133,0.5521981488,0.5794319585,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,abstencion_pct,volatilidad_nominal,126,0.2528553185,0.2803419573,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,nep,133,-0.4411829628,-0.5183736138,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,concentracion_2,133,0.4294163596,0.4869568766,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,margen,133,0.2811005727,0.2337305271,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,gallagher,133,-0.040430832,-0.0242907132,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,mujeres_electas_pct,133,-0.6028870081,-0.6712130821,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,mujeres_candidatas_pct,133,-0.6759873266,-0.7164543159,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,divergencia_arenas,133,-0.0136380916,-0.1561961212,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,invalidos_pct,volatilidad_nominal,126,0.1322705364,-0.0491308586,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,concentracion_2,133,-0.94545783,-0.9785964232,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,margen,133,-0.2722371922,-0.1827312515,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,gallagher,133,0.3654015177,0.3377541547,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,mujeres_electas_pct,133,0.6245250728,0.6094912584,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,mujeres_candidatas_pct,133,0.7096124914,0.7054754241,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,divergencia_arenas,133,0.533183987,0.7224982402,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,nep,volatilidad_nominal,126,0.1937775984,0.2042174728,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,concentracion_2,margen,133,0.146959779,0.0596351802,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,concentracion_2,gallagher,133,-0.3665323225,-0.3316993297,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,concentracion_2,mujeres_electas_pct,133,-0.6281089414,-0.5979961041,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,concentracion_2,mujeres_candidatas_pct,133,-0.7529106911,-0.6734162438,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,concentracion_2,divergencia_arenas,133,-0.6564753446,-0.7568888299,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,concentracion_2,volatilidad_nominal,126,-0.1923009841,-0.2443404574,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,margen,gallagher,133,-0.0249090083,-0.0374766632,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,margen,mujeres_electas_pct,133,-0.1011312239,-0.1213728484,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,margen,mujeres_candidatas_pct,133,-0.1909746304,-0.2507697242,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,margen,divergencia_arenas,133,-0.0186439045,0.0123238898,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,margen,volatilidad_nominal,126,0.060587786,0.0061102362,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,gallagher,mujeres_electas_pct,133,0.2133192429,0.1788956244,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,gallagher,mujeres_candidatas_pct,133,0.2348781434,0.2029130818,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,gallagher,divergencia_arenas,133,0.3666250652,0.3450434091,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,gallagher,volatilidad_nominal,126,0.1056537633,0.088263967,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,mujeres_electas_pct,mujeres_candidatas_pct,133,0.8095209586,0.7909827809,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,mujeres_electas_pct,divergencia_arenas,133,0.3495390268,0.4171550253,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,mujeres_electas_pct,volatilidad_nominal,126,0.2229381136,0.2374112027,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,mujeres_candidatas_pct,divergencia_arenas,133,0.4458732505,0.4821095648,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,mujeres_candidatas_pct,volatilidad_nominal,126,0.1035040698,0.1147788839,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
+Siete provincias,divergencia_arenas,volatilidad_nominal,126,0.1746274101,0.1854278215,Exploratoria; dependencia temporal y territorial; sin inferencia causal ni selección por significancia
