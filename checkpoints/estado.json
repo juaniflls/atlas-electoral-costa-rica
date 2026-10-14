@@ -1,8 +1,8 @@
 {
   "etapa": "html_generado",
-  "fecha": "2026-10-13T18:25:10",
+  "fecha": "2026-10-14T00:45:35",
   "html": "salidas/Atlas_Electoral_Costa_Rica_1953_2026.html",
-  "bytes": 74121159,
+  "bytes": 74132160,
   "tablas": {
     "votos": 3991,
     "totales": 336,

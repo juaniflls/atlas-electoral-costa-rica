@@ -178,12 +178,12 @@ python -m pip install -r requirements.txt
 
 El repositorio incorpora siete bases principales:
 
-1. `Base_Electoral_Diputaciones_1953-2026(20260918-171611).xlsx`
-2. `Base_Electoral_Presidencial_1953-2026(4).xlsx`
-3. `Base_Final_Candidaturas_Diputaciones_1953-2026_ENTREGA.xlsx`
-4. `Base_Final_Candidaturas_Presidenciales_1953-2026(4).xlsx`
-5. `Base_Final_Diputaciones_Electas_1953-2026(4).xlsx`
-6. `Base_Final_Diseno_Papeletas_Diputaciones_1953-2026(4).xlsx`
+1. `Base_Electoral_Diputaciones_1953-2026.xlsx`
+2. `Base_Electoral_Presidencial_1953-2026.xlsx`
+3. `Base_Final_Candidaturas_Diputaciones_1953-2026.xlsx`
+4. `Base_Final_Candidaturas_Presidenciales_1953-2026.xlsx`
+5. `Base_Final_Diputaciones_Electas_1953-2026.xlsx`
+6. `Base_Final_Diseno_Papeletas_Diputaciones_1953-2026.xlsx`
 7. `Base_partidos_cancelados.xlsx`
 
 ---

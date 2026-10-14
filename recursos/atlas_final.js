@@ -811,7 +811,7 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
   plot=function(titleText,traces,rows,opts={}){
     if(titleText==='Composición por sexo a través del tiempo'){
       const years=new Set(traces.flatMap(t=>Array.isArray(t.x)?t.x.map(Number):[]));
-      const active=milestones.filter(m=>years.has(m.year));
+      const active=['Diputación propietaria','Suplencia legislativa','Diputación electa'].includes(pop) ? milestones.filter(m=>years.has(m.year)) : [];
       const configured=Array.isArray(opts.layout?.shapes)&&opts.layout.shapes.some(s=>active.some(m=>Number(s.x0)===m.year && s.type==='line'));
       if(active.length && !configured){
         const shapes=active.map(m=>({type:'line',xref:'x',yref:'paper',x0:m.year,x1:m.year,y0:0,y1:1,line:{color:'#b28744',width:1.75,dash:'dot'}}));
@@ -923,7 +923,7 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
     let nextOpts={...(opts||{})};
     const sexTitleMatch=String(titleText||'').startsWith('Composición por sexo');
     if(sexTitleMatch){
-      const pop=(typeof local!=='undefined' && local.sexpop)?local.sexpop:'';
+      const pop=(typeof local!=='undefined' && local.sexpop)?local.sexpop:'Diputación propietaria';
       const party=(typeof local!=='undefined' && local.sexparty)?labelText(local.sexparty):'Todos';
       if(titleText==='Composición por sexo a través del tiempo' && pop) title=`Composición por sexo a través del tiempo · ${pop}`;
       if(Array.isArray(nextTraces)){
@@ -934,9 +934,9 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
           cliponaxis:false
         }));
       }
-      if(String(title).includes('a través del tiempo')){
+      if(String(title).includes('a través del tiempo') || titleText==='Composición por sexo entre candidaturas electas' || titleText==='Composición por sexo entre candidaturas no electas'){
         const years=new Set((Array.isArray(nextTraces)?nextTraces:[]).flatMap(t=>Array.isArray(t.x)?t.x.map(Number):[]));
-        const active=milestones.filter(m=>years.has(m.year));
+        const active=['Diputación propietaria','Suplencia legislativa','Diputación electa'].includes(pop) ? milestones.filter(m=>years.has(m.year)) : [];
         const shapes=active.map(m=>({type:'line',xref:'x',yref:'paper',x0:m.year,x1:m.year,y0:0,y1:1,line:{color:'#b28744',width:1.75,dash:'dot'}}));
         const yRows=[1.08,1.14,1.08,1.14];
         const annotations=active.map((m,i)=>({xref:'x',yref:'paper',x:m.year,y:yRows[i%yRows.length],text:m.label,showarrow:false,textangle:0,xanchor:'center',font:{size:10,color:'#755c32'},bgcolor:'rgba(255,250,241,.98)',bordercolor:'rgba(178,135,68,.38)',borderpad:3}));
@@ -952,7 +952,7 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
             annotations:[...(((nextOpts.layout||{}).annotations)||[]), ...annotations],
             margin:{...(((nextOpts.layout||{}).margin)||{}), t:170}
           },
-          note:[nextOpts.note,'Líneas doradas: hitos de la normativa electoral sobre participación de mujeres. Su coincidencia con cambios en la serie es descriptiva; no demuestra causalidad por sí sola.'].filter(Boolean).join(' ')
+          note:[nextOpts.note,active.length?'Líneas doradas: hitos de la normativa electoral relativos a candidaturas legislativas.':null].filter(Boolean).join(' ')
         };
       } else {
         nextOpts={...nextOpts, subtitle:[nextOpts.subtitle, `${state.from}–${state.to} · ${state.province} · Población: ${pop||'No especificada'} · Partido: ${party}`].filter(Boolean).join(' · ')};
@@ -973,6 +973,7 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
 
   const previousGenero=views.genero;
   views.genero=function(...args){
+    local.sexpop=local.sexpop||'Diputación propietaria';
     const result=previousGenero.apply(this,args);
     const pop=local.sexpop||'Diputación propietaria';
     let base=[], outcomeApplicable=true;
@@ -994,8 +995,126 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
       add('<div class="atlas17-subhead">Lectura anual de electas y no electas por sexo</div>');
       makeComp(base.filter(r=>Boolean(r.electa)),'Composición por sexo entre candidaturas electas','Cada columna suma 100% entre Mujer y Hombre solo dentro de las candidaturas electas de la población seleccionada.');
       makeComp(base.filter(r=>!Boolean(r.electa)),'Composición por sexo entre candidaturas no electas','Cada columna suma 100% entre Mujer y Hombre solo dentro de las candidaturas no electas de la población seleccionada.');
-    }
+    } else note(pop==='Diputación electa'?'La población seleccionada comprende solamente diputaciones electas. No corresponde dividirla en candidaturas electas y no electas.':'No se presentan gráficos de elección/no elección para esta población porque sus resultados no son comparables.');
     return result;
   };
 })();
+
+
+
+/* ATLAS_V7_REPRESENTACION_HTML
+   Este módulo transforma las mismas tablas oficiales embebidas en el HTML.
+   No depende del notebook, de imágenes estáticas, de internet ni de un servidor.
+   Las tres series son nacionales; los controles Desde, Hasta y Elección de
+   detalle son efectivos. La clasificación por partido con escaños se refiere
+   a obtener al menos una diputación en el conjunto del país en ese año.
+*/
+(function(){
+  'use strict';
+  const sColor='#c56c4f',rColor='#137d79',sColor2='#b58a45';
+  const alias={'LIBERACION NACIONAL':'PLN','UNION NACIONAL':'UN','UNIFICACION NACIONAL':'PUN','UNIDAD':'UNIDAD','UNIDAD SOCIAL CRISTIANA':'PUSC','ACCION CIUDADANA':'PAC','PROGRESO SOCIAL DEMOCRATICO':'PPSD','PUEBLO SOBERANO':'PPSO'};
+  const short=p=>alias[p]||String(p).slice(0,14);
+  let _cache=null;
+  function makeRecords(){
+    if(_cache)return _cache;
+    const votes=D.votos.filter(r=>r.provincia==='Nacional'&&r.arena==='Legislativa'&&Number(r.ronda)===1);
+    const seats=D.escanos.filter(r=>r.provincia==='Nacional');
+    const gov=D.presidencia_asamblea;
+    const byVote=new Map(),bySeat=new Map(),byGov=new Map();
+    const key=(year,party)=>year+'|'+party;
+    votes.forEach(r=>{const k=key(r.anio,r.partido);if(byVote.has(k))throw Error('Votos duplicados: '+k);byVote.set(k,r)});
+    seats.forEach(r=>{const k=key(r.anio,r.partido);if(bySeat.has(k))throw Error('Escaños duplicados: '+k);bySeat.set(k,r)});
+    gov.forEach(r=>byGov.set(r.anio,r));
+    const years=[...new Set(votes.map(r=>r.anio))].sort((a,b)=>a-b);
+    const totals=[];const winners=[];const presidential=[];
+    for(const year of years){
+      const v= votes.filter(r=>r.anio===year);
+      const total=v.reduce((s,r)=>s+Number(r.votos||0),0);
+      const withSeats=v.reduce((s,r)=>s+(Number(bySeat.get(key(year,r.partido))?.escanos||0)>0?Number(r.votos||0):0),0);
+      const withoutSeats=total-withSeats;
+      const seatsYear=seats.filter(r=>r.anio===year);
+      const chamber=seatsYear.reduce((s,r)=>s+Number(r.escanos||0),0);
+      if(!total||!chamber)throw Error('Falta padrón válido o magnitud en '+year);
+      const row={anio:year,votos_validos:total,votos_con_escanos:withSeats,votos_sin_escanos:withoutSeats,pct_con_escanos:100*withSeats/total,pct_sin_escanos:100*withoutSeats/total};
+      totals.push(row);
+      const leader=[...v].sort((a,b)=>Number(b.votos)-Number(a.votos)||a.partido.localeCompare(b.partido,'es'))[0];
+      const leaderSeats=Number(bySeat.get(key(year,leader.partido))?.escanos||0);
+      winners.push({anio:year,partido:leader.partido,abreviatura:short(leader.partido),votos:Number(leader.votos),votos_pct:100*leader.votos/total,escanos:leaderSeats,total_escanos:chamber,escanos_pct:100*leaderSeats/chamber,brecha_pp:100*leaderSeats/chamber-100*leader.votos/total});
+      const g=byGov.get(year);
+      if(!g)throw Error('No hay Presidencia electa para '+year);
+      const gv=byVote.get(key(year,g.partido));
+      if(!gv)throw Error('No hay voto legislativo del partido presidencial electo '+year+'/'+g.partido);
+      const gs=Number(bySeat.get(key(year,g.partido))?.escanos||0);
+      if(Math.abs(gs-Number(g.escanos))>.001)throw Error('Inconsistencia de bancada para '+year);
+      presidential.push({anio:year,presidencia:g.nombre,partido:g.partido,abreviatura:short(g.partido),votos:Number(gv.votos),votos_pct:100*gv.votos/total,escanos:gs,total_escanos:chamber,escanos_pct:100*gs/chamber,brecha_pp:100*gs/chamber-100*gv.votos/total,partido_lider_legislativo:leader.partido,coincide_lider_legislativo:g.partido===leader.partido});
+      const original=D.metricas.find(m=>m.anio===year&&m.provincia==='Nacional'&&m.arena==='Legislativa'&&m.ronda===1);
+      if(!original||Math.abs(Number(original.validos)-total)>.001||Math.abs(Number(original.voto_sin_escanos_pct)-row.pct_sin_escanos)>1e-6)throw Error('La serie de votos sin escaño no coincide con la validación del Atlas para '+year);
+    }
+    _cache={totals,winners,presidential};return _cache;
+  }
+  function shown(rows){return rows.filter(r=>r.anio>=state.from&&r.anio<=state.to)}
+  function tracesForShares(rows){
+    // Una sola variable independiente: la cuota destinada a partidos sin diputaciones.
+    // La cuota con diputaciones es su complemento 100 - cuota sin diputaciones.
+    // Gráfico de tallos y puntos (lollipop), NO barras apiladas ni dos líneas redundantes.
+    const xs=[],ys=[];
+    rows.forEach(r=>{xs.push(r.anio,r.anio,null);ys.push(0,r.pct_sin_escanos,null)});
+    return [
+      {type:'scatter',mode:'lines',showlegend:false,hoverinfo:'skip',
+       x:xs,y:ys,line:{color:'rgba(197,108,79,0.43)',width:2.4}},
+      {type:'scatter',mode:'markers',showlegend:false,name:'Partidos sin diputaciones',
+       x:rows.map(r=>r.anio),y:rows.map(r=>r.pct_sin_escanos),
+       customdata:rows.map(r=>[r.pct_con_escanos]),
+       marker:{color:sColor,size:12,symbol:'circle',line:{color:'#ffffff',width:1.5}},
+       hovertemplate:'Elección %{x}<br><b>Sin diputaciones: %{y:.2f} %</b><br>Con diputaciones: %{customdata[0]:.2f} %<extra></extra>'}
+    ];
+  }
+  function compareTraces(rows){
+    const years=rows.map(r=>r.anio), parties=rows.map(r=>r.partido);
+    return [
+      {type:'bar',name:'Votos legislativos válidos (%)',x:years,y:rows.map(r=>r.votos_pct),customdata:parties,marker:{color:rColor},hovertemplate:'%{x} · %{customdata}<br>Votos legislativos: %{y:.2f}%<extra></extra>'},
+      {type:'bar',name:'Escaños en la Asamblea (%)',x:years,y:rows.map(r=>r.escanos_pct),customdata:parties,marker:{color:sColor2},hovertemplate:'%{x} · %{customdata}<br>Escaños: %{y:.2f}%<extra></extra>'}
+    ]
+  }
+  function integrity(){
+    const {totals,winners,presidential}=makeRecords();
+    if(totals.length!==19||winners.length!==19||presidential.length!==19)throw Error('La serie debe cubrir las 19 elecciones.');
+    return true;
+  }
+  views.representacion_voto=function(){
+    const {totals,winners,presidential}=makeRecords();
+    const total=shown(totals),leaders=shown(winners),gov=shown(presidential);
+    const focus=total.find(r=>r.anio===state.focus),flead=leaders.find(r=>r.anio===state.focus),fgov=gov.find(r=>r.anio===state.focus);
+    title('Votos y escaños','Evolución de la proporción del voto válido obtenido por partidos con y sin diputaciones y comparación de votos y escaños de las principales fuerzas.');
+    note('<b>Ámbito nacional.</b> Estas comparaciones corresponden a la Asamblea Legislativa completa. Los filtros <b>Desde, Hasta y Elección de detalle</b> funcionan. El selector de provincia no cambia esta vista, porque el criterio es conseguir al menos una diputación en el país. «Sin escaños» significa sin representación partidaria directa, no ausencia de representación jurídica del electorado.');
+    if(!total.length){add('<div class="empty">Sin observaciones para este intervalo.</div>');return}
+    const f=focus||total[total.length-1],l=flead||leaders[leaders.length-1],g=fgov||gov[gov.length-1];
+    kpis([
+      ['Voto sin escaños · '+f.anio,num(f.pct_sin_escanos,2)+' %','Porcentaje de los votos válidos'],
+      ['Voto con escaños · '+f.anio,num(f.pct_con_escanos,2)+' %','Porcentaje de los votos válidos'],
+      ['Líder legislativo · '+l.anio,num(l.escanos,0)+' / '+num(l.total_escanos,0),esc(labelText(l.partido))+' · diputaciones'],
+      ['Partido presidencial · '+g.anio,num(g.escanos_pct,2)+' %',esc(labelText(g.partido))+' · bancada']
+    ]);
+    if(!focus)note('La elección de detalle está fuera del intervalo. Las tarjetas muestran la última elección del periodo.',true);
+    const maxShare=Math.max(...total.map(r=>r.pct_sin_escanos));
+    const topShare=Math.max(5,Math.ceil((maxShare+2)/5)*5);
+    plot('Voto válido destinado a partidos sin diputaciones',tracesForShares(total),total,
+      {height:485,subtitle:'Nacional · '+state.from+'–'+state.to,
+       xTitle:'Elección',yTitle:'Porcentaje del voto válido (%)',
+       layout:{yaxis:{range:[0,topShare],title:{text:'Porcentaje del voto válido (%)'},ticksuffix:' %',dtick:5},
+               showlegend:false,hovermode:'closest',margin:{l:88,r:50,t:30,b:85}},
+       note:'Cada punto indica la proporción de votos válidos destinados a partidos que no obtuvieron ninguna diputación. La parte restante (100 % menos ese valor) corresponde a partidos con diputaciones. Pase el cursor por los puntos para consultar ambas proporciones.'});
+    table(total,['anio','pct_con_escanos','pct_sin_escanos'],'Evolución del voto válido por acceso a diputaciones (%)');
+    note('El partido legislativo más votado no coincide necesariamente con el ganador de la Presidencia. Los porcentajes de escaños se calculan sobre el total de diputaciones de cada elección.');
+    plot('Líder de votos legislativos · votos frente a escaños',compareTraces(leaders),leaders,{height:510,yTitle:'Porcentaje (%)',layout:{barmode:'group',yaxis:{range:[0,90],title:{text:'Porcentaje (%)'}}},note:'Pase el cursor sobre un año para identificar el partido. Comparación de porcentaje de sufragios válidos y de escaños del mismo partido.'});
+    table(leaders,['anio','partido','votos','votos_pct','escanos','total_escanos','escanos_pct','brecha_pp'],'Líder legislativo · votos y representación parlamentaria');
+    note('Para el partido presidencial electo se utiliza la candidatura ganadora definitiva, incluida la segunda ronda cuando corresponde. Se comparan sus votos legislativos y sus escaños, no sus votos presidenciales.');
+    plot('Partido presidencial electo · voto legislativo y bancada',compareTraces(gov),gov,{height:510,yTitle:'Porcentaje (%)',layout:{barmode:'group',yaxis:{range:[0,90],title:{text:'Porcentaje (%)'}}},note:'El ganador de la Presidencia y el líder del voto legislativo pueden ser partidos diferentes; la tabla permite identificarlos.'});
+    table(gov,['anio','presidencia','partido','votos','votos_pct','escanos','total_escanos','escanos_pct','brecha_pp','partido_lider_legislativo','coincide_lider_legislativo'],'Presidencia electa · partido, votos legislativos y bancada');
+    add('<div class="notice">Fuente: Atlas Electoral de Costa Rica 1953–2026. Las series utilizan votos válidos legislativos, escaños y partido presidencial electo, con denominadores nacionales consistentes.</div>');
+  };
+  integrity();
+  window.ATLAS_V7_REPRESENTACION_HTML_OK=true;
+})();
+
 
