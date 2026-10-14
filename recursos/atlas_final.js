@@ -676,3 +676,326 @@ views.panorama=()=>{atlas18PanoramaBase();
 
 // Versión visible en metadatos de la aplicación.
 if(D.meta)D.meta.version='1.9';
+
+async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion'){
+ // ATLAS_VECTOR_EXPORT_V5: elementos SVG nativos, sin HTML/CSS incrustado.
+ try {
+  const root=document.getElementById(id);
+  if(!root)throw new Error('No se encontró la sección de personas seleccionada.');
+  const cardNodes=Array.from(root.querySelectorAll('.person-result'));
+  if(!cardNodes.length)throw new Error('Esta selección no contiene personas que se puedan exportar.');
+  const compact=s=>String(s??'').replace(/\s+/g,' ').trim();
+  const readCard=el=>{
+   const name=compact(el.querySelector('.person-link')?.textContent||el.querySelector(':scope > span')?.textContent||'Persona sin nombre');
+   const badges=Array.from(el.querySelectorAll('.outcome-badge')).map(n=>compact(n.textContent)).filter(Boolean);
+   const pairs=Array.from(el.querySelectorAll('.career-pair')).map(n=>compact(n.textContent)).filter(Boolean);
+   const extras=Array.from(el.querySelectorAll('.mini,.route')).filter(n=>!n.closest('.career-pair')).map(n=>compact(n.textContent)).filter(Boolean);
+   return {name,badges,details:[...pairs,...extras]};
+  };
+  const people=cardNodes.map(readCard);
+  const heading=compact(root.querySelector('h3')?.textContent||'Personas de la selección');
+  const scope=compact(root.querySelector('.card-head .mini')?.textContent||'');
+  const methodology=compact(root.querySelector(':scope > .chart-note')?.textContent||'');
+  const cols=people.length>36?3:people.length>5?2:1;
+  const width=cols===3?2100:cols===2?1560:1120;
+  const margin=55, gap=22, cardWidth=(width-2*margin-gap*(cols-1))/cols;
+  const wrap=(value,max)=>{
+   const words=compact(value).split(' ').filter(Boolean),out=[];let line='';
+   for(const word of words){
+    if(word.length>max){if(line){out.push(line);line='';}for(let i=0;i<word.length;i+=max)out.push(word.slice(i,i+max));continue;}
+    if((line?line.length+1:0)+word.length>max){out.push(line);line=word;}else line+=(line?' ':'')+word;
+   }
+   if(line)out.push(line);
+   return out.length?out:[''];
+  };
+  const maxTitle=cols===3?43:cols===2?59:100;
+  const maxDetail=cols===3?48:cols===2?65:105;
+  const prepared=people.map(p=>({
+   name:wrap(p.name,maxTitle),
+   badges:p.badges.flatMap(s=>wrap(s,maxDetail)),
+   details:p.details.flatMap(s=>wrap(s,maxDetail)),
+  }));
+  const cardHeight=p=>24+p.name.length*29+(p.badges.length?8+p.badges.length*23:0)+(p.details.length?9+p.details.length*24:0)+22;
+  const headScope=wrap(scope,Math.max(55,Math.floor((width-2*margin)/11)));
+  const headHeight=184+Math.max(0,headScope.length-1)*25;
+  const placement=[];let nextY=headHeight;
+  for(let i=0;i<prepared.length;i+=cols){
+   const slice=prepared.slice(i,i+cols);
+   const rh=Math.max(...slice.map(cardHeight));
+   slice.forEach((p,j)=>placement.push({person:p,x:margin+j*(cardWidth+gap),y:nextY,height:rh}));
+   nextY+=rh+gap;
+  }
+  const noteLines=methodology?wrap(methodology,Math.floor((width-2*margin)/10)):[];
+  const totalHeight=Math.ceil(nextY+46+noteLines.length*24+60);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('xmlns',ns);svg.setAttribute('width',String(width));
+  svg.setAttribute('height',String(totalHeight));svg.setAttribute('viewBox',`0 0 ${width} ${totalHeight}`);
+  svg.setAttribute('role','img');svg.setAttribute('aria-label',heading);
+  const draw=(tag,attrs,content,parent=svg)=>{
+   const e=document.createElementNS(ns,tag);
+   for(const [key,value] of Object.entries(attrs||{}))e.setAttribute(key,String(value));
+   if(content!==null&&content!==undefined)e.textContent=String(content);
+   parent.appendChild(e);return e;
+  };
+  const tx=(x,y,value,size=18,color='#274251',weight=400)=>draw('text',{x,y,fill:color,'font-family':'Arial, Helvetica, sans-serif','font-size':size,'font-weight':weight},value);
+  draw('rect',{x:0,y:0,width,height:totalHeight,fill:'#f5f8fa'});
+  draw('rect',{x:0,y:0,width,height:10,fill:'#137f7a'});
+  tx(margin,51,'ATLAS ELECTORAL DE COSTA RICA · 1953–2026',20,'#167a78',700);
+  tx(margin,94,heading,29,'#173143',700);
+  headScope.forEach((s,i)=>tx(margin,130+i*25,s,17,'#466474',400));
+  tx(margin,headHeight-20,`PERSONAS EN ESTA PÁGINA: ${people.length} · Filtros indicados en el encabezado`,17,'#3f6170',700);
+  draw('line',{x1:margin,y1:headHeight-7,x2:width-margin,y2:headHeight-7,stroke:'#bfd4d6','stroke-width':2});
+  placement.forEach(({person:p,x,y,height})=>{
+   draw('rect',{x,y,width:cardWidth,height,rx:11,fill:'#ffffff',stroke:'#cfdee5','stroke-width':1.5});
+   draw('rect',{x,y,width:7,height,rx:3,fill:'#137f7a'});
+   let baseline=y+36;
+   p.name.forEach(line=>{tx(x+24,baseline,line,21,'#153a4c',700);baseline+=29;});
+   if(p.badges.length){baseline+=5;p.badges.forEach(line=>{tx(x+24,baseline,line,16,'#0c746b',700);baseline+=23;});}
+   if(p.details.length){baseline+=6;p.details.forEach(line=>{tx(x+24,baseline,line,16,'#415c69',400);baseline+=24;});}
+  });
+  const footY=nextY+17;
+  draw('line',{x1:margin,y1:footY-16,x2:width-margin,y2:footY-16,stroke:'#d4e1e7','stroke-width':1.5});
+  noteLines.forEach((line,i)=>tx(margin,footY+i*24,line,15,'#526874'));
+  tx(margin,totalHeight-27,'Fuente: Atlas electoral de Costa Rica · Consulta filtrada · Resultados descriptivos del corpus',15,'#536a77');
+  const serialized=new XMLSerializer().serializeToString(svg);
+  const vectorBlob=new Blob([serialized],{type:'image/svg+xml;charset=utf-8'});
+  const safeName=(filename||'Atlas_Personas').replace(/[^\p{L}\p{N}_-]+/gu,'_');
+  const saveBlob=(blob,ext)=>{
+   const u=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=u;a.download=`${safeName}.${ext}`;document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(u),2000);
+  };
+  if(format==='svg'){saveBlob(vectorBlob,'svg');return;}
+  if(format!=='png')throw new Error('Formato de exportación desconocido.');
+  const imageUrl=URL.createObjectURL(vectorBlob);
+  try {
+   const bitmap=new Image();
+   await new Promise((resolve,reject)=>{
+    bitmap.onload=resolve;
+    bitmap.onerror=()=>reject(new Error('El navegador no pudo cargar la representación vectorial de los nombres.'));
+    bitmap.src=imageUrl;
+   });
+   const factor=Math.max(.6,Math.min(2,15000/totalHeight,Math.sqrt(45000000/(width*totalHeight))));
+   const canvas=document.createElement('canvas');
+   canvas.width=Math.max(1,Math.round(width*factor));
+   canvas.height=Math.max(1,Math.round(totalHeight*factor));
+   const ctx=canvas.getContext('2d');
+   if(!ctx)throw new Error('No se pudo inicializar el lienzo de imagen.');
+   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
+   ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+   const raster=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('El navegador no pudo convertir el gráfico en PNG.')),'image/png'));
+   saveBlob(raster,'png');
+  } finally {URL.revokeObjectURL(imageUrl);}
+ }catch(error){console.error('Atlas · fallo de exportación:',error);alert('No se pudo exportar la imagen: '+(error?.message||error));}
+}
+
+/* ATLAS_V5_COMPATIBLE_PATCH
+ * Ampliación no destructiva de la última capa de la interfaz.
+ * No depende del texto exacto de atlas_final.js; se puede aplicar a clones V2.0
+ * o a copias parcialmente parcheadas. No sustituye la aplicación existente.
+ */
+(function atlasV5Enhance(){
+  const stamp='ATLAS_V5_COMPATIBLE_PATCH';
+  if (typeof views==='undefined' || typeof views.outcomes!=='function' || typeof plot!=='function') {
+    throw new Error('El paquete no expone las funciones esperadas del Atlas. Compruebe que recursos/atlas_final.js corresponda a la versión 2.0.');
+  }
+  const milestones=[
+    {year:1998,label:'Cuota 40 %',detail:'Ley 7653 (1996): cuota mínima de candidaturas'},
+    {year:2002,label:'Puestos elegibles',detail:'TSE 1863-1999: aplicación en posiciones elegibles'},
+    {year:2014,label:'Paridad vertical',detail:'Código Electoral de 2009: paridad y alternancia'},
+    {year:2018,label:'Paridad horizontal',detail:'TSE 3603-E8-2016: encabezamientos provinciales'}
+  ];
+  // Amplía opciones del gráfico EXISTENTE sin modificar barras, datos ni resultados.
+  const previousPlot=plot;
+  plot=function(titleText,traces,rows,opts={}){
+    if(titleText==='Composición por sexo a través del tiempo'){
+      const years=new Set(traces.flatMap(t=>Array.isArray(t.x)?t.x.map(Number):[]));
+      const active=milestones.filter(m=>years.has(m.year));
+      const configured=Array.isArray(opts.layout?.shapes)&&opts.layout.shapes.some(s=>active.some(m=>Number(s.x0)===m.year && s.type==='line'));
+      if(active.length && !configured){
+        const shapes=active.map(m=>({type:'line',xref:'x',yref:'paper',x0:m.year,x1:m.year,y0:0,y1:1,line:{color:'#b28744',width:1.75,dash:'dot'}}));
+        const annotations=active.map((m,i)=>({xref:'x',yref:'paper',x:m.year,y:i%2?1.18:1.09,text:`${m.year} · ${m.label}`,showarrow:false,textangle:-30,font:{size:10,color:'#755c32'},bgcolor:'rgba(255,250,241,.97)',bordercolor:'rgba(178,135,68,.36)',borderpad:3}));
+        opts={...opts,height:Math.max(opts.height||420,515),layout:{...(opts.layout||{}),shapes:[...(opts.layout?.shapes||[]),...shapes],annotations:[...(opts.layout?.annotations||[]),...annotations],margin:{...(opts.layout?.margin||{}),t:145}},note:[opts.note,'Líneas doradas: hitos en la elección de aplicación (1998: cuota 40 %; 2002: puestos elegibles; 2014: paridad vertical; 2018: paridad horizontal). Normas: Ley 7653/1996; TSE 1863-1999; Código Electoral 2009; TSE 3603-E8-2016. La coincidencia temporal no demuestra causalidad.'].filter(Boolean).join(' ')};
+      }
+    }
+    if(titleText==='Evolución del indicador territorial' && (local.rmetric||'indice_representacion')==='indice_representacion'){
+      const hasLine=opts.layout?.shapes?.some(s=>s.yref==='y'&&Number(s.y0)===1&&Number(s.y1)===1);
+      if(!hasLine){
+        opts={...opts,layout:{...(opts.layout||{}),shapes:[...(opts.layout?.shapes||[]),{type:'line',xref:'paper',yref:'y',x0:0,x1:1,y0:1,y1:1,line:{color:'#b45353',width:2,dash:'dot'}}]},note:[opts.note,'La línea roja y = 1 expresa igualdad descriptiva entre peso en escaños y peso en padrón, no la regla constitucional de distribución por población.'].filter(Boolean).join(' ')};
+      }
+    }
+    return previousPlot(titleText,traces,rows,opts);
+  };
+
+  // Los controles se montan sobre el bloque VISIBLE, cualquiera que sea su
+  // implementación interna. Esto evita modificar versiones antiguas de views.outcomes.
+  function ensurePersonExports(){
+    const roots=Array.from(document.querySelectorAll('#content .card'));
+    const wanted=new Map([
+      ['Personas del flujo seleccionado','Atlas_ExitoElectoral_FlujoSeleccionado'],
+      ['Quiénes forman este puente de carrera','Atlas_ExitoElectoral_PuenteCarrera'],
+      ['Personas del antecedente seleccionado','Atlas_ExitoElectoral_AntecedenteSeleccionado'],
+      ['Personas en el antecedente seleccionado','Atlas_ExitoElectoral_AntecedenteSeleccionado']
+    ]);
+    roots.forEach(root=>{
+      const heading=root.querySelector('h3');
+      if(!heading)return;
+      const name=heading.textContent.trim();
+      if(!wanted.has(name) || root.dataset.atlasV5Export==='yes')return;
+      root.dataset.atlasV5Export='yes';
+      if(!root.id)root.id='atlas_v5_people_'+Array.from(root.parentNode.children).indexOf(root)+'_'+Math.floor(Math.random()*100000);
+      // Reemplazar solamente los controles exportadores del bloque de personas.
+      // Los botones de las figuras Plotly y de las tablas no se modifican.
+      let head=heading.closest('.card-head');
+      if(!head){head=document.createElement('div');head.className='card-head';heading.parentNode.insertBefore(head,heading);head.appendChild(heading);}
+      head.querySelectorAll('.exports').forEach(el=>el.remove());
+      const tools=document.createElement('div');tools.className='exports';
+      for(const kind of ['PNG','SVG']){
+        const b=document.createElement('button');b.type='button';b.textContent=kind;
+        b.title=`Descargar los nombres y trayectorias de esta página como ${kind}`;
+        b.addEventListener('click',()=>atlasV5ExportNode(root.id,kind.toLowerCase(),wanted.get(name)));
+        tools.appendChild(b);
+      }
+      head.appendChild(tools);
+      const mini=root.querySelector('.card-head .mini');
+      if(!mini){
+        const scope=document.createElement('span');scope.className='mini';
+        scope.textContent=`${state.from}–${state.to} · ${state.province} · cargo: ${local.ocargo||'Todos'} · partido: ${local.oparty||'Todos'} · sexo: ${local.osex||'Todos'}`;
+        heading.insertAdjacentElement('afterend',scope);
+      }
+    });
+  }
+
+  function addTransitionRates(){
+    const titles=Array.from(document.querySelectorAll('#content .card h3')).map(x=>x.textContent.trim());
+    if(titles.includes('Tasa de elección posterior según continuidad de partido'))return;
+    const rows=typeof atlasFilteredOutcomes==='function'?atlasFilteredOutcomes():[];
+    const ids=new Set(rows.map(r=>r.id_persona));
+    let transitions=(D.transiciones_resultados||[]).filter(r=>r.anio>=state.from&&r.anio<=state.to&&ids.has(r.id_persona));
+    if(state.province!=='Nacional')transitions=transitions.filter(r=>r.provincia_origen===state.province||r.provincia_destino===state.province);
+    add('<div class="extension-heading">LECTURA PORCENTUAL DE LOS FLUJOS · PARTIDO Y PROVINCIA</div>');
+    add('<div class="clarity-box"><b>Complemento, no sustitución.</b> Los diagramas de flujo muestran personas y transiciones. Las dos tasas siguientes se calculan con el número de transiciones como denominador; una persona puede aportar varias. Son asociaciones descriptivas, no pruebas causales.</div>');
+    const context=`${state.from}–${state.to} · ${state.province} · Cargo: ${local.ocargo||'Todos'} · Sexo: ${local.osex||'Todos'} · Partido: ${labelText(local.oparty||'Todos')}`;
+    const one=(which,title)=>{
+      const a=which==='provincia'?transitions.filter(r=>r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional'):transitions;
+      const key=which==='provincia'?'cambia_provincia':'cambia_partido';
+      const groups=[[`Mantiene ${which}`,false],[`Cambia ${which}`,true]];
+      const stats=groups.map(([grupo,change])=>{
+        const g=a.filter(r=>Boolean(r[key])===change),won=g.filter(r=>Boolean(r.electa_destino)).length;
+        return {grupo,transiciones:g.length,electas_despues:won,no_electas_despues:g.length-won,tasa:g.length?100*won/g.length:null,personas:uniq(g.map(r=>r.id_persona)).length};
+      });
+      const validRows=stats.filter(x=>x.transiciones>0);
+      if(!validRows.length){note(`No hay transiciones para ${title} con los filtros actuales.`);return;}
+      plot(title,[{type:'bar',orientation:'h',x:validRows.map(r=>r.tasa),y:validRows.map(r=>r.grupo),text:validRows.map(r=>`${num(r.tasa,1)} % · ${r.electas_despues}/${r.transiciones}`),textposition:'outside',marker:{color:validRows.map(r=>r.grupo.startsWith('Mantiene')?'#168278':'#637cac')},customdata:validRows.map(r=>[r.electas_despues,r.transiciones,r.personas]),hovertemplate:'%{y}<br>Electas: %{customdata[0]}/%{customdata[1]} transiciones · %{customdata[2]} personas<br>%{x:.2f} %<extra></extra>'}],validRows,{height:310,xTitle:'Transiciones con elección posterior / transiciones del grupo (%)',subtitle:context,note:'N = transiciones registradas entre elecciones distintas. El gráfico complementa el Sankey; mantener el partido o la provincia no implica causalidad ni una recomendación individual.'});
+      table(stats,['grupo','transiciones','electas_despues','no_electas_despues','tasa','personas'],`Auditoría · ${title}`);
+    };
+    one('partido','Tasa de elección posterior según continuidad de partido');
+    one('provincia','Tasa de elección posterior según continuidad de provincia');
+  }
+  const previousOutcomes=views.outcomes;
+  views.outcomes=function(...args){
+    const result=previousOutcomes.apply(this,args);
+    ensurePersonExports();
+    addTransitionRates();
+    return result;
+  };
+})();
+
+
+
+/* ATLAS_V6_READABILITY_PATCH
+ * Mejoras de legibilidad para el artículo: género y éxito electoral.
+ */
+(function atlasV6ReadabilityPatch(){
+  const stamp='ATLAS_V6_READABILITY_PATCH';
+  if(typeof views==='undefined' || typeof plot!=='function') return;
+  const milestones=[
+    {year:1998,label:'1998 · Cuota 40 %',detail:'Ley 7653 (1996): cuota mínima de candidaturas'},
+    {year:2002,label:'2002 · Puestos elegibles',detail:'TSE 1863-1999: aplicación en posiciones elegibles'},
+    {year:2014,label:'2014 · Paridad vertical',detail:'Código Electoral de 2009: paridad y alternancia'},
+    {year:2018,label:'2018 · Paridad horizontal',detail:'TSE 3603-E8-2016: encabezamientos provinciales'}
+  ];
+  const previousPlot=plot;
+  plot=function(titleText,traces,rows,opts={}){
+    let title=titleText;
+    let nextTraces=Array.isArray(traces)?traces.map(t=>({...t})):traces;
+    let nextOpts={...(opts||{})};
+    const sexTitleMatch=String(titleText||'').startsWith('Composición por sexo');
+    if(sexTitleMatch){
+      const pop=(typeof local!=='undefined' && local.sexpop)?local.sexpop:'';
+      const party=(typeof local!=='undefined' && local.sexparty)?labelText(local.sexparty):'Todos';
+      if(titleText==='Composición por sexo a través del tiempo' && pop) title=`Composición por sexo a través del tiempo · ${pop}`;
+      if(Array.isArray(nextTraces)){
+        nextTraces=nextTraces.map(t=>({
+          ...t,
+          textfont:{size:10,color:'#ffffff'},
+          insidetextanchor:'middle',
+          cliponaxis:false
+        }));
+      }
+      if(String(title).includes('a través del tiempo')){
+        const years=new Set((Array.isArray(nextTraces)?nextTraces:[]).flatMap(t=>Array.isArray(t.x)?t.x.map(Number):[]));
+        const active=milestones.filter(m=>years.has(m.year));
+        const shapes=active.map(m=>({type:'line',xref:'x',yref:'paper',x0:m.year,x1:m.year,y0:0,y1:1,line:{color:'#b28744',width:1.75,dash:'dot'}}));
+        const yRows=[1.08,1.14,1.08,1.14];
+        const annotations=active.map((m,i)=>({xref:'x',yref:'paper',x:m.year,y:yRows[i%yRows.length],text:m.label,showarrow:false,textangle:0,xanchor:'center',font:{size:10,color:'#755c32'},bgcolor:'rgba(255,250,241,.98)',bordercolor:'rgba(178,135,68,.38)',borderpad:3}));
+        nextOpts={
+          ...nextOpts,
+          height:Math.max(nextOpts.height||420,560),
+          subtitle:[nextOpts.subtitle, `${state.from}–${state.to} · ${state.province} · Población: ${pop||'No especificada'} · Partido: ${party}`].filter(Boolean).join(' · '),
+          layout:{
+            ...(nextOpts.layout||{}),
+            barmode:'stack',
+            yaxis:{...((nextOpts.layout||{}).yaxis||{}), range:[0,100]},
+            shapes:[...(((nextOpts.layout||{}).shapes)||[]), ...shapes],
+            annotations:[...(((nextOpts.layout||{}).annotations)||[]), ...annotations],
+            margin:{...(((nextOpts.layout||{}).margin)||{}), t:170}
+          },
+          note:[nextOpts.note,'Líneas doradas: hitos de la normativa electoral sobre participación de mujeres. Su coincidencia con cambios en la serie es descriptiva; no demuestra causalidad por sí sola.'].filter(Boolean).join(' ')
+        };
+      } else {
+        nextOpts={...nextOpts, subtitle:[nextOpts.subtitle, `${state.from}–${state.to} · ${state.province} · Población: ${pop||'No especificada'} · Partido: ${party}`].filter(Boolean).join(' · ')};
+      }
+    }
+    if(titleText==='Tasa de elección posterior según continuidad de partido'){
+      title='Tasa de elección posterior según continuidad de partido · candidaturas posteriores';
+      nextTraces=(Array.isArray(nextTraces)?nextTraces:[nextTraces]).map(t=>({...t,textposition:'outside',cliponaxis:false}));
+      nextOpts={...nextOpts,xTitle:'Porcentaje de transiciones del grupo que terminan en una candidatura electa (%)',subtitle:[nextOpts.subtitle,'Lectura: de todas las transiciones observadas en cada grupo, ¿qué porcentaje terminó en una candidatura electa posterior?'].filter(Boolean).join(' · '),note:[nextOpts.note,'N del rótulo = candidaturas electas posteriores / transiciones observadas dentro del grupo.'].filter(Boolean).join(' '),height:340};
+    }
+    if(titleText==='Tasa de elección posterior según continuidad de provincia'){
+      title='Tasa de elección posterior según continuidad de provincia · candidaturas posteriores';
+      nextTraces=(Array.isArray(nextTraces)?nextTraces:[nextTraces]).map(t=>({...t,textposition:'outside',cliponaxis:false}));
+      nextOpts={...nextOpts,xTitle:'Porcentaje de transiciones del grupo que terminan en una candidatura electa (%)',subtitle:[nextOpts.subtitle,'Lectura: de todas las transiciones observadas en cada grupo, ¿qué porcentaje terminó en una candidatura electa posterior?'].filter(Boolean).join(' · '),note:[nextOpts.note,'N del rótulo = candidaturas electas posteriores / transiciones observadas dentro del grupo.'].filter(Boolean).join(' '),height:340};
+    }
+    return previousPlot(title,nextTraces,rows,nextOpts);
+  };
+
+  const previousGenero=views.genero;
+  views.genero=function(...args){
+    const result=previousGenero.apply(this,args);
+    const pop=local.sexpop||'Diputación propietaria';
+    let base=[], outcomeApplicable=true;
+    if(pop==='Diputación propietaria')base=period(D.candidaturas).filter(r=>r.tipo==='Propietaria');
+    else if(pop==='Suplencia legislativa'){base=period(D.candidaturas).filter(r=>r.tipo==='Suplencia'); outcomeApplicable=false;}
+    else if(pop==='Diputación electa'){base=period(D.electas); outcomeApplicable=false;}
+    else base=period(D.formulas,false).filter(r=>r.cargo===pop);
+    const parties=['Todos',...uniq(base.map(r=>r.partido).filter(Boolean)).sort()];
+    const party=(parties.includes(local.sexparty)?local.sexparty:'Todos');
+    base=base.filter(r=>party==='Todos'||r.partido===party);
+    const makeComp=(rows,title,noteText)=>{
+      const ys=yearsVisible();
+      const comp=ys.flatMap(anio=>{const g=rows.filter(r=>r.anio===anio), den=g.filter(r=>['Mujer','Hombre'].includes(r.sexo)).length; return ['Mujer','Hombre'].map(sexo=>({anio,sexo,registros:g.filter(r=>r.sexo===sexo).length,total_con_sexo:den,porcentaje:pct(g.filter(r=>r.sexo===sexo).length,den)}));});
+      const visible=ys.filter(y=>comp.some(r=>r.anio===y&&r.total_con_sexo>0));
+      if(!visible.length){note(`No hay registros suficientes para “${title}” con los filtros actuales.`); return;}
+      plot(title,['Mujer','Hombre'].map(sexo=>({type:'bar',name:sexo,x:visible,y:visible.map(y=>comp.find(r=>r.anio===y&&r.sexo===sexo)?.porcentaje??0),customdata:visible.map(y=>comp.find(r=>r.anio===y&&r.sexo===sexo)?.registros??0),marker:{color:sexColors[sexo]},text:visible.map(y=>{const z=comp.find(r=>r.anio===y&&r.sexo===sexo); return `${num(z?.porcentaje??0,1)}% · N=${z?.registros??0}`;}),hovertemplate:'%{x}<br>'+sexo+': %{customdata} registros · %{y:.1f}%<extra></extra>'})),comp,{height:420,yTitle:'Composición (%)',layout:{barmode:'stack',yaxis:{range:[0,100]}},note:noteText});
+    };
+    if(outcomeApplicable){
+      add('<div class="atlas17-subhead">Lectura anual de electas y no electas por sexo</div>');
+      makeComp(base.filter(r=>Boolean(r.electa)),'Composición por sexo entre candidaturas electas','Cada columna suma 100% entre Mujer y Hombre solo dentro de las candidaturas electas de la población seleccionada.');
+      makeComp(base.filter(r=>!Boolean(r.electa)),'Composición por sexo entre candidaturas no electas','Cada columna suma 100% entre Mujer y Hombre solo dentro de las candidaturas no electas de la población seleccionada.');
+    }
+    return result;
+  };
+})();
+
