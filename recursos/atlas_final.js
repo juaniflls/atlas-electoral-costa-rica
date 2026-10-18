@@ -71,132 +71,6 @@ function atlasTransitionDescriptor(r,mode){
  return {origen:`${r.resultado_origen} antes`,destino:`${r.resultado_destino} después`};
 }
 function atlasUniquePersonRows(rows){return [...new Map(rows.map(r=>[r.id_persona,r])).values()]}
-function atlasSelectionLabel(v){return v==='Todos'?'Todos':labelText(v)}
-function atlasOutcomeFilterSummary(extra=[]){
- const base=[`Intervalo: ${state.from}–${state.to}`,`Territorio: ${labelText(state.province)}`,`Cargo: ${atlasSelectionLabel(local.ocargo||'Todos')}`,`Sexo: ${atlasSelectionLabel(local.osex||'Todos')}`,`Partido: ${atlasSelectionLabel(local.oparty||'Todos')}`];
- return [...base,...extra.filter(Boolean)].join(' · ');
-}
-function atlasRegisterCardRows(id,rows){window.atlasCardRows=window.atlasCardRows||{};window.atlasCardRows[id]=rows||[]}
-async function atlasExportNode(id, format='png', filename='Atlas_Exportacion'){
- // ATLAS_VECTOR_EXPORT_V3: elementos SVG nativos, sin HTML/CSS incrustado.
- try {
-  const root=document.getElementById(id);
-  if(!root)throw new Error('No se encontró la sección de personas seleccionada.');
-  const cardNodes=Array.from(root.querySelectorAll('.person-result'));
-  if(!cardNodes.length)throw new Error('Esta selección no contiene personas que se puedan exportar.');
-  const compact=s=>String(s??'').replace(/\s+/g,' ').trim();
-  const readCard=el=>{
-   const name=compact(el.querySelector('.person-link')?.textContent||el.querySelector(':scope > span')?.textContent||'Persona sin nombre');
-   const badges=Array.from(el.querySelectorAll('.outcome-badge')).map(n=>compact(n.textContent)).filter(Boolean);
-   const pairs=Array.from(el.querySelectorAll('.career-pair')).map(n=>compact(n.textContent)).filter(Boolean);
-   const extras=Array.from(el.querySelectorAll('.mini,.route')).filter(n=>!n.closest('.career-pair')).map(n=>compact(n.textContent)).filter(Boolean);
-   return {name,badges,details:[...pairs,...extras]};
-  };
-  const people=cardNodes.map(readCard);
-  const heading=compact(root.querySelector('h3')?.textContent||'Personas de la selección');
-  const scope=compact(root.querySelector('.card-head .mini')?.textContent||'');
-  const methodology=compact(root.querySelector(':scope > .chart-note')?.textContent||'');
-  const cols=people.length>36?3:people.length>5?2:1;
-  const width=cols===3?2100:cols===2?1560:1120;
-  const margin=55, gap=22, cardWidth=(width-2*margin-gap*(cols-1))/cols;
-  const wrap=(value,max)=>{
-   const words=compact(value).split(' ').filter(Boolean),out=[];let line='';
-   for(const word of words){
-    if(word.length>max){if(line){out.push(line);line='';}for(let i=0;i<word.length;i+=max)out.push(word.slice(i,i+max));continue;}
-    if((line?line.length+1:0)+word.length>max){out.push(line);line=word;}else line+=(line?' ':'')+word;
-   }
-   if(line)out.push(line);
-   return out.length?out:[''];
-  };
-  const maxTitle=cols===3?43:cols===2?59:100;
-  const maxDetail=cols===3?48:cols===2?65:105;
-  const prepared=people.map(p=>({
-   name:wrap(p.name,maxTitle),
-   badges:p.badges.flatMap(s=>wrap(s,maxDetail)),
-   details:p.details.flatMap(s=>wrap(s,maxDetail)),
-  }));
-  const cardHeight=p=>24+p.name.length*29+(p.badges.length?8+p.badges.length*23:0)+(p.details.length?9+p.details.length*24:0)+22;
-  const headScope=wrap(scope,Math.max(55,Math.floor((width-2*margin)/11)));
-  const headHeight=184+Math.max(0,headScope.length-1)*25;
-  const placement=[];let nextY=headHeight;
-  for(let i=0;i<prepared.length;i+=cols){
-   const slice=prepared.slice(i,i+cols);
-   const rh=Math.max(...slice.map(cardHeight));
-   slice.forEach((p,j)=>placement.push({person:p,x:margin+j*(cardWidth+gap),y:nextY,height:rh}));
-   nextY+=rh+gap;
-  }
-  const noteLines=methodology?wrap(methodology,Math.floor((width-2*margin)/10)):[];
-  const totalHeight=Math.ceil(nextY+46+noteLines.length*24+60);
-  const ns='http://www.w3.org/2000/svg';
-  const svg=document.createElementNS(ns,'svg');
-  svg.setAttribute('xmlns',ns);svg.setAttribute('width',String(width));
-  svg.setAttribute('height',String(totalHeight));svg.setAttribute('viewBox',`0 0 ${width} ${totalHeight}`);
-  svg.setAttribute('role','img');svg.setAttribute('aria-label',heading);
-  const draw=(tag,attrs,content,parent=svg)=>{
-   const e=document.createElementNS(ns,tag);
-   for(const [key,value] of Object.entries(attrs||{}))e.setAttribute(key,String(value));
-   if(content!==null&&content!==undefined)e.textContent=String(content);
-   parent.appendChild(e);return e;
-  };
-  const tx=(x,y,value,size=18,color='#274251',weight=400)=>draw('text',{x,y,fill:color,'font-family':'Arial, Helvetica, sans-serif','font-size':size,'font-weight':weight},value);
-  draw('rect',{x:0,y:0,width,height:totalHeight,fill:'#f5f8fa'});
-  draw('rect',{x:0,y:0,width,height:10,fill:'#137f7a'});
-  tx(margin,51,'ATLAS ELECTORAL DE COSTA RICA · 1953–2026',20,'#167a78',700);
-  tx(margin,94,heading,29,'#173143',700);
-  headScope.forEach((s,i)=>tx(margin,130+i*25,s,17,'#466474',400));
-  tx(margin,headHeight-20,`PERSONAS EN ESTA PÁGINA: ${people.length} · Filtros indicados en el encabezado`,17,'#3f6170',700);
-  draw('line',{x1:margin,y1:headHeight-7,x2:width-margin,y2:headHeight-7,stroke:'#bfd4d6','stroke-width':2});
-  placement.forEach(({person:p,x,y,height})=>{
-   draw('rect',{x,y,width:cardWidth,height,rx:11,fill:'#ffffff',stroke:'#cfdee5','stroke-width':1.5});
-   draw('rect',{x,y,width:7,height,rx:3,fill:'#137f7a'});
-   let baseline=y+36;
-   p.name.forEach(line=>{tx(x+24,baseline,line,21,'#153a4c',700);baseline+=29;});
-   if(p.badges.length){baseline+=5;p.badges.forEach(line=>{tx(x+24,baseline,line,16,'#0c746b',700);baseline+=23;});}
-   if(p.details.length){baseline+=6;p.details.forEach(line=>{tx(x+24,baseline,line,16,'#415c69',400);baseline+=24;});}
-  });
-  const footY=nextY+17;
-  draw('line',{x1:margin,y1:footY-16,x2:width-margin,y2:footY-16,stroke:'#d4e1e7','stroke-width':1.5});
-  noteLines.forEach((line,i)=>tx(margin,footY+i*24,line,15,'#526874'));
-  tx(margin,totalHeight-27,'Fuente: Atlas electoral de Costa Rica · Consulta filtrada · Resultados descriptivos del corpus',15,'#536a77');
-  const serialized=new XMLSerializer().serializeToString(svg);
-  const vectorBlob=new Blob([serialized],{type:'image/svg+xml;charset=utf-8'});
-  const safeName=(filename||'Atlas_Personas').replace(/[^\p{L}\p{N}_-]+/gu,'_');
-  const saveBlob=(blob,ext)=>{
-   const u=URL.createObjectURL(blob),a=document.createElement('a');
-   a.href=u;a.download=`${safeName}.${ext}`;document.body.appendChild(a);a.click();a.remove();
-   setTimeout(()=>URL.revokeObjectURL(u),2000);
-  };
-  if(format==='svg'){saveBlob(vectorBlob,'svg');return;}
-  if(format!=='png')throw new Error('Formato de exportación desconocido.');
-  const imageUrl=URL.createObjectURL(vectorBlob);
-  try {
-   const bitmap=new Image();
-   await new Promise((resolve,reject)=>{
-    bitmap.onload=resolve;
-    bitmap.onerror=()=>reject(new Error('El navegador no pudo cargar la representación vectorial de los nombres.'));
-    bitmap.src=imageUrl;
-   });
-   const factor=Math.max(.6,Math.min(2,15000/totalHeight,Math.sqrt(45000000/(width*totalHeight))));
-   const canvas=document.createElement('canvas');
-   canvas.width=Math.max(1,Math.round(width*factor));
-   canvas.height=Math.max(1,Math.round(totalHeight*factor));
-   const ctx=canvas.getContext('2d');
-   if(!ctx)throw new Error('No se pudo inicializar el lienzo de imagen.');
-   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,canvas.width,canvas.height);
-   ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
-   const raster=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('El navegador no pudo convertir el gráfico en PNG.')),'image/png'));
-   saveBlob(raster,'png');
-  } finally {URL.revokeObjectURL(imageUrl);}
- }catch(error){console.error('Atlas · fallo de exportación:',error);alert('No se pudo exportar la imagen: '+(error?.message||error));}
-}
-function atlasSectionCard(id,title,innerHtml,rows,opts={}){
- atlasRegisterCardRows(id,rows);
- const subtitle=opts.subtitle?`<span class="mini">${esc(opts.subtitle)}</span>`:'';
- const note=opts.note?`<p class="chart-note">${opts.note}</p>`:'';
- const intro=opts.intro?`<p class="chart-note">${opts.intro}</p>`:'';
- const filename=(opts.filename||`Atlas_${state.tab}_${title}`).replace(/[^\p{L}\p{N}_-]+/gu,'_');
- add(`<section class="card" id="${id}"><div class="card-head"><div><h3>${esc(title)}</h3>${subtitle}</div><div class="exports"><button onclick="atlasExportNode('${id}','png','${filename}')">PNG</button><button onclick="atlasExportNode('${id}','svg','${filename}')">SVG</button><button onclick="csv((window.atlasCardRows||{})['${id}']||[],'${filename}.csv')">CSV</button></div></div>${intro}${innerHtml}${note}</section>`);
-}
 function atlasPersonAggregate(rows){return group(rows,'id_persona').map(([id,g])=>({
  id_persona:id,nombre:g[g.length-1].nombre,sexo:g[g.length-1].sexo,candidaturas:g.length,electas:g.filter(r=>r.electa).length,
  resultado:g.some(r=>r.electa)?'Electa al menos una vez':'Sin elección en la selección',
@@ -331,13 +205,12 @@ views.outcomes=()=>{
  const rows=atlasFilteredOutcomes(),won=rows.filter(r=>r.electa),personAgg=atlasPersonAggregate(rows),personWins=personAgg.filter(r=>r.electas>0),personLoss=personAgg.filter(r=>r.electas===0),unknown=rows.filter(r=>!['Mujer','Hombre'].includes(r.sexo));
  kpis([['Candidaturas electas',atlasCount(won.length,rows.length),'Eventos electos / candidaturas filtradas'],['Personas con alguna elección',atlasCount(personWins.length,personAgg.length),'Personas nominales dentro de la selección'],['Personas sin elección',atlasCount(personLoss.length,personAgg.length),'Ninguna candidatura electa en la selección'],['Sexo sin dato',atlasCount(unknown.length,rows.length),'Cobertura del campo sexo']]);
  add('<div class="clarity-box"><b>Dos denominadores distintos:</b> una candidatura es un evento; una persona puede tener varias candidaturas. “Personas con alguna elección” cuenta cada ID nominal una sola vez. Los filtros superiores se aplican a estas dos primeras lecturas.</div>');
- const baseContext=atlasOutcomeFilterSummary();
  const personStatus=[{resultado:'Alguna candidatura electa',personas:personWins.length},{resultado:'Sin elección en la selección',personas:personLoss.length}];
- plot('Outcome a nivel de personas',[{type:'bar',orientation:'h',x:personStatus.map(r=>r.personas),y:personStatus.map(r=>r.resultado),text:personStatus.map(r=>r.personas),textposition:'outside',marker:{color:['#168278','#b8a16d']}}],personStatus,{height:300,xTitle:'Personas nominales',subtitle:baseContext,note:'Cada persona aparece una vez según exista o no al menos una candidatura electa dentro de los filtros actuales. Esta visualización resume identidades nominales; no cuenta candidaturas repetidas de la misma persona.'});
- const rateRows=atlasOutcomeBars(rows);plot('Tasa de elección por experiencia y movilidad',[{type:'bar',orientation:'h',x:rateRows.map(r=>r.porcentaje),y:rateRows.map(r=>r.grupo),customdata:rateRows.map(r=>[r.electas,r.candidaturas]),text:rateRows.map(r=>`${num(r.porcentaje,1)}% · ${r.electas}/${r.candidaturas}`),textposition:'outside',marker:{color:rateRows.map(r=>r.grupo.includes('cambia')?'#637cac':'#168278')},hovertemplate:'%{y}<br>%{x:.1f} % · %{customdata[0]} / %{customdata[1]} candidaturas<extra></extra>'}],rateRows,{height:430,xTitle:'Candidaturas electas / candidaturas del grupo (%)',subtitle:baseContext,note:'Cada barra usa su propio denominador. El texto visible muestra porcentaje y numerador/denominador; la tabla inferior conserva el detalle auditable completo. Cambio de partido o provincia describe una asociación observada con el outcome, no un efecto causal.'});
+ plot('Outcome a nivel de personas',[{type:'bar',orientation:'h',x:personStatus.map(r=>r.personas),y:personStatus.map(r=>r.resultado),text:personStatus.map(r=>r.personas),textposition:'outside',marker:{color:['#168278','#b8a16d']}}],personStatus,{height:300,xTitle:'Personas nominales',note:'Cada persona aparece una vez según exista o no al menos una candidatura electa dentro de los filtros actuales.'});
+ const rateRows=atlasOutcomeBars(rows);plot('Tasa de elección por experiencia y movilidad',[{type:'bar',orientation:'h',x:rateRows.map(r=>r.porcentaje),y:rateRows.map(r=>r.grupo),customdata:rateRows.map(r=>[r.electas,r.candidaturas]),text:rateRows.map(r=>`${num(r.porcentaje,1)}% · ${r.electas}/${r.candidaturas}`),textposition:'outside',marker:{color:rateRows.map(r=>r.grupo.includes('cambia')?'#637cac':'#168278')},hovertemplate:'%{y}<br>%{x:.1f} % · %{customdata[0]} / %{customdata[1]} candidaturas<extra></extra>'}],rateRows,{height:430,xTitle:'Candidaturas electas / candidaturas del grupo (%)',note:'Cada grupo usa su propio denominador. Cambio de partido o provincia describe una asociación observada con el outcome, no un efecto causal.'});
  table(rateRows,['grupo','candidaturas','electas','no_electas','porcentaje','criterio'],'Numeradores y denominadores de las tasas');
  const byYear=group(rows,'anio').map(([anio,g])=>({anio,candidaturas:g.length,electas:g.filter(r=>r.electa).length,no_electas:g.filter(r=>!r.electa).length,tasa:pct(g.filter(r=>r.electa).length,g.length)})).sort((a,b)=>a.anio-b.anio);
- plot('Outcome de candidaturas por elección',[{type:'bar',name:'Electas',x:byYear.map(r=>r.anio),y:byYear.map(r=>r.electas),marker:{color:'#168278'}},{type:'bar',name:'No electas',x:byYear.map(r=>r.anio),y:byYear.map(r=>r.no_electas),marker:{color:'#b8a16d'}}],byYear,{yTitle:'Candidaturas',subtitle:baseContext,layout:{barmode:'stack'},note:'Conteo de eventos electorales dentro de los filtros actuales. Cada barra apilada separa candidaturas electas y no electas; la tabla conserva además la tasa porcentual calculada para cada elección.'});
+ plot('Outcome de candidaturas por elección',[{type:'bar',name:'Electas',x:byYear.map(r=>r.anio),y:byYear.map(r=>r.electas),marker:{color:'#168278'}},{type:'bar',name:'No electas',x:byYear.map(r=>r.anio),y:byYear.map(r=>r.no_electas),marker:{color:'#b8a16d'}}],byYear,{yTitle:'Candidaturas',layout:{barmode:'stack'},note:'Conteo de eventos. La tabla conserva también la tasa porcentual de cada elección.'});
  table(byYear,['anio','candidaturas','electas','no_electas','tasa'],'Outcomes por elección con denominador');
 
  add('<div class="extension-heading">FLUJOS ENTRE PARTICIPACIONES CONSECUTIVAS</div>');
@@ -349,11 +222,10 @@ views.outcomes=()=>{
  const edges=group(described,r=>r.origen+' → '+r.destino).map(([recorrido,g])=>({recorrido,origen:g[0].origen,destino:g[0].destino,transiciones:g.length,personas:uniq(g.map(r=>r.id_persona)).length})).sort((a,b)=>b.transiciones-a.transiciones);
  let sel=(local.outflow&&edges.some(r=>r.recorrido===local.outflow))?local.outflow:'Todos';local.outflow=sel;
  controls([['outflow','Flujo para inspeccionar',['Todos',...edges.map(r=>r.recorrido)],sel]]);
- if(edges.length){const left=uniq(edges.map(r=>r.origen)),right=uniq(edges.map(r=>r.destino));plot('Flujos auditables entre una participación y la siguiente',[{type:'sankey',orientation:'h',arrangement:'snap',node:{label:[...left.map(x=>'Origen · '+x),...right.map(x=>'Destino · '+x)],pad:28,thickness:19},link:{source:edges.map(r=>left.indexOf(r.origen)),target:edges.map(r=>left.length+right.indexOf(r.destino)),value:edges.map(r=>r.transiciones),customdata:edges.map(r=>r.recorrido),hovertemplate:'%{customdata}<br>%{value} transiciones<extra></extra>'}}],edges,{height:Math.max(360,Math.max(left.length,right.length)*42+160),subtitle:atlasOutcomeFilterSummary([`Dimensión del flujo: ${flowMode}`]),note:'Grosor = transiciones entre participaciones consecutivas en elecciones distintas. Cambie la dimensión para ver outcome, cargos o movilidad. El selector y el clic permiten inspeccionar el flujo concreto y las personas que lo integran.',onClick:evt=>{const value=evt.points?.[0]?.customdata;if(value&&edges.some(r=>r.recorrido===value)){local.outflow=value;render()}}});
+ if(edges.length){const left=uniq(edges.map(r=>r.origen)),right=uniq(edges.map(r=>r.destino));plot('Flujos auditables entre una participación y la siguiente',[{type:'sankey',orientation:'h',arrangement:'snap',node:{label:[...left.map(x=>'Origen · '+x),...right.map(x=>'Destino · '+x)],pad:28,thickness:19},link:{source:edges.map(r=>left.indexOf(r.origen)),target:edges.map(r=>left.length+right.indexOf(r.destino)),value:edges.map(r=>r.transiciones),customdata:edges.map(r=>r.recorrido),hovertemplate:'%{customdata}<br>%{value} transiciones<extra></extra>'}}],edges,{height:Math.max(360,Math.max(left.length,right.length)*42+160),note:'Grosor = transiciones entre participaciones consecutivas en elecciones distintas. Cambie la dimensión para ver outcome, cargos o movilidad. El selector y el clic permiten inspeccionar las personas.',onClick:evt=>{const value=evt.points?.[0]?.customdata;if(value&&edges.some(r=>r.recorrido===value)){local.outflow=value;render()}}});
   table(edges,['recorrido','transiciones','personas'],'Resumen de flujos visibles');
   const selectedRows=described.filter(r=>sel==='Todos'||`${r.origen} → ${r.destino}`===sel);
-  const flowCards=atlas18FlowCards(selectedRows,0,60);
-  atlasSectionCard('outcome_flow_selected','Personas del flujo seleccionado',flowCards.html,selectedRows,{subtitle:atlasOutcomeFilterSummary([`Dimensión del flujo: ${flowMode}`,`Flujo inspeccionado: ${sel}`]),note:`Una tarjeta por persona nominal. Se muestran hasta 60 personas en pantalla; la exportación CSV conserva todas las filas del flujo seleccionado (${num(selectedRows.length,0)} transiciones).`});
+  add('<section class="card"><h3>Personas del flujo seleccionado</h3><div class="person-result-grid">'+atlasUniquePersonRows(selectedRows).slice(0,60).map(r=>`<div class="person-result">${atlasPersonButton(r)}${atlasResultBadge(r.electa_destino,r.resultado_destino+' después')}<span class="mini">${r.anio_origen} ${esc(r.cargo_origen)} → ${r.anio} ${esc(r.cargo_destino)}</span></div>`).join('')+'</div></section>');
   table(selectedRows,['nombre','anio_origen','anio','cargo_origen','cargo_destino','resultado_origen','resultado_destino','partido_origen','partido_destino','provincia_origen','provincia_destino','cambia_partido','cambia_provincia','id_origen','id_destino','id_persona'],'Filas que sustentan el flujo seleccionado');
  }else note('No hay transiciones que cumplan los filtros actuales.');
 
@@ -361,12 +233,12 @@ views.outcomes=()=>{
  const roleOpts=['Diputación','Presidencia','Primera Vicepresidencia','Segunda Vicepresidencia'],bFrom=local.bridgeFrom||'Diputación',bTo=local.bridgeTo||'Presidencia',bFromResult=local.bridgeFromResult||'Todos',bToResult=local.bridgeToResult||'Todos';
  controls([['bridgeFrom','Cargo previo',roleOpts,bFrom],['bridgeFromResult','Outcome previo',['Todos','Electa','No electa'],bFromResult],['bridgeTo','Cargo posterior',roleOpts,bTo],['bridgeToResult','Outcome posterior',['Todos','Electa','No electa'],bToResult]]);
  let bridges=(D.puentes_cargos||[]).filter(r=>r.anio>=state.from&&r.anio<=state.to&&r.cargo_origen===bFrom&&r.cargo_destino===bTo&&(bFromResult==='Todos'||r.resultado_origen===bFromResult)&&(bToResult==='Todos'||r.resultado_destino===bToResult));
- if(state.province!=='Nacional')bridges=bridges.filter(r=>r.provincia_origen===state.province||r.provincia_destino===state.province);
+ if(provinciaComparable&&state.province!=='Nacional')bridges=bridges.filter(r=>r.provincia_origen===state.province||r.provincia_destino===state.province);
+ bridges=bridges.filter(r=>(bridgeParty==='Todos'||(r.cambia_partido?'Cambió partido':'Mantuvo partido')===bridgeParty)&&(bridgeProvince==='Todos'||(r.provincia_origen==='Nacional'||r.provincia_destino==='Nacional'?'No comparable':r.cambia_provincia?'Cambió provincia':'Mantuvo provincia')===bridgeProvince));
  const bridgePeople=atlasUniquePersonRows(bridges),bridgeEdges=group(bridges,r=>r.resultado_origen+' → '+r.resultado_destino).map(([recorrido,g])=>({recorrido,origen:g[0].resultado_origen,destino:g[0].resultado_destino,pares:g.length,personas:uniq(g.map(r=>r.id_persona)).length}));
  kpis([['Personas con el puente',bridgePeople.length,`${bFrom} → ${bTo}`],['Pares documentados',bridges.length,'Una persona puede aportar varios pares de candidaturas'],['Electas en destino',atlasCount(bridgePeople.filter(p=>bridges.some(r=>r.id_persona===p.id_persona&&r.electa_destino)).length,bridgePeople.length),'Personas con al menos un outcome electo en el cargo posterior'],['Cambio de partido',atlasCount(atlasUniquePersonRows(bridges.filter(r=>r.cambia_partido)).length,bridgePeople.length),'Personas con al menos un par entre partidos distintos']]);
- if(bridgeEdges.length){const left=uniq(bridgeEdges.map(r=>r.origen)),right=uniq(bridgeEdges.map(r=>r.destino));plot(`${bFrom} → ${bTo}: outcome antes y después`,[{type:'sankey',node:{label:[...left.map(x=>`${bFrom} · ${x}`),...right.map(x=>`${bTo} · ${x}`)],pad:30,thickness:22},link:{source:bridgeEdges.map(r=>left.indexOf(r.origen)),target:bridgeEdges.map(r=>left.length+right.indexOf(r.destino)),value:bridgeEdges.map(r=>r.personas),customdata:bridgeEdges.map(r=>r.recorrido),hovertemplate:'%{customdata}<br>%{value} personas nominales<extra></extra>'}}],bridgeEdges,{height:330,subtitle:atlasOutcomeFilterSummary([`Puente: ${bFrom} → ${bTo}`,`Outcome previo: ${bFromResult}`,`Outcome posterior: ${bToResult}`]),note:'Este puente busca cualquier candidatura anterior del cargo de origen y cualquier candidatura posterior del cargo de destino. Por eso no se limita a participaciones consecutivas; la tabla inferior conserva todos los pares de candidaturas que sustentan el puente.'});}
- const bridgeCareerPeople=atlas17BridgePeople(bridges,bFrom,bTo);
- atlasSectionCard('outcome_bridge_people','Quiénes forman este puente de carrera',atlas17CareerCards(bridgeCareerPeople,80),bridges,{subtitle:atlasOutcomeFilterSummary([`Puente: ${bFrom} → ${bTo}`,`Outcome previo: ${bFromResult}`,`Outcome posterior: ${bToResult}`]),note:`Se muestran hasta 80 personas nominales. Cada tarjeta resume los pares de candidaturas que conectan ambos cargos; el CSV conserva todos los pares observados (${num(bridges.length,0)} registros).`});
+ if(bridgeEdges.length){const left=uniq(bridgeEdges.map(r=>r.origen)),right=uniq(bridgeEdges.map(r=>r.destino));plot(`${bFrom} → ${bTo}: outcome antes y después`,[{type:'sankey',node:{label:[...left.map(x=>`${bFrom} · ${x}`),...right.map(x=>`${bTo} · ${x}`)],pad:30,thickness:22},link:{source:bridgeEdges.map(r=>left.indexOf(r.origen)),target:bridgeEdges.map(r=>left.length+right.indexOf(r.destino)),value:bridgeEdges.map(r=>r.personas),customdata:bridgeEdges.map(r=>r.recorrido),hovertemplate:'%{customdata}<br>%{value} personas nominales<extra></extra>'}}],bridgeEdges,{height:330,note:'Este puente busca cualquier candidatura anterior del cargo de origen y cualquier candidatura posterior del cargo de destino. Por eso no se limita a participaciones consecutivas.'});}
+ add('<section class="card"><h3>Quiénes forman este puente de carrera</h3><div class="person-result-grid">'+bridgePeople.slice(0,80).map(r=>`<div class="person-result">${atlasPersonButton(r)}<span class="mini">${esc(bFrom)} → ${esc(bTo)}</span></div>`).join('')+'</div></section>');
  table(bridges,['nombre','anio_origen','anio','cargo_origen','resultado_origen','cargo_destino','resultado_destino','partido_origen','partido_destino','provincia_origen','provincia_destino','cambia_partido','cambia_provincia','anos_entre','id_persona'],'Pares de candidaturas que sustentan el puente entre cargos');
 
  add('<div class="extension-heading">DE DÓNDE VIENEN QUIENES RESULTARON ELECTOS</div>');
@@ -376,10 +248,9 @@ views.outcomes=()=>{
  let anteSel=(local.anteCategory&&anteGroups.some(r=>r.antecedente===local.anteCategory))?local.anteCategory:'Todos';local.anteCategory=anteSel;controls([['anteCategory','Antecedente para inspeccionar',['Todos',...anteGroups.map(r=>r.antecedente)],anteSel]]);
  const priorDeputy=antecedents.filter(r=>r.diputacion_electa_previa),priorPresCand=antecedents.filter(r=>r.presidencia_candidata_previa);
  kpis([['Resultados electos',antecedents.length,`${anteCargo} dentro del periodo`],['Con elección previa',atlasCount(antecedents.filter(r=>r.antecedente==='Elección previa observada').length,antecedents.length),'En cualquier cargo previo del corpus'],['Con diputación electa previa',atlasCount(priorDeputy.length,antecedents.length),'Antes del cargo electo seleccionado'],['Con candidatura presidencial previa',atlasCount(priorPresCand.length,antecedents.length),'Antes del cargo electo seleccionado']]);
- if(anteGroups.length)plot(`Antecedentes antes de resultar electo en ${anteCargo}`,[{type:'bar',orientation:'h',x:anteGroups.map(r=>r.porcentaje),y:anteGroups.map(r=>r.antecedente),customdata:anteGroups.map(r=>r.casos),text:anteGroups.map(r=>`${num(r.porcentaje,1)}% · N=${r.casos}`),textposition:'outside',marker:{color:['#168278','#637cac','#b8a16d']}}],anteGroups,{height:330,xTitle:'Porcentaje de resultados electos (%)',subtitle:atlasOutcomeFilterSummary([`Cargo electo: ${anteCargo}`]),note:'“Sin candidatura previa observada” significa que no existe una candidatura anterior en el corpus 1953–2026; no afirma ausencia de actividad política fuera de estas bases. El texto visible incorpora N para facilitar uso en el artículo incluso al descargar la imagen.'});
+ if(anteGroups.length)plot(`Antecedentes antes de resultar electo en ${anteCargo}`,[{type:'bar',orientation:'h',x:anteGroups.map(r=>r.porcentaje),y:anteGroups.map(r=>r.antecedente),customdata:anteGroups.map(r=>r.casos),text:anteGroups.map(r=>`${num(r.porcentaje,1)}% · N=${r.casos}`),textposition:'outside',marker:{color:['#168278','#637cac','#b8a16d']}}],anteGroups,{height:330,xTitle:'Porcentaje de resultados electos (%)',note:'“Sin candidatura previa observada” significa que no existe una candidatura anterior en el corpus 1953–2026; no afirma ausencia de actividad política fuera de estas bases.'});
  const anteRows=antecedents.filter(r=>anteSel==='Todos'||r.antecedente===anteSel);
- const anteCards=atlas18AntecedentCards(anteRows,0,60);
- atlasSectionCard('outcome_antecedent_people','Personas en el antecedente seleccionado',anteCards.html,anteRows,{subtitle:atlasOutcomeFilterSummary([`Cargo electo: ${anteCargo}`,`Antecedente inspeccionado: ${anteSel}`]),note:`Se muestran hasta 60 personas nominales. Las tarjetas resumen la secuencia observada antes del cargo electo; el CSV conserva todos los casos del antecedente seleccionado (${num(anteRows.length,0)} registros).`});
+ add('<section class="card"><h3>Personas en el antecedente seleccionado</h3><div class="person-result-grid">'+anteRows.slice(0,80).map(r=>`<div class="person-result">${atlasPersonButton(r)}<span class="mini">${r.anio} · ${esc(r.cargo)} · ${esc(r.antecedente)}</span></div>`).join('')+'</div></section>');
  table(anteRows,['anio','nombre','cargo','partido','provincia','antecedente','candidaturas_previas','elecciones_previas','cargos_previos','cargos_electos_previos','diputacion_electa_previa','presidencia_candidata_previa','vicepresidencia_electa_previa','id_persona'],'Casos y nombres que forman los porcentajes de antecedentes');
 
  add('<div class="extension-heading">PERSONAS SIN ELECCIÓN OBSERVADA EN LA SELECCIÓN</div>');
@@ -458,6 +329,29 @@ function atlas17BridgePeople(rows,fromRole,toRole){
      fromRole,toRole});
  }
  return result;
+}
+// General bridge summary: stage outcomes are based on the actual selected ordered pairs.
+// When either role is Todos, do not query an imaginary role named Todos.
+function atlas20AllRoleBridgePeople(rows,fromRole,toRole){
+ return group(rows,'id_persona').map(([pid,g0])=>{
+  const g=g0.slice().sort((a,b)=>a.anio_origen-b.anio_origen||a.anio-b.anio);
+  return {id_persona:pid,nombre:g[g.length-1].nombre,pares:g,
+   destino_candidaturas:g.length,destino_alguna_vez_electa:g.some(r=>r.resultado_destino==='Electa'),
+   destino_primera_eleccion:(g.filter(r=>r.resultado_destino==='Electa').map(r=>r.anio).sort((a,b)=>a-b)[0]||null),
+   origen_alguna_electa:g.some(r=>r.resultado_origen==='Electa'),cambio_partido:g.some(r=>r.cambia_partido),
+   fromRole:fromRole==='Todos'?'cualquier cargo':fromRole,
+   toRole:toRole==='Todos'?'algún cargo posterior':toRole};
+ });
+}
+function atlas20StageDescription(role,outcome,stage){
+ const subject=role==='Todos'?'cualquier cargo':role==='Diputación'?'diputación':role==='Presidencia'?'presidencia':role.toLowerCase();
+ const result=outcome==='Todos'?'(electa o no electa)':outcome==='Electa'?'electa':'no electa';
+ return `${stage}: ${subject} ${result}`;
+}
+function atlas20Context(from,fromResult,to,toResult,party,province){
+ const filters=[party==='Todos'?'Partido: cualquier continuidad':`Partido: ${party}`,
+  province==='Todos'?'Provincia: cualquier movilidad':`Provincia: ${province}`];
+ return `${filters.join(' · ')} · ${state.province} · ${state.from}–${state.to}`;
 }
 function atlas17CareerCards(people,limit=80){
  return '<div class="person-result-grid">'+people.slice(0,limit).map(p=>{
@@ -559,10 +453,16 @@ views.outcomes=()=>{
  table([...repeatDist.map(r=>({indicador:'Años electorales disputados entre recurrentes',categoria:r.elecciones,personas:r.personas,porcentaje:r.porcentaje})),...electedRoute.map(r=>({indicador:'Camino hasta primera elección · solo electas',categoria:r.ruta,personas:r.personas,porcentaje:r.porcentaje})),...extraRows.map(r=>({indicador:'Éxitos posteriores a la primera elección',categoria:r.grupo,personas:r.personas,porcentaje:r.porcentaje}))],['indicador','categoria','personas','porcentaje'],'Persistencia y éxito de las carreras · datos de las gráficas');
 
  add('<div class="atlas17-subhead">Flujos entre elecciones consecutivas de una persona</div>');
- const ids=new Set(rows.map(r=>r.id_persona));let transitions=(D.transiciones_resultados||[]).filter(r=>r.anio>=state.from&&r.anio<=state.to&&ids.has(r.id_persona));
+ const ids=new Set(rows.map(r=>r.id_persona)), origins=new Set(rows.map(r=>r.id_evento));let transitions=(D.transiciones_resultados||[]).filter(r=>r.anio>=state.from&&r.anio<=state.to&&ids.has(r.id_persona)&&origins.has(r.id_origen));
  if(state.province!=='Nacional')transitions=transitions.filter(r=>r.provincia_origen===state.province||r.provincia_destino===state.province);
- const flowMode=local.oflowdim||'Resultado de candidaturas';controls([['oflowdim','Qué comparar entre una elección y la siguiente',['Resultado de candidaturas','Cargo + resultado','Cambio de cargo','Cambio de partido + resultado','Cambio de provincia + resultado'],flowMode]]);
- let flowRows=transitions;if(flowMode==='Cambio de provincia + resultado')flowRows=flowRows.filter(r=>r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional');
+ const flowMode=local.oflowdim||'Resultado de candidaturas';
+ const flowArena=local.oflowarena||'Todas las candidaturas';
+ const flowOriginOutcome=local.ofloworiginoutcome||'Todos';
+ const flowArenaOptions=['Todas las candidaturas','Solo diputaciones','Solo Presidencia y Vicepresidencias'];
+ controls([['oflowarena','Población de los flujos',flowArenaOptions,flowArena],['ofloworiginoutcome','Resultado de candidatura de origen',['Todos','Electa','No electa'],flowOriginOutcome],['oflowdim','Qué comparar entre una elección y la siguiente',['Resultado de candidaturas','Cargo + resultado','Cambio de cargo','Cambio de partido + resultado','Cambio de provincia + resultado'],flowMode]]);
+ const isDip=c=>c==='Diputación';
+ // Los movimientos entre arenas se preservan exclusivamente en la vista Todas.
+ let flowRows=transitions.filter(r=>(flowOriginOutcome==='Todos'||r.resultado_origen===flowOriginOutcome)&&(flowArena==='Todas las candidaturas'||(flowArena==='Solo diputaciones'?(isDip(r.cargo_origen)&&isDip(r.cargo_destino)):(!isDip(r.cargo_origen)&&!isDip(r.cargo_destino)))));if(flowMode==='Cambio de provincia + resultado')flowRows=flowRows.filter(r=>r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional');
  const descriptor=r=>{
    if(flowMode==='Cargo + resultado')return {origen:`${r.cargo_origen} · candidatura ${r.resultado_origen.toLowerCase()}`,destino:`${r.cargo_destino} · candidatura ${r.resultado_destino.toLowerCase()}`};
    if(flowMode==='Cambio de cargo')return {origen:r.cargo_origen,destino:r.cargo_destino};
@@ -573,27 +473,49 @@ views.outcomes=()=>{
  const described=flowRows.map(r=>({...r,...descriptor(r)}));
  const edges=group(described,r=>r.origen+' → '+r.destino).map(([recorrido,g])=>({recorrido,origen:g[0].origen,destino:g[0].destino,pares:g.length,personas:uniq(g.map(r=>r.id_persona)).length})).sort((a,b)=>b.personas-a.personas);
  let sel=(local.outflow&&edges.some(r=>r.recorrido===local.outflow))?local.outflow:'Todos';local.outflow=sel;controls([['outflow','Ver personas de este flujo',['Todos',...edges.map(r=>r.recorrido)],sel]]);
- if(edges.length){const left=uniq(edges.map(r=>r.origen)),right=uniq(edges.map(r=>r.destino));plot('Flujos auditables entre una elección y la siguiente',[{type:'sankey',orientation:'h',arrangement:'snap',node:{label:[...left,...right],pad:28,thickness:19},link:{source:edges.map(r=>left.indexOf(r.origen)),target:edges.map(r=>left.length+right.indexOf(r.destino)),value:edges.map(r=>r.personas),customdata:edges.map(r=>r.recorrido),hovertemplate:'%{customdata}<br>%{value} personas<extra></extra>'}}],edges,{height:Math.max(360,Math.max(left.length,right.length)*42+160),note:'Grosor = personas nominales únicas por flujo. La tabla conserva también el número de pares de candidaturas. El selector sí actualiza los nombres que aparecen debajo.',onClick:evt=>{const value=evt.points?.[0]?.customdata;if(value&&edges.some(r=>r.recorrido===value)){local.outflow=value;render()}}});
+ if(edges.length){const left=uniq(edges.map(r=>r.origen)),right=uniq(edges.map(r=>r.destino));plot(`Flujos auditables entre una elección y la siguiente · ${flowArena}`,[{type:'sankey',orientation:'h',arrangement:'snap',node:{label:[...left,...right],pad:28,thickness:19},link:{source:edges.map(r=>left.indexOf(r.origen)),target:edges.map(r=>left.length+right.indexOf(r.destino)),value:edges.map(r=>r.personas),customdata:edges.map(r=>r.recorrido),hovertemplate:'%{customdata}<br>%{value} personas<extra></extra>'}}],edges,{height:Math.max(360,Math.max(left.length,right.length)*42+160),subtitle:`Población: ${flowArena} · Origen: ${local.ocargo||'Todos los cargos'} (${flowOriginOutcome}) · Partido: ${labelText(local.oparty||'Todos')} · Sexo: ${local.osex||'Todos'} · Destino: siguiente elección distinta · ${state.from}–${state.to}`,note:'Grosor = personas nominales únicas por flujo. La tabla conserva también el número de pares de candidaturas. Las vistas por arena exigen que origen y destino sean de esa arena; los cruces entre arenas quedan en Todas. El selector actualiza los nombres que aparecen debajo.',onClick:evt=>{const value=evt.points?.[0]?.customdata;if(value&&edges.some(r=>r.recorrido===value)){local.outflow=value;render()}}});
   const selectedRows=described.filter(r=>sel==='Todos'||`${r.origen} → ${r.destino}`===sel);
   const flowPack0=atlas18FlowCards(selectedRows,0,48),flowPages=atlas18PageOptions(flowPack0.people.length,48),flowPage=Math.min(+(local.outflowpage||0),flowPages.length-1);if(flowPages.length>1)controls([['outflowpage',`Página de personas · ${num(flowPack0.people.length,0)} personas`,flowPages,flowPage]]);const flowPack=atlas18FlowCards(selectedRows,flowPage,48);
-  add(`<div class="selected-detail"><span class="mini">Flujo seleccionado</span><br><strong>${num(flowPack.people.length,0)} personas distintas</strong><br>${num(selectedRows.length,0)} pares de candidaturas sustentan este flujo.</div>`);
-  atlasSectionCard('outcome_flow_selected_visible','Personas del flujo seleccionado',flowPack.html,selectedRows,{subtitle:atlasOutcomeFilterSummary([`Dimensión del flujo: ${flowMode}`,`Flujo inspeccionado: ${sel}`,`Página visible: ${flowPage+1} de ${flowPages.length}`]),note:`Las tarjetas muestran todas las combinaciones del flujo para cada persona en la página visible. Verde = electa; ámbar = no electa. Puede exportar la tarjeta compuesta como PNG o SVG; el CSV conserva todos los registros del flujo seleccionado (${num(selectedRows.length,0)} pares de candidaturas).`,filename:'Atlas_ExitoElectoral_FlujoSeleccionado'});
+  add(`<div class="selected-detail"><span class="mini">Población: ${esc(flowArena)} · Origen: ${esc(local.ocargo||'Todos los cargos')} (${esc(flowOriginOutcome)}) · Sexo: ${esc(local.osex||'Todos')}</span><br><b>Diagrama: ${esc(flowMode)}</b><br><strong>${num(flowPack.people.length,0)} personas distintas</strong><br>${num(selectedRows.length,0)} pares de candidaturas sustentan este flujo. ${esc(sel==='Todos'?'Se muestran todos los recorridos de este filtro.':sel)}</div>`);
+  add('<section class="card"><h3>Personas del flujo seleccionado</h3><p class="chart-note">Las tarjetas muestran todas las combinaciones del flujo para cada persona en la página actual. Verde = electa; ámbar = no electa. La tabla inferior contiene todos los registros.</p>'+flowPack.html+'</section>');
   table(edges,['recorrido','personas','pares'],'Resumen de flujos');table(selectedRows,['nombre','anio_origen','anio','cargo_origen','resultado_origen','cargo_destino','resultado_destino','destino_electa_despues','partido_origen','partido_destino','provincia_origen','provincia_destino','cambia_partido','cambia_provincia','id_persona'],'Registros que sustentan el flujo seleccionado');
  }else note('No hay transiciones que cumplan los filtros actuales.');
 
  add('<div class="atlas17-subhead">Puentes entre cargos · cualquier candidatura anterior y posterior</div>');
  // Matriz general antes del detalle.
  let allBridges=(D.puentes_cargos||[]).filter(r=>r.anio>=state.from&&r.anio<=state.to);
- const matrixRows=[];for(const from of roleOpts)for(const to of roleOpts){if(from===to)continue;const g=allBridges.filter(r=>r.cargo_origen===from&&r.cargo_destino===to),persons=uniq(g.map(r=>r.id_persona));if(persons.length)matrixRows.push({cargo_origen:from,cargo_destino:to,personas:persons.length,pares:g.length});}
- if(matrixRows.length){const z=roleOpts.map(from=>roleOpts.map(to=>matrixRows.find(r=>r.cargo_origen===from&&r.cargo_destino===to)?.personas??0));plot('Matriz de personas que pasaron de un cargo disputado a otro',[{type:'heatmap',x:roleOpts,y:roleOpts,z,texttemplate:'%{z}',colorscale:[[0,'#f0f5f5'],[1,'#167d8d']],hovertemplate:'Origen: %{y}<br>Destino: %{x}<br>%{z} personas<extra></extra>'}],matrixRows,{height:470,xTitle:'Cargo posterior',yTitle:'Cargo anterior',note:'Cuenta personas nominales únicas con al menos una candidatura anterior en el cargo de fila y una candidatura posterior en el cargo de columna. Cero es ausencia observada en el corpus.'});}
+ const matrixRows=[];for(const from of roleOpts)for(const to of roleOpts){const g=allBridges.filter(r=>r.cargo_origen===from&&r.cargo_destino===to),persons=uniq(g.map(r=>r.id_persona));if(persons.length)matrixRows.push({cargo_origen:from,cargo_destino:to,personas:persons.length,pares:g.length});}
+ if(matrixRows.length){const z=roleOpts.map(from=>roleOpts.map(to=>matrixRows.find(r=>r.cargo_origen===from&&r.cargo_destino===to)?.personas??0));plot('Matriz de trayectorias entre cargos (incluye el mismo cargo en distintos años)',[{type:'heatmap',x:roleOpts,y:roleOpts,z,texttemplate:'%{z}',colorscale:[[0,'#f0f5f5'],[1,'#167d8d']],hovertemplate:'Origen: %{y}<br>Destino: %{x}<br>%{z} personas<extra></extra>'}],matrixRows,{height:470,xTitle:'Cargo posterior',yTitle:'Cargo anterior',note:'Cuenta personas nominales únicas con al menos una candidatura anterior en el cargo de fila y una candidatura posterior en el cargo de columna. Cero es ausencia observada en el corpus.'});}
  const bFrom=local.bridgeFrom||'Diputación',bTo=local.bridgeTo||'Presidencia',bFromResult=local.bridgeFromResult||'Todos',bToResult=local.bridgeToResult||'Todos';
- controls([['bridgeFrom','Cargo anterior',roleOpts,bFrom],['bridgeFromResult','Resultado de esa candidatura',['Todos','Electa','No electa'],bFromResult],['bridgeTo','Cargo posterior',roleOpts,bTo],['bridgeToResult','Resultado de esa candidatura',['Todos','Electa','No electa'],bToResult]]);
- let bridges=allBridges.filter(r=>r.cargo_origen===bFrom&&r.cargo_destino===bTo&&(bFromResult==='Todos'||r.resultado_origen===bFromResult)&&(bToResult==='Todos'||r.resultado_destino===bToResult));
- if(state.province!=='Nacional')bridges=bridges.filter(r=>r.provincia_origen===state.province||r.provincia_destino===state.province);
- const bridgePeople=atlas17BridgePeople(bridges,bFrom,bTo),destWins=bridgePeople.filter(r=>r.destino_alguna_vez_electa),destNever=bridgePeople.filter(r=>!r.destino_alguna_vez_electa);
- kpis([['Personas con este puente',num(bridgePeople.length,0),`${bFrom} → ${bTo}`],['Alguna vez electas en el cargo posterior',atlas17Ratio(destWins.length,bridgePeople.length),`En ${bTo} después del cargo anterior`],['Nunca electas en el cargo posterior',atlas17Ratio(destNever.length,bridgePeople.length),`Aunque sí registran candidatura posterior en ${bTo}`],['Con cambio de partido',atlas17Ratio(bridgePeople.filter(r=>r.cambio_partido).length,bridgePeople.length),'En al menos uno de los pares observados']]);
- if(bridgePeople.length){const bridgeStatus=[{situacion:`Alguna vez electa en ${bTo}`,personas:destWins.length},{situacion:`Nunca electa en ${bTo}`,personas:destNever.length}];plot(`${bFrom} → ${bTo}: resultado final observado en el cargo posterior`,[{type:'bar',orientation:'h',x:bridgeStatus.map(r=>r.personas),y:bridgeStatus.map(r=>r.situacion),marker:{color:['#168278','#b8a16d']},text:bridgeStatus.map(r=>`${r.personas} · ${num(pct(r.personas,bridgePeople.length),1)}%`),textposition:'outside'}],bridgeStatus,{height:300,xTitle:'Personas nominales',note:'Una persona que perdió una o más veces y luego ganó el cargo posterior cuenta como “Alguna vez electa”. Esto evita confundir una derrota intermedia con el resultado final de su trayectoria.'});
- atlasSectionCard('outcome_bridge_people_visible','Quiénes forman este puente de carrera',atlas17CareerCards(bridgePeople),bridges,{subtitle:atlasOutcomeFilterSummary([`Puente: ${bFrom} → ${bTo}`,`Outcome previo: ${bFromResult}`,`Outcome posterior: ${bToResult}`]),note:`Cada tarjeta muestra los años y el outcome exacto de las candidaturas que forman el puente. Puede exportar la composición visible como PNG o SVG; el CSV conserva todos los pares de candidaturas que forman el puente (${num(bridges.length,0)} registros).`,filename:'Atlas_ExitoElectoral_PuenteCarrera'});
+ controls([['bridgeFrom','Cargo anterior',['Todos',...roleOpts],bFrom],['bridgeFromResult','Resultado de esa candidatura',['Todos','Electa','No electa'],bFromResult],['bridgeTo','Cargo posterior',['Todos',...roleOpts],bTo],['bridgeToResult','Resultado de esa candidatura',['Todos','Electa','No electa'],bToResult]]);
+ const bridgeParty=local.bridgeParty||'Todos';
+ const provinciaComparable=['Diputación','Todos'].includes(bFrom)&&['Diputación','Todos'].includes(bTo);
+ if(!provinciaComparable)local.bridgeProvince='Todos';
+ const bridgeProvince=provinciaComparable?(local.bridgeProvince||'Todos'):'Todos';
+ controls([['bridgeParty','Continuidad de partido',['Todos','Mantuvo partido','Cambió partido'],bridgeParty],['bridgeProvince','Continuidad provincial',['Todos','Mantuvo provincia','Cambió provincia','No comparable'],bridgeProvince]]);
+ if(!provinciaComparable){const pc=$('bridgeProvince');if(pc){pc.disabled=true;pc.title='Las candidaturas presidenciales y vicepresidenciales tienen ámbito nacional: la movilidad provincial no es comparable.';}
+ note('El filtro de continuidad provincial se aplica a pares de candidaturas a diputación con provincias verificables. Los cargos nacionales no se atribuyen a provincias. La continuidad partidaria se estudia en todos los cargos.');}
+
+ let bridges=allBridges.filter(r=>(bFrom==='Todos'||r.cargo_origen===bFrom)&&(bTo==='Todos'||r.cargo_destino===bTo)&&(bFromResult==='Todos'||r.resultado_origen===bFromResult)&&(bToResult==='Todos'||r.resultado_destino===bToResult));
+ if(provinciaComparable&&state.province!=='Nacional')bridges=bridges.filter(r=>r.provincia_origen===state.province||r.provincia_destino===state.province);
+ bridges=bridges.filter(r=>(bridgeParty==='Todos'||(r.cambia_partido?'Cambió partido':'Mantuvo partido')===bridgeParty)&&(bridgeProvince==='Todos'||(r.provincia_origen==='Nacional'||r.provincia_destino==='Nacional'?'No comparable':r.cambia_provincia?'Cambió provincia':'Mantuvo provincia')===bridgeProvince));
+ // Cruce auditable EN EL EXPLORADOR ORIGINAL: outcome de candidatura posterior por movilidad.
+ const mb=[['Mantiene partido',r=>!r.cambia_partido],['Cambia partido',r=>!!r.cambia_partido],['Mantiene provincia',r=>r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional'&&!r.cambia_provincia],['Cambia provincia',r=>r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional'&&!!r.cambia_provincia]];
+ const mobil=mb.map(([grupo,fn])=>{const g=bridges.filter(fn),w=g.filter(r=>r.resultado_destino==='Electa').length;return {grupo,pares:g.length,electas:w,no_electas:g.length-w,porc_electas:g.length?100*w/g.length:null,porc_no_electas:g.length?100*(g.length-w)/g.length:null,personas:uniq(g.map(r=>r.id_persona)).length}}).filter(r=>r.pares);
+ const bridgeCaption=atlas20Context(bFrom,bFromResult,bTo,bToResult,bridgeParty,bridgeProvince);
+ const fromDesc=atlas20StageDescription(bFrom,bFromResult,'Anterior');
+ const toDesc=atlas20StageDescription(bTo,bToResult,'Posterior');
+ const bridgeTitle=(bFrom==='Todos'&&bTo==='Todos'&&bFromResult==='Todos'&&bToResult==='Todos')?
+  'Resultados de candidaturas posteriores · todas las trayectorias':
+  `Resultados posteriores · ${fromDesc} → ${toDesc}`;
+ if(mobil.length){plot(bridgeTitle,[
+  {type:'bar',name:'Electa',y:mobil.map(r=>r.grupo),x:mobil.map(r=>r.porc_electas),orientation:'h',marker:{color:'#168278'},text:mobil.map(r=>`${num(r.porc_electas,1)} % · ${r.electas}`),textposition:'inside'},
+  {type:'bar',name:'No electa',y:mobil.map(r=>r.grupo),x:mobil.map(r=>r.porc_no_electas),orientation:'h',marker:{color:'#b98e60'},text:mobil.map(r=>`${num(r.porc_no_electas,1)} % · ${r.no_electas}`),textposition:'inside'}
+ ],mobil,{height:380,subtitle:bridgeCaption,xTitle:'Porcentaje dentro de cada grupo (%)',layout:{barmode:'stack',xaxis:{range:[0,100]}},note:'Cada barra suma 100 % de los pares cronológicos de su grupo, no necesariamente personas únicas. Los cargos nacionales no tienen provincia electoral comparable; por ello solo se incluyen los pares con dos provincias conocidas en las barras provinciales.'});table(mobil,['grupo','pares','personas','electas','no_electas','porc_electas','porc_no_electas'],'Resultados de las rutas filtradas por movilidad');}
+ const bridgePeople=(bFrom==='Todos'||bTo==='Todos')?atlas20AllRoleBridgePeople(bridges,bFrom,bTo):atlas17BridgePeople(bridges,bFrom,bTo),destWins=bridgePeople.filter(r=>r.destino_alguna_vez_electa),destNever=bridgePeople.filter(r=>!r.destino_alguna_vez_electa);
+ kpis([['Personas con este puente',num(bridgePeople.length,0),`${bFrom==='Todos'?'Cualquier cargo':bFrom} → ${bTo==='Todos'?'cualquier cargo':bTo}`],['Alguna vez electas en el cargo posterior',atlas17Ratio(destWins.length,bridgePeople.length),`Resultados posteriores en ${bTo==='Todos'?'todos los cargos':bTo}`],['Nunca electas en el cargo posterior',atlas17Ratio(destNever.length,bridgePeople.length),`Aunque sí registran candidatura posterior en ${bTo}`],['Con cambio de partido',atlas17Ratio(bridgePeople.filter(r=>r.cambio_partido).length,bridgePeople.length),'En al menos uno de los pares observados']]);
+ if(bridgePeople.length){const bridgeStatus=[{situacion:`Alguna vez electa en ${bTo==='Todos'?'un cargo posterior':bTo}`,personas:destWins.length},{situacion:`Nunca electa en ${bTo==='Todos'?'un cargo posterior':bTo}`,personas:destNever.length}];plot(`Trayectorias: resultados en ${bTo==='Todos'?'cargos posteriores':bTo}`,[{type:'bar',orientation:'h',x:bridgeStatus.map(r=>r.personas),y:bridgeStatus.map(r=>r.situacion),marker:{color:['#168278','#b8a16d']},text:bridgeStatus.map(r=>`${r.personas} · ${num(pct(r.personas,bridgePeople.length),1)}%`),textposition:'outside'}],bridgeStatus,{height:300,subtitle:bridgeCaption,xTitle:'Personas nominales',note:'Una persona que perdió una o más veces y luego ganó el cargo posterior cuenta como “Alguna vez electa”. Esto evita confundir una derrota intermedia con el resultado final de su trayectoria.'});
+ add('<section class="card"><h3>Quiénes forman este puente de carrera</h3><p class="chart-note">Cada tarjeta muestra los años y el outcome exacto de las candidaturas que forman el puente. Abra el nombre para ver toda la trayectoria.</p>'+atlas17CareerCards(bridgePeople)+'</section>');
  table(bridges,['nombre','anio_origen','cargo_origen','resultado_origen','anio','cargo_destino','resultado_destino','destino_electa_despues_del_origen','destino_primera_eleccion_anio_despues_origen','partido_origen','partido_destino','provincia_origen','provincia_destino','cambia_partido','cambia_provincia','anos_entre','id_persona'],'Pares de candidaturas que forman el puente');}
  else note(`No se observan personas con el puente ${bFrom} → ${bTo} bajo estos filtros.`);
 
@@ -609,7 +531,7 @@ views.outcomes=()=>{
  if(analytic.length){plot(`Cómo llegaban quienes resultaron electos en ${anteCargo}`,anteGroups.map((r,i)=>({type:'bar',orientation:'h',name:r.antecedente,x:[r.porcentaje],y:[anteCargo],customdata:[[r.casos,r.personas]],text:[`${num(r.porcentaje,1)}% · N=${r.casos}`],textposition:r.porcentaje>12?'inside':'outside',marker:{color:['#168278','#637cac','#b8a16d'][i]},hovertemplate:`${esc(r.antecedente)}<br>N=%{customdata[0]} · %{x:.1f}%<extra></extra>`})),anteGroups,{height:280,xTitle:'Porcentaje dentro de la unidad seleccionada (%)',layout:{barmode:'stack',xaxis:{range:[0,100]}},note:`Las tres categorías son mutuamente excluyentes y suman 100%. Unidad actual: ${anteUnit}. En “Personas distintas” se toma la primera elección exitosa de cada persona en el cargo dentro del periodo.`});}
  const anteRows=analytic.filter(r=>anteSel==='Todos'||r.antecedente===anteSel),selectedN=anteRows.length,anteDisplay=anteSel==='Todos'?'Todas las categorías':anteSel;const antePack0=atlas18AntecedentCards(anteRows,0,48),antePages=atlas18PageOptions(antePack0.people.length,48),antePage=Math.min(+(local.antepage||0),antePages.length-1);if(antePages.length>1)controls([['antepage',`Página de personas · ${num(antePack0.people.length,0)} personas`,antePages,antePage]]);const antePack=atlas18AntecedentCards(anteRows,antePage,48);
  add(`<div class="selected-detail"><span class="mini">Categoría seleccionada</span><br><strong>${atlas17Ratio(selectedN,analytic.length)}</strong><br>${esc(anteDisplay)} · ${num(antePack.people.length,0)} personas distintas</div>`);
- atlasSectionCard('outcome_antecedent_people_visible','Personas del antecedente seleccionado',antePack.html,anteRows,{subtitle:atlasOutcomeFilterSummary([`Cargo electo: ${anteCargo}`,`Unidad: ${anteUnit}`,`Categoría: ${anteDisplay}`,`Página visible: ${antePage+1} de ${antePages.length}`]),note:`Cada tarjeta muestra la trayectoria documentada hasta el resultado electo analizado. Verde = electa; ámbar = no electa. Puede exportar la composición visible como PNG o SVG; el CSV conserva todos los registros de la categoría seleccionada (${num(anteRows.length,0)} filas).`,filename:'Atlas_ExitoElectoral_AntecedenteSeleccionado'});
+ add('<section class="card"><h3>Personas del antecedente seleccionado</h3><p class="chart-note">Cada tarjeta muestra la trayectoria documentada hasta el resultado electo analizado. Verde = electa; ámbar = no electa. Abra el nombre para ver toda la carrera.</p>'+antePack.html+'</section>');
  table(anteRows,['anio','nombre','cargo','partido','provincia','antecedente','candidaturas_previas','anios_electorales_previos','elecciones_previas','cargos_previos','cargos_electos_previos','diputacion_electa_previa','presidencia_candidata_previa','vicepresidencia_electa_previa','id_persona'],'Nombres y antecedentes que forman los porcentajes');
 
  table(rows,['id_evento','anio','nombre','cargo','partido','provincia','sexo','numero_eleccion_documentada','numero_candidatura','resultado','resultado_contextual','electa_antes','electa_despues','cambio_partido','cambio_provincia','id_persona'],'Todas las candidaturas del filtro y su outcome');
@@ -897,7 +819,7 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
   views.outcomes=function(...args){
     const result=previousOutcomes.apply(this,args);
     ensurePersonExports();
-    addTransitionRates();
+    // V19: el explorador consolidado ya muestra tasas y los pares que las sustentan.
     return result;
   };
 })();
@@ -995,11 +917,10 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
       add('<div class="atlas17-subhead">Lectura anual de electas y no electas por sexo</div>');
       makeComp(base.filter(r=>Boolean(r.electa)),'Composición por sexo entre candidaturas electas','Cada columna suma 100% entre Mujer y Hombre solo dentro de las candidaturas electas de la población seleccionada.');
       makeComp(base.filter(r=>!Boolean(r.electa)),'Composición por sexo entre candidaturas no electas','Cada columna suma 100% entre Mujer y Hombre solo dentro de las candidaturas no electas de la población seleccionada.');
-    } else note(pop==='Diputación electa'?'La población seleccionada comprende solamente diputaciones electas. No corresponde dividirla en candidaturas electas y no electas.':'No se presentan gráficos de elección/no elección para esta población porque sus resultados no son comparables.');
+    }
     return result;
   };
 })();
-
 
 
 /* ATLAS_V7_REPRESENTACION_HTML
@@ -1118,3 +1039,370 @@ async function atlasV5ExportNode(id, format='png', filename='Atlas_Exportacion')
 })();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ATLAS_V10_PRESIDENCIA_LEGISLATIVA · 1953–2026
+   Ampliaciones integradas a las pestañas existentes. Sin franjas históricas interpretativas.
+   Autoría del proyecto: Juan Ignacio Garbanzo Fallas.
+*/
+(function(){
+'use strict';
+const AS=['Legislativa','Presidencial'];
+const AV=['General','Legislativa','Presidencial'];
+const cc={'Legislativa':'#137b78','Presidencial':'#b67e38'};
+const yrs=()=>Y.filter(y=>y>=state.from&&y<=state.to);
+const complete=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
+const n=v=>Number(v);
+const sorted=(a,k='anio')=>a.slice().sort((x,y)=>n(x[k])-n(y[k]));
+const vChoice=id=>AV.includes(local[id])?local[id]:'General';
+const sel=(id,label='Vista de resultados')=>{const v=vChoice(id);controls([[id,label,AV,v]]);return v};
+const arenalist=v=>v==='General'?AS:[v];
+const mf=(a,p='Nacional')=>(D.metricas||[]).filter(r=>r.arena===a&&n(r.ronda)===1&&r.provincia===p&&yrs().includes(n(r.anio)));
+const val=(a,k)=>complete(a?.[k])?n(a[k]):null;
+const labelsArena={Legislativa:'Asamblea Legislativa',Presidencial:'Presidencia'};
+const aria=(view)=>view==='General'?'General_Presidencial_Legislativa':view;
+const positive=(r)=>r&&n(r.escanos)>0;
+const norm=x=>String(x??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
+const slug=s=>String(s||'figura').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,92);
+// Nombres inequívocos en PNG/SVG/CSV; no se altera la base de datos.
+const plotOriginal10=plot;
+plot=function(t,traces,rows,opts={}){
+  const before=cid;
+  if(t==='Abstencionismo legislativo nacional · 1953–2026')return;
+  const out=plotOriginal10(t,traces,rows,opts);
+  if(cid>before){
+    const id='chart'+cid,child=$(id),a=child?.closest('article.card');
+    const titleLow=String(t).toLowerCase();
+    const inferred=titleLow.includes('presidencial')&&!titleLow.includes('legislativ')?'Presidencial':titleLow.includes('legislativ')&&!titleLow.includes('presidencial')?'Legislativa':'General';
+    const v=opts.arenaVista||opts.arena||inferred;
+    const base=`Atlas_${slug(state.tab)}_${slug(aria(v))}_${slug(t)}_${state.from}_${state.to}`;
+    if(child)child.atlasFilename=base;
+    if(a){const b=a.querySelectorAll('.exports button');if(b[2])b[2].onclick=()=>csv(chartRows[id]||[],base+'.csv');}
+  }
+  return out;
+};
+const exportOld=exportFigure;
+exportFigure=async function(id,format){
+ const node=$(id);if(!node?.data)return;
+ const name=node.atlasFilename||`Atlas_${slug(state.tab)}_${state.from}_${state.to}`;
+ const oldTitle=node.layout?.title,oldMargin=node.layout?.margin;
+ try{await Plotly.relayout(node,{title:{text:node.atlasTitle+'<br><sup>'+node.atlasScope+'</sup>',font:{size:19},x:.04},margin:{...oldMargin,t:92}});
+ await Plotly.downloadImage(node,{format,width:1600,height:Math.max(900,Math.round((node.clientHeight||430)*1.8)),scale:format==='png'?2:1,filename:name});}
+ finally{await Plotly.relayout(node,{title:oldTitle||{},margin:oldMargin});}
+};
+function header(label){add(`<div class="atlas17-subhead">${esc(label)}</div>`)}
+function plotTrend(key,titleText,view){
+ const picked=arenalist(view),series=picked.map(a=>({a,rows:sorted(mf(a))}));
+ const tr=series.map(({a,rows})=>({type:'scatter',mode:'lines+markers',name:labelsArena[a],x:rows.map(r=>n(r.anio)),y:rows.map(r=>val(r,key)),line:{color:cc[a],width:3,dash:a==='Presidencial'?'dash':'solid'},marker:{size:8,symbol:a==='Presidencial'?'diamond':'circle'},hovertemplate:`Elección %{x}<br>${labelsArena[a]}: %{y:.2f}<extra></extra>`}));
+ const rows=series.flatMap(({a,rows})=>rows.map(r=>({...r,vista:a,valor:val(r,key)})));
+ if(!rows.length)return;
+ plot(titleText,tr,rows,{arenaVista:view,height:440,xTitle:'Elección',yTitle:metricLabels[key]||key,subtitle:`${view==='General'?'Comparación entre arenas':labelsArena[view]} · total nacional · ${state.from}–${state.to}`,layout:{xaxis:{type:'linear',tickmode:'array',tickvals:yrs(),tickangle:-50}},note:'Primera ronda presidencial y votación legislativa. Cada serie utiliza sus datos y denominadores propios; no se promedian las provincias.'});
+}
+function heatMetric(key,titleText,arena){
+ const xx=yrs(),provs=P.slice(),series=mf(arena,'Nacional');
+ const row=(D.metricas||[]).filter(r=>r.arena===arena&&n(r.ronda)===1&&P.includes(r.provincia)&&yrs().includes(n(r.anio)));
+ const lookup=new Map(row.map(r=>[r.provincia+'|'+r.anio,r]));
+ const z=provs.map(p=>xx.map(y=>val(lookup.get(p+'|'+y),key)));
+ plot(titleText,[{type:'heatmap',x:xx.map(String),y:provs,z,colorscale:[[0,'#edf5f4'],[.5,'#6eb7ad'],[1,'#0b615d']],hoverongaps:false,xgap:2,ygap:2,texttemplate:local.values==='No'?undefined:'%{z:.1f}',textfont:{size:11},colorbar:{title:{text:key.endsWith('_pct')?'%':'Valor'},thickness:15},hovertemplate:'%{y} · %{x}<br>%{z:.2f}<extra></extra>'}],row,{arenaVista:arena,height:490,xTitle:'Elección',yTitle:'Provincia',subtitle:`${labelsArena[arena]} · siete provincias · ${state.from}–${state.to}`,layout:{xaxis:{type:'category',categoryorder:'array',categoryarray:xx.map(String),tickangle:-50},margin:{l:105,r:95,t:35,b:85}},note:'Los porcentajes proceden de los registros de cada provincia y elección. El total nacional se calcula por separado mediante sumas de numeradores y denominadores.'});
+}
+// Partidos sin curules: partido sin escaños legislativos en todo el país en ese año.
+function votosPresNoCurul(){
+ const electos=new Set((D.escanos||[]).filter(r=>r.provincia==='Nacional'&&positive(r)).map(r=>`${r.anio}|${r.partido}`));
+ const votos=(D.votos||[]).filter(r=>r.arena==='Presidencial'&&n(r.ronda)===1&&r.provincia==='Nacional'&&yrs().includes(n(r.anio)));
+ return yrs().map(y=>{const g=votos.filter(r=>n(r.anio)===y),total=g.reduce((a,r)=>a+n(r.votos||0),0),sin=g.filter(r=>!electos.has(y+'|'+r.partido));
+ const votes=sin.reduce((a,r)=>a+n(r.votos||0),0);return{anio:y,partidos_sin_curul:sin.length,votos_sin_curul:votes,votos_validos_presidenciales:total,porcentaje:total?100*votes/total:null}});
+}
+function makeNoCurul(){const rows=votosPresNoCurul().filter(r=>complete(r.porcentaje));
+ plot('Voto presidencial a partidos sin diputaciones electas · serie histórica',[{type:'scatter',mode:'lines+markers',x:rows.map(r=>r.anio),y:rows.map(r=>r.porcentaje),customdata:rows.map(r=>[r.partidos_sin_curul,r.votos_sin_curul]),marker:{color:'#bd8750',size:9},line:{color:'#bd8750',width:3},hovertemplate:'%{x}<br>%{y:.2f} % de los votos presidenciales<br>%{customdata[0]} partidos sin curul<br>%{customdata[1]} votos<extra></extra>'}],rows,{arenaVista:'Presidencial',height:425,xTitle:'Elección',yTitle:'Porcentaje de votos presidenciales (%)',layout:{xaxis:{tickmode:'array',tickvals:yrs(),tickangle:-50}},note:'Numerador: votos presidenciales de primera ronda obtenidos por organizaciones que no consiguieron ninguna diputación a escala nacional en la misma elección. Denominador: total de votos presidenciales válidos. No equivale a votos legislativos sin escaños.'});
+ table(rows,['anio','partidos_sin_curul','votos_sin_curul','votos_validos_presidenciales','porcentaje'],'Detalle auditable · partidos presidenciales sin curules');
+}
+// Bastiones medidos por resultados; una victoria aislada no es evidencia de bastión.
+function basAll(arena){
+ const rows=(D.metricas||[]).filter(r=>r.arena===arena&&n(r.ronda)===1&&P.includes(r.provincia)&&Number.isFinite(n(r.anio))&&r.ganador);
+ const m=new Map();for(const r of rows){const k=r.provincia+'|'+r.ganador;const a=m.get(k)||[];a.push(r);m.set(k,a)}
+ return [...m].map(([k,g])=>{g.sort((a,b)=>n(a.anio)-n(b.anio));let streak=1,maxStreak=1;for(let i=1;i<g.length;i++){if(Y.indexOf(n(g[i].anio))===Y.indexOf(n(g[i-1].anio))+1)streak++;else streak=1;maxStreak=Math.max(maxStreak,streak)}
+ const province=g[0].provincia,partido=g[0].ganador,obs=new Set(rows.filter(r=>r.provincia===province).map(r=>r.anio)).size;
+ return {arena,provincia:province,partido,elecciones_ganadas:g.length,elecciones_observadas:obs,porcentaje_victorias:obs?100*g.length/obs:null,racha_maxima:maxStreak,primera_victoria:n(g[0].anio),ultima_victoria:n(g[g.length-1].anio),voto_medio_en_victorias:g.reduce((s,r)=>s+n(r.concentracion_1||0),0)/g.length,margen_medio_pp:g.reduce((s,r)=>s+n(r.margen||0),0)/g.length};}).sort((a,b)=>b.elecciones_ganadas-a.elecciones_ganadas||b.racha_maxima-a.racha_maxima);
+}
+function bastions(arena){
+ const a=basAll(arena);const top=a.slice(0,18);if(!top.length)return;
+ plot(`Fortalezas territoriales ${arena==='Presidencial'?'presidenciales':'legislativas'} · cuota media de votos y persistencia`,[{type:'bar',orientation:'h',x:top.slice().reverse().map(r=>r.voto_medio_en_victorias),y:top.slice().reverse().map(r=>labelText(r.partido)+' · '+r.provincia),customdata:top.slice().reverse().map(r=>[r.racha_maxima,r.porcentaje_victorias,r.elecciones_ganadas]),marker:{color:cc[arena]},text:top.slice().reverse().map(r=>`${r.elecciones_ganadas} · racha ${r.racha_maxima}`),textposition:'outside',hovertemplate:'%{y}<br>Voto medio en victorias: %{x:.1f}%<br>Elecciones ganadas: %{customdata[2]}<br>Racha máxima: %{customdata[0]}<extra></extra>'}],top,{arenaVista:arena,height:630,xTitle:'Porcentaje medio de votos válidos en las elecciones ganadas (%)',subtitle:`${labelsArena[arena]} · fortaleza y victorias provinciales 1953–2026`,note:'Cada barra es una combinación partido–provincia. La racha es el máximo de elecciones nacionales consecutivas ganadas (no años naturales). Es un indicador descriptivo de persistencia, no una clasificación automática de bastión político.'});
+ table(a,['provincia','partido','elecciones_ganadas','elecciones_observadas','porcentaje_victorias','racha_maxima','primera_victoria','ultima_victoria','voto_medio_en_victorias','margen_medio_pp'],'Historial provincial de partidos ganadores');
+}
+function winnerMap(arena){
+ // Matriz territorial: siete provincias más una fila nacional para comparar
+ // el ganador agregado de la elección con los liderazgos provinciales.
+ const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().trim();
+ const toneOverride={
+  'NUEVA REPUBLICA':'#39bced',
+  'PUEBLO SOBERANO':'#0da4b5',
+  'RESTAURACION NACIONAL':'#1d84d6',
+  'UNIDAD SOCIAL CRISTIANA':'#0057b8',
+  'UNIDAD':'#6d7d88',
+  'UNIFICACION NACIONAL':'#a7b2ba',
+  'REPUBLICANO':'#caa11a',
+  'REPUBLICANO NACIONAL':'#caa11a'
+ };
+ const showProvince=p=>p==='Nacional'?'Costa Rica':p;
+ const rows=(D.metricas||[])
+  .filter(r=>r.arena===arena&&n(r.ronda)===1&&yrs().includes(n(r.anio))&&r.ganador&&(P.includes(r.provincia)||r.provincia==='Nacional'))
+  .map(r=>({...r,provincia_vista:showProvince(r.provincia)}));
+ if(!rows.length)return;
+ const parties=uniq(rows.map(r=>r.ganador)).sort((a,b)=>String(labelText(a)).localeCompare(String(labelText(b)),'es'));
+ const documented=parties.filter(p=>!!partyPalette[p]?.color);
+ const undocumented=parties.filter(p=>!partyPalette[p]?.color);
+ const toneFor=p=>toneOverride[norm(p)]||partyPalette[p]?.color||'#8796a0';
+ const traces=parties.map(p=>{
+  const a=rows.filter(r=>r.ganador===p);
+  const tone=toneFor(p);
+  return {type:'scatter',mode:'markers',name:labelText(p),x:a.map(r=>String(r.anio)),y:a.map(r=>r.provincia_vista),
+   customdata:a.map(r=>[labelText(p),r.concentracion_1,r.margen,r.provincia_vista]),
+   marker:{symbol:'square',size:19,color:tone,line:{color:'#fff',width:1.15}},
+   hovertemplate:'Elección %{x}<br>Territorio: %{customdata[3]}<br>%{customdata[0]}<br>Cuota del primero: %{customdata[1]:.2f}%<br>Margen: %{customdata[2]:.2f} pp<extra></extra>'};
+ });
+ const years=yrs().map(String);
+ const provinceOrder=['Costa Rica',...P];
+ plot(`Partido más votado por provincia · ${labelsArena[arena]}`,traces,rows,{arenaVista:arena,height:Math.max(560,545+Math.ceil(parties.length/5)*24),xTitle:'Elección',yTitle:'Provincia',
+  subtitle:`${labelsArena[arena]} · siete provincias + Costa Rica · 1953–2026`,layout:{
+   xaxis:{type:'category',categoryorder:'array',categoryarray:years,tickangle:-45,showgrid:true},
+   yaxis:{type:'category',categoryorder:'array',categoryarray:provinceOrder,showgrid:true},
+   margin:{l:118,r:35,t:35,b:Math.min(285,122+Math.ceil(parties.length/4)*18)},
+   legend:{orientation:'h',x:0,y:-.26,font:{size:10},tracegroupgap:4}
+  },note:`Se añade una fila nacional («Costa Rica») para comparar el partido más votado del agregado nacional con los liderazgos provinciales. Los tonos se ajustaron levemente para diferenciar mejor denominaciones visualmente cercanas (por ejemplo Nueva República, Restauración Nacional y Unidad Social Cristiana). ${documented.length} denominaciones conservan referencia documentada en el catálogo de divisas; las ${undocumented.length} históricas sin tono verificado siguen identificándose por nombre en la leyenda y al pasar el cursor.`});
+ table(rows.map(r=>({anio:r.anio,provincia:r.provincia_vista,partido_mas_votado:r.ganador,voto_pct:r.concentracion_1,ventaja_pp:r.margen,fuente_color:partyPalette[r.ganador]?.fuente||'Color de apoyo para diferenciación visual en la matriz'})),['anio','provincia','partido_mas_votado','voto_pct','ventaja_pp','fuente_color'],'Liderazgos provinciales y referencia de los colores');
+}
+
+function votoDiferenciadoNacional(){
+ const m=(D.metricas||[]).filter(r=>r.arena==='Legislativa'&&n(r.ronda)===1&&r.provincia==='Nacional'&&yrs().includes(n(r.anio))&&complete(r.divergencia_arenas));return sorted(m);
+}
+function tabDivergencia(){const rows=votoDiferenciadoNacional();if(rows.length)plot('Diferencia agregada entre voto presidencial y legislativo · 1953–2026',[{type:'scatter',mode:'lines+markers',x:rows.map(r=>n(r.anio)),y:rows.map(r=>n(r.divergencia_arenas)),marker:{color:'#19837d',size:8},line:{color:'#19837d',width:3},hovertemplate:'%{x}<br>Diferencia agregada: %{y:.2f} pp<extra></extra>'}],rows,{arenaVista:'General',height:430,xTitle:'Elección',yTitle:'Distancia entre distribuciones (pp)',layout:{xaxis:{tickmode:'array',tickvals:yrs(),tickangle:-50}},note:'Distancia de variación total: ½ × suma de diferencias absolutas entre cuotas de votos válidos de los partidos en ambas arenas. No identifica el voto dividido de personas concretas. La matriz provincial está en esta misma sección.'});}
+
+function bastionsComparado(){
+ const leg=basAll('Legislativa'),pres=basAll('Presidencial');
+ const grouped=new Map();for(const r of [...leg,...pres]){const k=r.provincia+'|'+r.partido;const g=grouped.get(k)||{provincia:r.provincia,partido:r.partido,Legislativa:0,Presidencial:0};g[r.arena]=r.elecciones_ganadas;grouped.set(k,g);}
+ const rows=[...grouped.values()].sort((a,b)=>(b.Legislativa+b.Presidencial)-(a.Legislativa+a.Presidencial)).slice(0,18).reverse();
+ const names=rows.map(r=>labelText(r.partido)+' · '+r.provincia);
+ plot('Liderazgos territoriales comparados · Presidencia y diputaciones',[
+  {type:'bar',name:'Legislativa',orientation:'h',y:names,x:rows.map(r=>r.Legislativa),marker:{color:cc.Legislativa},text:rows.map(r=>r.Legislativa),textposition:'outside'},
+  {type:'bar',name:'Presidencial',orientation:'h',y:names,x:rows.map(r=>r.Presidencial),marker:{color:cc.Presidencial},text:rows.map(r=>r.Presidencial),textposition:'outside'}],rows,{arenaVista:'General',height:640,xTitle:'Elecciones provinciales encabezadas',layout:{barmode:'group',margin:{l:230,r:65,t:30,b:95}},note:'La comparación usa únicamente las primeras rondas presidenciales. Una provincia puede tener un partido líder presidencial diferente del legislativo. El recuento no indica por sí solo durabilidad organizativa o causalidad territorial.'});
+ table(rows,['provincia','partido','Legislativa','Presidencial'],'Victorias provinciales por partido y arena');
+}
+function transicionesPorArena(){
+ header('Movilidad electoral por tipo de candidatura · 3 vistas');
+ const view=sel('v10transicion');
+ const rows=(D.transiciones_resultados||[]).filter(r=>n(r.anio)>=state.from&&n(r.anio)<=state.to&&n(r.anio)>n(r.anio_origen)&&
+  (view==='General'||(view==='Legislativa'&&r.cargo_origen==='Diputación'&&r.cargo_destino==='Diputación')||(view==='Presidencial'&&r.cargo_origen!=='Diputación'&&r.cargo_destino!=='Diputación')));
+ const groups=['Electa','No electa'].map(outcome=>{const arr=rows.filter(r=>r.resultado_destino===outcome);const denom=arr.length;return{resultado:outcome,pares:denom,personas:uniq(arr.map(r=>r.id_persona)).length,cambiaron_partido:arr.filter(r=>r.cambia_partido).length,cambio_partido_pct:denom?100*arr.filter(r=>r.cambia_partido).length/denom:null,comparable_provincia:arr.filter(r=>r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional').length,cambiaron_provincia:arr.filter(r=>r.cambia_provincia).length};});
+ plot('Resultado posterior y continuidad partidaria · '+view,[
+  {type:'bar',name:'Mantuvo partido',x:groups.map(r=>r.resultado),y:groups.map(r=>r.pares-r.cambiaron_partido),marker:{color:'#137f79'},text:groups.map(r=>r.pares-r.cambiaron_partido),textposition:'inside'},
+  {type:'bar',name:'Cambió partido',x:groups.map(r=>r.resultado),y:groups.map(r=>r.cambiaron_partido),marker:{color:'#be8b4c'},text:groups.map(r=>r.cambiaron_partido),textposition:'inside'}],groups,{arenaVista:view,layout:{barmode:'stack'},height:380,xTitle:'Outcome exacto de candidatura posterior',yTitle:'Pares consecutivos de candidaturas',note:'Se incluyen transiciones entre elecciones consecutivas de cada persona nominal; la vista Legislativa incluye solo Diputación→Diputación y la vista Presidencial solo cargos de fórmulas presidenciales. Las transiciones mixtas se conservan en General y en los puentes de carrera.'});
+ table(groups,['resultado','pares','personas','cambiaron_partido','cambio_partido_pct','comparable_provincia','cambiaron_provincia'],'Resultados y movilidad por arena');
+}
+
+function electionTransitions(){
+ const bridges=(D.puentes_cargos||[]).filter(r=>n(r.anio)>n(r.anio_origen)&&n(r.anio)>=state.from&&n(r.anio)<=state.to);
+ const prev=local.bridgeFrom||'Diputación',next=local.bridgeTo||'Presidencia',out1=local.bridgeFromResult||'Todos',out2=local.bridgeToResult||'Todos';
+ const party=local.bridgeV10Party||'Todos',province=local.bridgeV10Province||'Todos';
+ header('Puentes cronológicos · resultados exactos y movilidad');
+ controls([['bridgeV10Party','Partido entre las dos candidaturas',['Todos','Mantuvo partido','Cambió partido'],party],['bridgeV10Province','Provincia entre las dos candidaturas',['Todos','Mantuvo provincia','Cambió provincia'],province]]);
+ const data=bridges.filter(r=>r.cargo_origen===prev&&r.cargo_destino===next&&(out1==='Todos'||r.resultado_origen===out1)&&(out2==='Todos'||r.resultado_destino===out2)&&(party==='Todos'||!!r.cambia_partido===(party==='Cambió partido'))&&(province==='Todos'||(r.provincia_origen!=='Nacional'&&r.provincia_destino!=='Nacional'&&!!r.cambia_provincia===(province==='Cambió provincia'))));
+ const g=['Electa','No electa'].map(outcome=>{const a=data.filter(r=>r.resultado_destino===outcome);return{resultado:outcome,pares:a.length,personas:uniq(a.map(r=>r.id_persona)).length,con_cambio_partido:a.filter(r=>r.cambia_partido).length,con_cambio_provincia:a.filter(r=>r.cambia_provincia).length,porcentaje_cambio_partido:a.length?100*a.filter(r=>r.cambia_partido).length/a.length:null,porcentaje_cambio_provincia:a.length?100*a.filter(r=>r.cambia_provincia).length/a.length:null}});
+ plot(`De ${prev} a ${next} · elección posterior y cambios observados`,[
+ {type:'bar',name:'Mantuvo partido',x:g.map(r=>r.resultado),y:g.map(r=>r.pares-r.con_cambio_partido),marker:{color:'#168278'},text:g.map(r=>r.pares-r.con_cambio_partido),textposition:'inside'},
+ {type:'bar',name:'Cambió partido',x:g.map(r=>r.resultado),y:g.map(r=>r.con_cambio_partido),marker:{color:'#bc8b46'},text:g.map(r=>r.con_cambio_partido),textposition:'inside'}
+ ],g,{arenaVista:'General',height:410,xTitle:'Resultado de la candidatura posterior',yTitle:'Pares de candidaturas',layout:{barmode:'stack'},note:'El desenlace Electa/No electa corresponde a la candidatura posterior exacta, no al éxito alcanzado en cualquier otra elección. Cada barra contiene los pares cronológicos, no personas únicas. La tabla también muestra los porcentajes internos de cambio de provincia y de partido.'});
+ table(g,['resultado','pares','personas','con_cambio_partido','porcentaje_cambio_partido','con_cambio_provincia','porcentaje_cambio_provincia'],'Outcome posterior y porcentajes dentro de cada outcome');
+ table(data,['nombre','anio_origen','anio','cargo_origen','resultado_origen','cargo_destino','resultado_destino','partido_origen','partido_destino','cambia_partido','provincia_origen','provincia_destino','cambia_provincia','id_persona'],'Pares cronológicos exactos que sustentan el resultado');
+ note('En las fórmulas presidenciales la provincia registrada es Nacional, no una provincia de inscripción personal. Por ello el cambio provincial solo se evalúa cuando ambos extremos tienen provincia comparable. Una coincidencia nominal no es prueba de identidad civil.');
+}
+
+function participationRank(arena){
+ const rows=(D.metricas||[]).filter(r=>r.arena===arena&&n(r.ronda)===1&&P.includes(r.provincia)&&yrs().includes(n(r.anio)));
+ const ys=yrs(),lookup=new Map(rows.map(r=>[r.provincia+'|'+r.anio,r]));
+ const ranks=new Map();for(const y of ys){const r=rows.filter(x=>n(x.anio)===y&&complete(x.participacion_pct)).sort((a,b)=>n(b.participacion_pct)-n(a.participacion_pct));r.forEach((x,i)=>ranks.set(x.provincia+'|'+y,i+1));}
+ const z=P.map(p=>ys.map(y=>ranks.get(p+'|'+y)??null));
+ plot(`Ranking provincial de participación · ${labelsArena[arena]}`,[{type:'heatmap',x:ys.map(String),y:P,z,zmin:1,zmax:7,colorscale:[[0,'#0d6964'],[.5,'#a9d8d1'],[1,'#f2f7f5']],reversescale:false,texttemplate:'%{z:.0f}',textfont:{size:11},colorbar:{title:{text:'Puesto'},tickvals:[1,2,3,4,5,6,7]},xgap:2,ygap:2,hovertemplate:'%{y} · %{x}<br>Puesto %{z:.0f}<extra></extra>'}],rows,{arenaVista:arena,height:485,xTitle:'Elección',yTitle:'Provincia',layout:{xaxis:{type:'category',categoryorder:'array',categoryarray:ys.map(String),tickangle:-50},margin:{l:110,r:85,t:35,b:85}},note:'Puesto 1 = provincia con mayor participación (%) en esa elección y arena. Cada porcentaje utiliza su propio padrón y votos emitidos. Los empates, si los hay, se ordenan de forma determinista.'});
+}
+function padronBreakdown(view){
+ const ars=arenalist(view);const colors={'Voto válido':'#147e77','Blancos':'#86b5bc','Nulos':'#b98c53','Abstenciones':'#bdcdd7'};
+ for(const arena of ars){
+ const rr=sorted(mf(arena));const a=rr.map(r=>{const p=n(r.padron);return{anio:r.anio,arena,validos:p?100*n(r.validos)/p:null,blancos:p?100*n(r.blancos)/p:null,nulos:p?100*n(r.nulos)/p:null,abstenciones:p?100*n(r.abstenciones)/p:null,padron:p}});
+ const xs=a.map(r=>String(r.anio));const cats=[['Voto válido','validos'],['Blancos','blancos'],['Nulos','nulos'],['Abstenciones','abstenciones']];
+ const traces=cats.map(([name,key])=>({type:'bar',name,x:xs,y:a.map(r=>r[key]),text:a.map(r=>r[key]>=12?num(r[key],1)+'%':''),textposition:'inside',textfont:{size:10,color:'#fff'},marker:{color:colors[name]},hovertemplate:`${name}<br>Elección %{x}: %{y:.2f}% del padrón<extra></extra>`}));
+ plot(`Composición del padrón electoral · ${labelsArena[arena]}`,traces,a,{arenaVista:arena,height:485,xTitle:'Elección',yTitle:'Porcentaje del padrón (%)',layout:{barmode:'stack',xaxis:{type:'category',categoryorder:'array',categoryarray:xs,tickangle:-50},yaxis:{range:[0,100.4]}},note:'Cada porcentaje utiliza el padrón de la arena correspondiente. Se suman votos válidos, blancos, nulos y abstenciones; una diferencia residual, si existiera por fuente o redondeo, debe verificarse en las tablas oficiales.'});
+ }
+}
+
+function ofertaClasificada(){
+ const cats=['Presidencial y legislativa','Solo legislativa','Solo presidencial'];const rows=(D.oferta_partidos||[]).filter(r=>yrs().includes(n(r.anio))&&cats.includes(r.oferta));
+ const years=yrs(),vals=years.map(y=>{const x=rows.filter(r=>n(r.anio)===y),total=x.length;const r={anio:y,total};for(const c of cats){const count=x.filter(r=>r.oferta===c).length;r[c+'_n']=count;r[c+'_pct']=total?100*count/total:null}return r});
+ const tr=cats.map((c,i)=>({type:'bar',name:c,x:years.map(String),y:vals.map(r=>r[c+'_pct']),text:vals.map(r=>r[c+'_pct']===null?'':`${num(r[c+'_pct'],1)}%`),textposition:'inside',insidetextanchor:'middle',textfont:{color:'#fff',size:10},marker:{color:['#167f79','#c29049','#a55579'][i]},customdata:vals.map(r=>[r[c+'_n'],r.total]),hovertemplate:`${c}<br>%{x}<br>%{y:.1f}%<br>%{customdata[0]} de %{customdata[1]} partidos<extra></extra>`}));
+ plot('Oferta partidaria · porcentajes visibles por arena',tr,vals,{arenaVista:'General',height:500,xTitle:'Elección',yTitle:'Porcentaje de organizaciones (%)',layout:{barmode:'stack',xaxis:{type:'category',categoryorder:'array',categoryarray:years.map(String),tickangle:-50},yaxis:{range:[0,100]}},note:'Cada columna representa el 100% de las denominaciones que compitieron en al menos una de las dos arenas. Los porcentajes visibles y los valores absolutos se conservan en la tabla.'});
+}
+function nombreRegistro(){
+ header('Registros de cancelación y oferta observada · filtros diferenciados');
+ const scales=['Todos',...uniq((D.cancelados||[]).map(r=>r.Escala).filter(Boolean))].sort();const scale=local.n10scale||'Todos',oferta=local.n10oferta||'Todos';
+ controls([['n10scale','Escala de inscripción',scales,scale],['n10oferta','Competencia observada',['Todos','Presidencial y legislativa','Solo legislativa','Solo presidencial','Sin correspondencia exacta'],oferta]]);
+ const byName=new Map();for(const r of D.oferta_partidos||[]){const k=norm(r.partido);if(!byName.has(k))byName.set(k,new Set());byName.get(k).add(r.oferta)}
+ const rows=(D.cancelados||[]).map(r=>{const match=byName.get(norm(r['Nombre del partido']));return {...r,oferta_observada:match?[...match].sort().join(' / '):'Sin correspondencia exacta',registro_en_oferta:!!match}}).filter(r=>(scale==='Todos'||r.Escala===scale)&&(oferta==='Todos'||(oferta==='Sin correspondencia exacta'?!r.registro_en_oferta:r.oferta_observada.includes(oferta))));
+ table(rows,['Nombre del partido','Escala','Provincia','Fecha de inscripción','Fecha de cancelación','Nombre repetido','oferta_observada','registro_en_oferta','Referencia'],'Registro jurídico y oferta electoral por coincidencia de denominación');
+ note('El cruce textual entre inscripciones/cancelaciones y oferta histórica es exploratorio. Una coincidencia de nombre no demuestra continuidad jurídica, identidad de organización o inscripción durante todos los años de la serie.');
+}
+const wrap=(name,more)=>{const fn=views[name];if(typeof fn==='function')views[name]=function(...a){const ans=fn.apply(this,a);more();return ans;}};
+wrap('competencia',()=>{header('Comparador presidencial y legislativo · fragmentación');const v=sel('v10competencia');plotTrend('nep','Número efectivo de partidos · tres vistas',v);plotTrend('concentracion_1','Cuota de votos del partido más votado · tres vistas',v);});
+wrap('participacion',()=>{header('Abstencionismo y participación · ambas arenas electorales');const v=sel('v10participacion');plotTrend('abstencion_pct','Abstencionismo nacional · vista por arena',v);for(const a of arenalist(v)){heatMetric('abstencion_pct',`Abstencionismo por provincia · ${labelsArena[a]}`,a);participationRank(a);}padronBreakdown(v);plotTrend('invalidos_pct','Voto blanco y nulo agregado · voto no válido',v);});
+wrap('panorama',()=>{header('Series históricas comparables por arena');const v=sel('v10panorama');plotTrend('partidos_con_votos','Organizaciones que recibieron votos · Presidencia y Asamblea',v);});
+wrap('dualidad',()=>{header('Diferencia agregada · evolución nacional');tabDivergencia();});
+// Se integra la comparación de ambas arenas en Votos y escaños (V12).
+wrap('partidos',()=>{header('Liderazgos por provincia y arena');const v=sel('v10partidos');for(const a of arenalist(v)){winnerMap(a);}});
+/* Se conserva el explorador V7 con sus perfiles, flujos y puentes: no se añade un segundo explorador V10. */
+// Los filtros nuevos del registro se integran como gráfico en la V12, no como tablas duplicadas.
+// Información explícita sobre la cobertura documental presidencial.
+wrap('papeletas',()=>{note('La base de diseño documental actualmente disponible corresponde a papeletas legislativas. La incorporación de papeletas presidenciales requiere una octava base verificada; no se simulan sus características.');});
+window.ATLAS_V10_INTEGRADO_OK=true;
+})();
+
+/* ATLAS_V95_PUBLICO_DEPURADO
+   No crea pestañas nuevas ni añade franjas históricas al HTML público.
+   La divergencia agregada se muestra en una única matriz provincial histórica.
+   No se confunde divergencia agregada con identificación de voto cruzado individual.
+*/
+(function(){
+ 'use strict';
+ const provincias=['San José','Alajuela','Cartago','Heredia','Guanacaste','Puntarenas','Limón'];
+ const anio=r=>Number(r.anio);
+ const finito=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v));
+ const entre=r=>anio(r)>=state.from&&anio(r)<=state.to;
+ const metricasLeg=()=> (D.metricas||[]).filter(r=>r.arena==='Legislativa'&&Number(r.ronda)===1&&entre(r));
+ // Se conserva la ampliación original de la matriz de participación con fila Nacional.
+ const graficarAntes=plot;
+ plot=function(nombre,trazas,filas,opciones={}){
+   if(nombre==='Territorios y elecciones'&&trazas?.length===1&&trazas[0]?.type==='heatmap'){
+     const original=trazas[0],campo=local.pm||'abstencion_pct';
+     const totales=metricasLeg().filter(r=>r.provincia==='Nacional');
+     const agregado=(original.x||[]).map(y=>{
+       const f=totales.find(r=>anio(r)===Number(y));
+       return f&&finito(f[campo])?Number(f[campo]):null;
+     });
+     return graficarAntes('Territorios y elecciones · provincias y total nacional',
+       [{...original,y:[...original.y,'Nacional'],z:[...original.z,agregado]}],
+       [...(filas||[]),...totales],{...opciones,height:460,subtitle:'Siete provincias y total nacional',note:'Nacional se obtiene de los totales y denominadores oficiales, no del promedio aritmético de las provincias.'});
+   }
+   // Retirar solo la curva de divergencia entre arenas que generaba una interpretación confusa.
+   // V14: recuperar el indicador longitudinal del Atlas original.
+
+   // Retirar la curva alternativa de divergencia de V9.
+   if(nombre==='Divergencia electoral nacional · serie histórica 1953–2026') return;
+   return graficarAntes(nombre,trazas,filas,opciones);
+ };
+ function matrizVotoDiferenciado(){
+   const filas=metricasLeg().filter(r=>provincias.includes(r.provincia));
+   const anios=[...new Set(filas.map(anio))].filter(Number.isFinite).sort((a,b)=>a-b);
+   if(!anios.length){note('No se encontraron elecciones provinciales para este intervalo.',true);return;}
+   const indice=new Map(filas.map(r=>[`${r.provincia}|${anio(r)}`,r]));
+   const z=provincias.map(prov=>anios.map(y=>{
+     const f=indice.get(`${prov}|${y}`);
+     return f&&finito(f.divergencia_arenas)?Number(f.divergencia_arenas):null;
+   }));
+   const datos=provincias.flatMap((prov,i)=>anios.map((y,j)=>({
+     anio:y,provincia:prov,diferencia_agregada_pp:z[i][j],
+     interpretacion:z[i][j]===null?'Sin dato comparable':'Distancia entre distribuciones de votos'
+   })));
+   const observados=datos.filter(r=>r.diferencia_agregada_pp!==null);
+   if(!observados.length){note('Las bases no contienen todavía porcentajes comparables entre ambas arenas para estas elecciones.',true);return;}
+   const xs=anios.map(String);
+   // Celdas deliberadamente claras para que los números escritos siempre sean legibles.
+   const escala=[[0,'#f2f7f7'],[.2,'#d8eae7'],[.5,'#9bcfca'],[.8,'#59a4a0'],[1,'#317e86']];
+   plot('Voto presidencial y legislativo · diferencia agregada por provincia y elección',[
+     {type:'heatmap',x:xs,y:provincias,z,colorscale:escala,zmin:0,
+      colorbar:{title:{text:'Diferencia<br>(pp)'},ticksuffix:' pp',thickness:15,len:.82},
+      texttemplate:'%{z:.1f}',textfont:{size:11,color:'#163c49'},
+      hoverongaps:false,hovertemplate:'%{y} · elección %{x}<br>Diferencia agregada: %{z:.2f} pp<extra></extra>',
+      xgap:2,ygap:3}
+   ],observados,{
+     height:495,xTitle:'Elección',yTitle:'Provincia',
+     subtitle:'Siete provincias · elecciones 1953–2026 · cada celda indica puntos porcentuales (pp)',
+     layout:{xaxis:{type:'category',categoryorder:'array',categoryarray:xs,tickangle:-52,tickmode:'array',tickvals:xs,ticktext:xs},
+             yaxis:{type:'category',categoryorder:'array',categoryarray:provincias,autorange:'reversed'},
+             margin:{l:120,r:100,t:32,b:85}},
+     note:'Cómo leer: 0 pp indica distribuciones partidarias iguales entre las papeletas presidencial y legislativa; valores mayores indican diferencias más pronunciadas. Indicador = ½ × suma de diferencias absolutas entre los porcentajes de voto de cada partido en ambas arenas. No identifica cuántas personas quebraron su voto ni permite inferencias individuales.'
+   });
+   table(datos,['anio','provincia','diferencia_agregada_pp','interpretacion'],
+         'Valores de la matriz · provincias y elecciones (pp)');
+ }
+ const vistaParticipacionOriginal=views.participacion;
+ views.participacion=function(...args){
+   const resultado=vistaParticipacionOriginal.apply(this,args);
+   const serie=metricasLeg().filter(r=>r.provincia==='Nacional'&&finito(r.abstencion_pct)).sort((a,b)=>anio(a)-anio(b));
+   if(!serie.length)return resultado;
+   plot('Abstencionismo legislativo nacional · 1953–2026',[
+     {type:'scatter',mode:'lines+markers',name:'Abstencionismo nacional',
+      x:serie.map(anio),y:serie.map(r=>Number(r.abstencion_pct)),
+      line:{color:'#138079',width:3},marker:{color:'#138079',size:8},
+      hovertemplate:'Elección %{x}<br>Abstencionismo: %{y:.2f}%<extra></extra>'}
+   ],serie,{height:450,xTitle:'Elección',yTitle:'Abstencionismo (%)',
+     layout:{showlegend:false,xaxis:{type:'linear',tickmode:'array',tickvals:serie.map(anio),tickangle:-50},yaxis:{rangemode:'tozero'}},
+     note:'Abstencionismo legislativo nacional observado por elección. La serie completa se representa sin destacar ningún año ni proponer períodos históricos.'});
+   return resultado;
+ };
+ const vistaDualOriginal=views.dualidad;
+ views.dualidad=function(...args){
+   const r=vistaDualOriginal.apply(this,args);
+   // V14 añade su propia lectura provincial y ranking, sin duplicar esta matriz.
+   return r;
+ };
+ // Oferta por arena: se conservan los porcentajes de las tres categorías y sus recuentos.
+ const categorias=['Solo presidencial','Solo legislativa','Presidencial y legislativa'];
+ const colores={'Solo presidencial':'#a55579','Solo legislativa':'#c29049','Presidencial y legislativa':'#138079'};
+ function proporcionOferta(){
+   const fuentes=(D.oferta_partidos||[]).filter(r=>entre(r)&&r.partido&&categorias.includes(r.oferta));
+   if(!fuentes.length){note('No hay clasificación de oferta electoral disponible para este período.',true);return;}
+   const unicos=new Set(),conteos=new Map();
+   for(const r of fuentes){
+     const y=anio(r),id=`${y}|${r.partido}`;
+     if(unicos.has(id))continue;
+     unicos.add(id);
+     const obj=conteos.get(y)||{anio:y};obj[r.oferta]=(obj[r.oferta]||0)+1;conteos.set(y,obj);
+   }
+   const resumen=[...conteos.values()].sort((a,b)=>a.anio-b.anio).map(r=>{
+     const total=categorias.reduce((s,k)=>s+(r[k]||0),0),fila={anio:r.anio,total_partidos:total};
+     for(const cat of categorias){fila[cat+'_n']=r[cat]||0;fila[cat+'_pct']=total?100*(r[cat]||0)/total:0;}
+     return fila;
+   });
+   const elecciones=resumen.map(r=>String(r.anio));
+   const graficos=categorias.map(cat=>({type:'bar',name:cat,x:elecciones,
+       y:resumen.map(r=>r[cat+'_pct']),marker:{color:colores[cat],line:{color:'#fff',width:.7}},
+       text:resumen.map(r=>r[cat+'_pct']>=10?r[cat+'_pct'].toFixed(1)+'%':''),
+       textposition:'inside',insidetextanchor:'middle',textfont:{color:'#fff',size:11},
+       customdata:resumen.map(r=>[r[cat+'_n'],r.total_partidos,r[cat+'_pct']]),
+       hovertemplate:cat+'<br>Elección %{x}: %{customdata[2]:.1f}%<br>%{customdata[0]} de %{customdata[1]} partidos<extra></extra>'
+   }));
+   plot('Composición porcentual de la oferta partidaria por arena',graficos,resumen,{
+     height:520,xTitle:'Elección',yTitle:'Proporción de organizaciones (%)',
+     layout:{barmode:'stack',bargap:.18,uniformtext:{mode:'hide',minsize:9},
+       xaxis:{type:'category',categoryorder:'array',categoryarray:elecciones,tickmode:'array',tickvals:elecciones,ticktext:elecciones,tickangle:-52},
+       yaxis:{range:[0,100],title:{text:'Porcentaje de organizaciones (%)'}}},
+     note:'Cada barra suma 100 % de organizaciones identificadas en la elección: no son porcentajes de votos. Las tres categorías coinciden con la clasificación original de oferta partidaria.'
+   });
+   table(resumen,['anio','total_partidos',...categorias.flatMap(c=>[c+'_n',c+'_pct'])],
+     'Oferta por arena · recuentos y proporciones (%)');
+ }
+ const vistaPartidosOriginal=views.partidos;
+ views.partidos=function(...args){const r=vistaPartidosOriginal.apply(this,args);proporcionOferta();return r;};
+ window.ATLAS_V95_DEPURADO_OK=true;
+})();

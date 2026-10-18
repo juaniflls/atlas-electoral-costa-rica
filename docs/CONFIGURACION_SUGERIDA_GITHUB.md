@@ -1,26 +1,9 @@
-# Configuración sugerida del repositorio en GitHub
+# Configuración de GitHub · proyecto existente
 
-## Nombre sugerido
-`atlas-electoral-costa-rica`
+Repositorio: `juaniflls/atlas-electoral-costa-rica`. Rama principal: `main`.
 
-## Descripción sugerida
-Producto interactivo de consulta y análisis electoral de Costa Rica (1953–2026), desarrollado en Python y HTML como parte de la Práctica Profesional IFED–TSE.
+Descripción sugerida: **Atlas electoral interactivo de Costa Rica (1953–2026): datos abiertos, series históricas, representación, trayectorias y archivo de fórmulas presidenciales.**
 
-## Topics sugeridos
-`costa-rica`, `elections`, `electoral-data`, `political-science`, `political-data-science`, `python`, `plotly`, `html`, `latin-america`, `data-visualization`
+Temas sugeridos: `costa-rica`, `elections`, `political-science`, `data-science`, `electoral-data`, `plotly`, `python`, `ifed`, `jupyter-notebook`.
 
-## Social preview sugerido
-Suba esta imagen en **Settings → General → Social preview**:
-
-`assets/branding/social-preview-atlas-electoral-costa-rica.png`
-
-También se incluye una versión más liviana:
-
-`assets/branding/social-preview-atlas-electoral-costa-rica.jpg`
-
-## Archivo visual de identidad
-- Logo principal: `assets/branding/logo-atlas-electoral-costa-rica.png`
-- Social preview / portada: `assets/branding/social-preview-atlas-electoral-costa-rica.png`
-
-## Galería visual
-El repositorio incluye las **23 capturas suministradas** en `assets/screenshots/` para mostrar de forma amplia el funcionamiento de la aplicación.
+README de portada: `README.md`. Archivo de cita: `CITATION.cff`. Licencia: `LICENSE`. Antes de activar GitHub Pages, revisar si el tamaño y formato del HTML autocontenido son adecuados para las restricciones del servicio.

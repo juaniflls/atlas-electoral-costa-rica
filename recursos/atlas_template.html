@@ -34,7 +34,7 @@
 .outcome-badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:750;letter-spacing:.15px}.outcome-badge.win{background:#e1f3ee;color:#12675f;border:1px solid #b9ded4}.outcome-badge.loss{background:#f5eee3;color:#795b2d;border:1px solid #e6d5b9}.outcome-badge.neutral{background:#edf2f5;color:#4e6572;border:1px solid #d7e0e5}.career-strip{display:flex;gap:10px;overflow-x:auto;padding:6px 2px 12px;scrollbar-width:thin}.career-step{min-width:210px;max-width:280px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:12px;position:relative}.career-step:after{content:'→';position:absolute;right:-11px;top:42%;color:#8aa1ad;font-weight:800}.career-step:last-child:after{display:none}.career-step b{display:block;margin-bottom:4px}.career-step .mini{display:block;margin-top:5px}.person-hero{display:grid;grid-template-columns:minmax(0,2fr) repeat(3,minmax(130px,1fr));gap:12px;align-items:stretch}.person-hero .identity{padding:18px;border-radius:9px;background:linear-gradient(135deg,#f5faf9,#eef4f7);border:1px solid var(--line)}.person-hero .identity h2{font-size:23px;margin-bottom:7px}.micro-kpi{padding:14px;border-radius:8px;background:#fff;border:1px solid var(--line)}.micro-kpi strong{display:block;font-size:22px;line-height:1.2;margin:5px 0}.micro-kpi span{font-size:11px;color:var(--muted)}.flow-key{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}.flow-key span{padding:5px 9px;border-radius:999px;background:#eef4f5;color:#395d65;font-size:11px}.person-result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:9px;margin:10px 0}.person-result{padding:11px 13px;border:1px solid var(--line);border-radius:7px;background:#fafcfc}.person-result .person-link{display:block;margin-bottom:5px}.clarity-box{background:#f4f8fb;border:1px solid #d6e4ec;border-left:4px solid var(--blue);padding:13px 16px;border-radius:7px;margin:0 0 18px;font-size:13px}.clarity-box b{color:#285371}.metric-definition{font-size:12px;color:var(--muted);margin-top:5px}@media(max-width:900px){.person-hero{grid-template-columns:1fr 1fr}.person-hero .identity{grid-column:1/-1}}@media(max-width:600px){.person-hero{grid-template-columns:1fr}.career-step{min-width:185px}}
 .fullscreen-control{margin-left:auto;display:inline-flex;align-items:center;gap:7px;border:1px solid #bfd3d8;background:#f7fbfb;color:#214d57;border-radius:7px;padding:8px 12px;font-size:12px;font-weight:750;white-space:nowrap;box-shadow:0 1px 2px rgba(16,45,58,.04)}.fullscreen-control:hover{background:#eaf5f3;border-color:#a9c9c7;color:#12675f}.fullscreen-control svg{width:15px;height:15px;display:block}.fullscreen-control[aria-pressed="true"]{background:#102d3a;color:#fff;border-color:#102d3a}@media(max-width:850px){.fullscreen-control{margin-left:0}}
 </style><script>__PLOTLY_JS__</script></head><body>
-<aside class="sidebar" id="sidebar"><div class="brand">CIENCIA DE DATOS POLÍTICA</div><div class="brandname">Costa Rica<br>Atlas electoral</div><div class="branddate">1953 — 2026</div><nav id="navigation"></nav><footer>Investigación longitudinal<br>Práctica Profesional · IFED–TSE<br><br>Juan Ignacio Garbanzo Fallas<br>Versión 2.0 · Producto interactivo final</footer></aside>
+<aside class="sidebar" id="sidebar"><div class="brand">CIENCIA DE DATOS POLÍTICA</div><div class="brandname">Costa Rica<br>Atlas electoral</div><div class="branddate">1953 — 2026</div><nav id="navigation"></nav><footer>Investigación longitudinal<br>Práctica Profesional · IFED–TSE<br><br>Juan Ignacio Garbanzo Fallas<br>Versión pública 22.0 · Recurso de consulta</footer></aside>
 <div class="workspace"><header class="masthead"><div class="eyebrow">Tribunal Supremo de Elecciones · IFED</div><h1>Setenta y tres años de historia electoral</h1><p class="subhead">Un laboratorio para explorar la participación, los partidos, la representación y las trayectorias de la Segunda República.</p><div class="byline"><b>Juan Ignacio Garbanzo Fallas</b> · Politólogo <span class="tag">Producto interactivo de consulta electoral</span></div></header>
 <div class="filters"><label>Desde<select id="from"></select></label><label>Hasta<select id="to"></select></label><label>Territorio<select id="province"></select></label><label>Elección de detalle<select id="focus"></select></label><label>Texto<select id="readability"><option>Normal</option><option>Grande</option></select></label><label>Valores visibles<select id="values"><option>Sí</option><option>No</option></select></label><button class="button" id="reset">Restablecer</button><button class="button" id="saveview">Guardar vista</button><label>Cargar vista<input id="loadview" type="file" accept=".json" style="width:175px"></label><button class="fullscreen-control" id="fullscreenToggle" type="button" aria-pressed="false" title="Abrir la aplicación en pantalla completa. Presione Esc para salir."><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 3H3v4h2V5h2V3Zm14 4V3h-4v2h2v2h2ZM5 17H3v4h4v-2H5v-2Zm16 0h-2v2h-2v2h4v-4Z"/></svg><span>Vista completa</span></button></div>
 <div id="errors"></div><main id="content" aria-live="polite"></main><footer class="footerline">Construcción de bases, análisis y visualización: Juan Ignacio Garbanzo Fallas · Politólogo · Práctica Profesional IFED–TSE · Producto interactivo para consulta y exploración histórica. Fuentes y definiciones disponibles en Metodología; no sustituye las publicaciones oficiales del Tribunal.</footer></div><button class="menu" onclick="document.getElementById('sidebar').classList.toggle('open')">Menú</button>
@@ -169,7 +169,7 @@ intro(){
      <div class="route-step"><b>05 · METODOLOGÍA</b><span>Consulte definiciones, fuentes, límites y criterios de integración.</span></div>
    </div>
    <div class="intro-caution"><b>Alcance.</b> La aplicación cubre las elecciones integradas de 1953–2026 y prioriza las fuentes institucionales aportadas al proyecto. Es un producto de consulta y análisis que complementa la documentación electoral; no sustituye las publicaciones oficiales del Tribunal Supremo de Elecciones.</div>
-   <div class="intro-version">Versión 2.0 · Producto interactivo final · 1953–2026</div>
+   <div class="intro-version">Versión pública 22.0 · Recurso de consulta · 1953–2026</div>
  </section>`;
  cid=0;chartRows={};pending=[];
 },
@@ -354,29 +354,65 @@ const definitionText={
 function chartDefinition(title){const t=title.toLowerCase();if(/gallagher|desproporcionalidad/.test(t))return definitionText.gallagher;if(/efectivos|fragmentación|número efectivo/.test(t))return definitionText.nep;if(/concentración/.test(t))return definitionText.concentracion;if(/volatilidad/.test(t))return definitionText.volatilidad;if(/divergencia/.test(t))return definitionText.divergencia;if(/brecha|ventaja presidencial/.test(t))return definitionText.brecha;if(/relación entre variables/.test(t))return definitionText.correlacion;return ''}
 function swatches(items){add('<div class="swatches">'+items.map(([name,color])=>`<span><i style="background:${color}"></i>${esc(labelText(name))}</span>`).join('')+'</div>')}
 function focusTable(rows,cols,title){table(rows,cols,title)}
-function pairedFlow(rows,dimension){
- const grouped=group(rows,r=>r.origen+'|'+r.destino).map(([_,g])=>({origen:g[0].origen,destino:g[0].destino,cambios:g.length,personas:uniq(g.map(r=>r.id_persona)).length})).sort((a,b)=>b.cambios-a.cambios);
- const flow=dimension==='Provincia'?grouped:grouped.slice(0,18),left=uniq(flow.map(r=>r.origen)),right=uniq(flow.map(r=>r.destino)),nodes=[...left,...right];
- plot('Movimientos entre participaciones · '+dimension,[{type:'sankey',arrangement:'snap',orientation:'h',node:{label:[...left.map(p=>'Origen · '+labelText(p)),...right.map(p=>'Destino · '+labelText(p))],color:nodes.map(semanticColor),pad:24,thickness:20,line:{color:'#ffffff',width:1}},link:{source:flow.map(r=>left.indexOf(r.origen)),target:flow.map(r=>left.length+right.indexOf(r.destino)),value:flow.map(r=>r.cambios),color:flow.map(r=>hexAlpha(semanticColor(r.origen),.3)),customdata:flow.map(r=>[labelText(r.origen),labelText(r.destino),r.personas]),hovertemplate:'%{customdata[0]} → %{customdata[1]}<br>%{value} cambios · %{customdata[2]} identidades nominales<extra></extra>'}}],flow,{height:dimension==='Provincia'?570:Math.max(560,Math.max(left.length,right.length)*38),note:'Izquierda: candidatura de origen. Derecha: participación posterior observada. El grosor representa cambios, no votos. '+(dimension==='Provincia'?'Se muestran todos los recorridos provinciales.':'Se muestran hasta 18 recorridos más frecuentes; la tabla conserva todos los cambios.')});
+// V20: flujos separados: cargo, provincia por población, y partido como lectura opcional.
+function hexAlpha(c,a){
+ if(!c.startsWith('#'))return c;
+ const h=c.slice(1);return `rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${a})`;
 }
-function hexAlpha(c,a){if(!c.startsWith('#'))return c;const h=c.slice(1);return `rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${a})`}
+function pairedFlow(rows,dimension,subtitle=''){
+ const grouped=group(rows,r=>String(r.origen)+'|'+String(r.destino)).map(([_,g])=>({origen:g[0].origen,destino:g[0].destino,cambios:g.length,personas:uniq(g.map(r=>r.id_persona)).length})).sort((a,b)=>b.cambios-a.cambios);
+ const flow=dimension==='Provincia'?grouped:grouped.slice(0,20);
+ if(!flow.length){note('No hay recorridos verificables para esta población y período. El dato ausente no representa cero movimientos.',true);return;}
+ const left=uniq(flow.map(r=>r.origen)),right=uniq(flow.map(r=>r.destino));
+ const roleColors={'Diputación':'#167f83','Presidencia':'#c17d54','Primera Vicepresidencia':'#5e7fa8','Segunda Vicepresidencia':'#9476ae'};
+ const routeColor=p=>dimension==='Cargo'?(roleColors[p]||'#7693a4'):
+  dimension==='Provincia'?(provinceColors[p]||'#6a9aa7'):semanticColor(p);
+ const nodes=[...left,...right];
+ const titleText=dimension==='Cargo'?'Movimientos entre participaciones · cargos':
+  dimension==='Provincia'?'Movimientos entre participaciones · provincias':'Movimientos entre participaciones · partidos';
+ plot(titleText,[{type:'sankey',arrangement:'snap',orientation:'h',
+  node:{label:[...left.map(p=>'Origen · '+labelText(p)),...right.map(p=>'Destino · '+labelText(p))],color:nodes.map(routeColor),pad:dimension==='Cargo'?34:25,thickness:dimension==='Cargo'?21:17,line:{color:'#fff',width:1.2}},
+  link:{source:flow.map(r=>left.indexOf(r.origen)),target:flow.map(r=>left.length+right.indexOf(r.destino)),value:flow.map(r=>r.cambios),color:flow.map(r=>hexAlpha(routeColor(r.origen),.27)),customdata:flow.map(r=>[labelText(r.origen),labelText(r.destino),r.personas]),hovertemplate:'%{customdata[0]} → %{customdata[1]}<br>%{value} cambios · %{customdata[2]} personas nominales<extra></extra>'}}],flow,
+  {height:dimension==='Provincia'?580:Math.max(420,Math.max(left.length,right.length)*48+150),subtitle:subtitle||`${state.from}–${state.to}`,note:'El ancho de los enlaces cuenta transiciones documentadas, no personas distintas. El número de personas nominales aparece en el cursor y los datos auditables están disponibles en la tabla.'});
+}
 function enhancedMobility(){
- const dim=local.mov||'Provincia';controls([['mov','Movimiento entre candidaturas',['Provincia','Partido','Cargo'],dim]]);
- let rows=period(D.movimientos,false).filter(r=>r.dimension===dim);
- if(state.province!=='Nacional'){
-  if(dim==='Provincia')rows=rows.filter(r=>r.origen===state.province||r.destino===state.province);
-  else{const eligible=new Set(period(D.eventos).map(r=>r.id_persona));rows=rows.filter(r=>eligible.has(r.id_persona))}
+ const raw=period(D.movimientos,false);
+ const scope=state.province;
+ const inScope=(r,dim)=>scope==='Nacional'||(dim==='Provincia'?(r.origen===scope||r.destino===scope):true);
+ // El diagrama entre cargos se conserva INDEPENDIENTE del diagrama provincial.
+ add('<div class="atlas17-subhead">Movimientos entre participaciones · cargos</div>');
+ const cargos=raw.filter(r=>r.dimension==='Cargo'&&inScope(r,'Cargo'));
+ pairedFlow(cargos,'Cargo',`Cambios de un cargo al siguiente · ${state.from}–${state.to}`);
+ table(cargos,['nombre','anio_origen','origen','anio','destino','id_persona'],'Movimientos entre cargos · registros de origen y destino');
+ // Cohortes de personas, no provincias inventadas para candidaturas nacionales.
+ add('<div class="atlas17-subhead">Movimientos entre participaciones · provincias</div>');
+ const arena=local.movArena||'Todas las personas';
+ const options=['Todas las personas','Población legislativa','Población presidencial y vicepresidencial'];
+ controls([['movArena','Población para los movimientos entre provincias',options,arena]]);
+ const events=D.eventos||[];
+ const presidentIds=new Set(events.filter(e=>e.cargo==='Presidencia'||e.cargo==='Primera Vicepresidencia'||e.cargo==='Segunda Vicepresidencia').map(e=>String(e.id_persona)));
+ const deputyIds=new Set(events.filter(e=>e.cargo==='Diputación').map(e=>String(e.id_persona)));
+ let provincias=raw.filter(r=>r.dimension==='Provincia'&&inScope(r,'Provincia'));
+ provincias=provincias.filter(r=>arena==='Todas las personas'||(arena==='Población legislativa'?deputyIds:presidentIds).has(String(r.id_persona)));
+ const people=uniq(provincias.map(r=>r.id_persona)).length;
+ add(`<div class="clarity-box"><b>${esc(arena)}</b> · ${num(people,0)} personas nominales con movimientos provinciales y ${num(provincias.length,0)} transiciones observadas. Los cambios entre provincias corresponden a candidaturas legislativas con circunscripción verificable. La población presidencial/vicepresidencial selecciona personas que también disputaron esos cargos nacionales; <b>no asigna una provincia a la candidatura presidencial</b>. Las poblaciones pueden superponerse.</div>`);
+ pairedFlow(provincias,'Provincia',`${arena} · siete provincias · ${state.from}–${state.to}`);
+ if(provincias.length){
+  const cells=[];for(const origin of P)for(const dest of P)cells.push({origen:origin,destino:dest,cambios:provincias.filter(r=>r.origen===origin&&r.destino===dest).length});
+  plot(`Matriz de movimientos provinciales · ${arena}`,[{type:'heatmap',x:P,y:P,z:P.map(o=>P.map(d=>cells.find(r=>r.origen===o&&r.destino===d).cambios)),texttemplate:'%{z}',colorscale:[[0,'#edf4f6'],[1,'#167f83']],colorbar:{title:{text:'Cambios'}},hovertemplate:'Origen: %{y}<br>Destino: %{x}<br>%{z} cambios<extra></extra>'}],cells,{height:450,subtitle:`${arena} · ${state.from}–${state.to}`,xTitle:'Provincia de destino',yTitle:'Provincia de origen',note:'La diagonal indica 0 por definición: se cuentan únicamente cambios entre provincias distintas. No es migración de residencia.'});
  }
- kpis([['Cambios observados',num(rows.length,0),'Fecha del movimiento: elección de destino'],['Personas por nombre',num(uniq(rows.map(r=>r.id_persona)).length,0),'Puede haber más de un cambio por persona'],['Recorridos distintos',num(uniq(rows.map(r=>r.origen+'|'+r.destino)).length,0),'Origen → destino'],['Elecciones con cambios',num(uniq(rows.map(r=>r.anio)).length,0),'Dentro del periodo seleccionado']]);
- pairedFlow(rows,dim);
- if(dim==='Provincia'){
-  const cells=[];for(const origin of P)for(const dest of P)cells.push({origen:origin,destino:dest,cambios:rows.filter(r=>r.origen===origin&&r.destino===dest).length});
-  plot('Matriz de movimientos provinciales',[{type:'heatmap',x:P,y:P,z:P.map(o=>P.map(d=>cells.find(r=>r.origen===o&&r.destino===d).cambios)),texttemplate:'%{z}',colorscale:[[0,'#f1f5f9'],[1,'#007f7a']],colorbar:{title:{text:'Cambios'}},hovertemplate:'Origen: %{y}<br>Destino: %{x}<br>%{z} cambios<extra></extra>'}],cells,{height:430,xTitle:'Provincia de destino',yTitle:'Provincia de origen',note:'La diagonal es cero porque esta vista cuenta cambios de provincia. En un filtro provincial aparecen entradas y salidas de esa provincia.'});
-  const annual=yearsVisible().flatMap(y=>P.map(p=>({anio:y,provincia:p,llegadas:rows.filter(r=>r.anio===y&&r.destino===p).length,salidas:rows.filter(r=>r.anio===y&&r.origen===p).length})));
-  plot('Llegadas de personas candidatas a cada provincia',P.map(p=>line(annual.filter(r=>r.provincia===p),'llegadas',p,provinceColors[p])),annual,{yTitle:'Cambios con destino en la provincia',note:'Conteos de transiciones entre candidaturas observadas. No representa residencia, migración poblacional o cambio de bancada.'});
+ table(provincias,['nombre','sexo','anio_origen','origen','anio','destino','id_persona'],'Personas y movimientos provinciales · '+arena);
+ // Se conserva la antigua lectura partidaria como opción complementaria, sin confundirla con el filtro de población.
+ const optParty=local.movParty||'Ocultar';
+ controls([['movParty','Lectura adicional de movimientos entre partidos',['Ocultar','Mostrar'],optParty]]);
+ if(optParty==='Mostrar'){
+  const parties=raw.filter(r=>r.dimension==='Partido'&&inScope(r,'Partido'));
+  add('<div class="atlas17-subhead">Movimientos entre participaciones · partidos</div>');
+  pairedFlow(parties,'Partido',`Cambios de denominación partidaria · ${state.from}–${state.to}`);
+  table(parties,['nombre','anio_origen','origen','anio','destino','id_persona'],'Registros de movimientos partidarios');
  }
- table(rows,['nombre','sexo','anio_origen','origen','anio','destino'],'Nombres, años y recorrido de cada cambio');
 }
+window.ATLAS_V20_MOBILITY=true;
 const enhancements={
  panorama(){
   const rows=metrics();plot('Oferta partidaria y acceso a la Asamblea',[

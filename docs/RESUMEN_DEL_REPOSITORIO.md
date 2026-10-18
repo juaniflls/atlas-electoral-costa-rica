@@ -1,12 +1,13 @@
-# Resumen del repositorio
+# Resumen de versión pública V22.0
 
-Este paquete se preparó como versión **GitHub-ready** del Atlas electoral interactivo de Costa Rica. Su objetivo es servir a la vez como:
+**Alcance:** elecciones costarricenses 1953–2026, siete provincias, resultados legislativos y presidenciales, diputaciones, candidaturas, fórmulas presidenciales, papeletas y registros de partidos cancelados, integrados por siete bases. Se genera un HTML autónomo con sus datos y dependencias.
 
-1. **Producto entregable** de consulta y exploración electoral.
-2. **Repositorio reproducible** del notebook, las bases y el HTML final.
-3. **Pieza de portafolio** profesional en ciencia de datos política y análisis electoral.
+**Archivo principal:** `Atlas_Electoral_V22_PUBLICO.ipynb`.
 
-Incluye identidad visual, README, documentación mínima de publicación, licencia MIT para el código/documentación original y una configuración orientada a que GitHub clasifique el proyecto por su componente analítico y no por el HTML exportado.
+**HTML:** `salidas/Atlas_Electoral_Costa_Rica_1953_2026.html`.
 
-## Galería visual
-El repositorio incluye las **23 capturas suministradas** en `assets/screenshots/` para mostrar de forma amplia el funcionamiento de la aplicación.
+**Cambios respecto a V21.9:** archivo interactivo de fórmulas, hemiciclo cronológico, diccionario de datos, ficha del laboratorio, glosario ampliado, mejoras CSS y 25 capturas de la interfaz V22 proporcionadas por el autor.
+
+**No alterado:** formulaciones estadísticas ni visualizaciones aprobadas de Plotly, ni las siete fuentes originales. Todas las transiciones y diagnósticos académicos requieren auditoría de procedencia.
+
+**Publicación:** el paquete puede copiarse a un repositorio local enlazado a GitHub. La publicación remota requiere verificar el commit y el push; preparar un ZIP no equivale a publicar en GitHub.

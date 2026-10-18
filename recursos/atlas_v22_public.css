@@ -1,0 +1,46 @@
+/* ATLAS_V22_PUBLIC_PRESENTATION · capas externas a las figuras aprobadas */
+:root{--v22-accent:#137e80;--v22-shadow:0 9px 34px rgba(19,55,68,.07)}
+.masthead{background:linear-gradient(128deg,#ffffff 0%,#f8fbfb 65%,#f0f7f6 100%);padding-top:37px;padding-bottom:30px}
+.navbutton{transition:background .16s ease,color .16s ease,transform .16s ease;border-radius:9px}
+.navbutton:hover{transform:translateX(2px)}
+.navbutton.active{box-shadow:inset 3px 0 0 #1a9386}
+.filters{backdrop-filter:blur(10px);background:rgba(255,255,255,.95)}
+.kpi{box-shadow:0 2px 8px rgba(14,52,63,.025);border-radius:12px}
+.card{box-shadow:var(--v22-shadow);border-radius:13px}
+.card-head{gap:12px}
+.section-head h2{font-weight:760}
+.card:focus-within{border-color:#a1c8c7}
+button:focus-visible,input:focus-visible,select:focus-visible,[role=button]:focus-visible{outline:3px solid #168c8d;outline-offset:3px}
+.v22-archive-heading{margin:24px 0 13px}.v22-archive-heading h3{font-size:19px;margin-bottom:3px}.v22-archive-heading p,.v22-formula-card footer,.v22-chamber-head p,.v22-schema-head p,.v22-glossary>p{font-size:12.5px;color:#5b6e7b;line-height:1.6}
+.v22-formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:15px;margin:12px 0 24px}
+.v22-formula-card{border:1px solid #d7e3e5;border-top:4px solid var(--formula-color,#177d7c);border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 4px 18px rgba(17,51,67,.04)}
+.v22-formula-card.v22-winner{box-shadow:0 5px 24px rgba(18,111,100,.13);border-color:#b3cfc7;border-top-color:#b88d4a}
+.v22-formula-card header{padding:15px 16px 6px}.v22-formula-card h3{font-size:16px;margin:6px 0 0;overflow-wrap:anywhere}
+.v22-status{font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#5a7280}
+.v22-winner .v22-status{color:#916829}
+.v22-formula-people{padding:4px 16px}.v22-formula-person{display:flex;flex-direction:column;gap:3px;border-top:1px solid #e9eef0;padding:11px 0;min-height:62px}
+.v22-formula-person strong{font-size:13px;line-height:1.4;color:#173949;overflow-wrap:break-word}
+.v22-role{font-size:10.5px;letter-spacing:.22px;color:#66808b;font-weight:800}
+.v22-formula-card footer{border-top:1px solid #eef1f2;background:#fafcfc;padding:10px 16px;font-size:11px}
+.v22-person{border:0;padding:0;text-align:left;background:none;color:#126a72;font-weight:700;cursor:pointer;text-decoration:underline;text-decoration-color:#b1d4d3;text-underline-offset:3px}
+.v22-history{margin-top:22px}.v22-history h3,.v22-chamber h3,.v22-schema h3,.v22-glossary h3{font-size:18px}
+.v22-history-track{display:grid;grid-template-columns:repeat(auto-fit,minmax(164px,1fr));gap:8px;margin-top:15px}
+.v22-year-chip{text-align:left;background:#f7fafb;border:1px solid #e0e9ed;border-radius:9px;min-height:77px;padding:12px;display:flex;flex-direction:column;gap:3px;cursor:pointer}
+.v22-year-chip:hover{background:#edf6f5;border-color:#90c4c2}.v22-year-chip.current{border-color:#168478;background:#e8f4f1}
+.v22-year-chip small{color:#147c78;font-size:11px;font-weight:800}.v22-year-chip b{font-size:12px;line-height:1.45}.v22-year-chip span{font-size:10.5px;color:#697f8a;overflow-wrap:anywhere}
+.v22-chamber{margin:20px 0}.v22-chamber-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.v22-chamber-head p{max-width:740px;margin:5px 0 0}
+.v22-chamber-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(220px,.8fr);gap:10px;align-items:center;margin:10px 0}
+.v22-hemicycle{width:100%;height:auto;max-height:375px;overflow:visible}.v22-hemicycle circle{cursor:pointer;transition:opacity .25s ease,stroke-width .2s ease}.v22-hemicycle circle:hover{stroke:#142f45;stroke-width:2.5}
+.v22-seats-total{font-size:42px;fill:#193d4c;font-weight:800;letter-spacing:-1px}.v22-seats-label{fill:#738591;font-size:13px;letter-spacing:.2px}
+.v22-chamber-legend{display:flex;flex-direction:column;gap:5px;max-height:375px;overflow:auto;padding:4px}.v22-party-chip{display:flex;align-items:center;gap:9px;border:1px solid #e4ecee;background:#fcfdfd;border-radius:8px;text-align:left;padding:8px 10px;font-size:11px;cursor:pointer}
+.v22-party-chip:hover{background:#edf6f5;border-color:#9fbfbe}.v22-party-chip i{width:12px;height:12px;border-radius:50%;flex-shrink:0}.v22-party-chip span{flex:1}.v22-party-chip strong{font-size:12px}
+.v22-schema-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:12px;flex-wrap:wrap}.v22-schema-head p{max-width:720px}
+.v22-schema .table-scroll{max-height:500px;overflow:auto;border:1px solid #e5ecee;border-radius:9px}.v22-schema-table{width:100%;border-collapse:collapse;font-size:12px;text-align:left}
+.v22-schema-table th{position:sticky;top:0;background:#eff5f5;color:#365662;z-index:2}.v22-schema-table td,.v22-schema-table th{padding:10px 12px;border-bottom:1px solid #e6ecee;vertical-align:top}.v22-schema-table tbody tr:nth-child(even){background:#fbfdfd}.v22-schema-table tr[hidden]{display:none}
+.v22-lab-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0}.v22-lab-stats>div{background:#f4f8f8;border:1px solid #e0ebeb;padding:13px;border-radius:9px}.v22-lab-stats small{display:block;font-size:11px;color:#68808a}.v22-lab-stats strong{font-size:23px;color:#193f49}.v22-lab-audit>p{font-size:12px;color:#627884;line-height:1.65}
+.v22-glossary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:8px}.v22-glossary-grid details{border:1px solid #dfe9eb;background:#fbfdfd;border-radius:9px;padding:9px 12px;align-self:start}
+.v22-glossary-grid summary{cursor:pointer;color:#244b57;font-weight:700;font-size:12px}.v22-glossary-grid details[open]{background:#f0f7f5;border-color:#b5d3d0}
+.v22-glossary-grid p{font-size:12px;color:#5b6e7b;line-height:1.7}
+@media(max-width:1000px){.v22-chamber-layout{grid-template-columns:1fr}.v22-chamber-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));max-height:none}}
+@media(max-width:700px){.v22-formula-grid{grid-template-columns:1fr}.v22-chamber-head{flex-wrap:wrap}.v22-chamber-head button{width:100%}.v22-lab-stats{grid-template-columns:repeat(2,1fr)}.v22-hemicycle{max-height:280px}}
+@media(prefers-reduced-motion:reduce){.v22-hemicycle circle,.navbutton{transition:none!important}.navbutton:hover{transform:none}}

@@ -148,7 +148,7 @@ def build_outcomes(events, elected, formulas):
         # Cualquier candidatura anterior en un cargo -> candidatura posterior en otro cargo.
         for i, a in enumerate(rows[:-1]):
             for b in rows[i+1:]:
-                if int(a.anio) >= int(b.anio) or a.cargo == b.cargo:
+                if int(a.anio) >= int(b.anio):
                     continue
                 future_role_wins = [x for x in wins if x.cargo == b.cargo and int(x.anio) > int(a.anio)]
                 bridges.append({

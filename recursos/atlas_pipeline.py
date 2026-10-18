@@ -331,7 +331,7 @@ def render_app(data,template,output):
     from plotly.offline import get_plotlyjs
     text=Path(template).read_text(encoding='utf-8')
     extensions='\n'.join((Path(template).parent/name).read_text(encoding='utf-8')
-                         for name in ('atlas_v3.js','atlas_final.js'))
+                         for name in ('atlas_v3.js','atlas_final.js','atlas_v12.js','atlas_v14.js'))
     text=text.replace('__V3_EXTENSIONS__',extensions)
     payload=json.dumps(data,ensure_ascii=False,allow_nan=False).replace('</','<\\/')
     text=text.replace('__PLOTLY_JS__',get_plotlyjs()).replace('__ATLAS_DATA__',payload)

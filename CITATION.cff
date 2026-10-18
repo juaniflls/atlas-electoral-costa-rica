@@ -6,8 +6,8 @@ authors:
   - family-names: Garbanzo Fallas
     given-names: Juan Ignacio
     orcid: ""
-version: "2.0"
-date-released: 2026-09-20
+version: "22.0"
+date-released: 2026-10-17
 url: "https://github.com/juaniflls/atlas-electoral-costa-rica"
 abstract: >-
   Producto interactivo de consulta y análisis electoral de Costa Rica

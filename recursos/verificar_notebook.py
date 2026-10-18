@@ -11,7 +11,7 @@ from IPython.core.interactiveshell import InteractiveShell
 from IPython.utils.capture import capture_output
 
 root=Path(__file__).resolve().parent.parent
-p=root/'Atlas_Electoral_Costa_Rica_1953_2026.ipynb'
+p=root/'Atlas_Electoral_V12_VERIFICADO.ipynb'
 os.chdir(root)
 n=nbformat.read(p,as_version=4)
 shell=InteractiveShell.instance();count=0
