@@ -1,0 +1,986 @@
+[
+  {
+    "n": "01",
+    "name": "Panorama",
+    "goal": "Reconocer los principales cambios en participación, competencia, oferta y representación antes de profundizar en una sección temática.",
+    "shots": [
+      45
+    ],
+    "charts": [
+      [
+        "Panorama histórico",
+        "Indicadores del periodo y tarjetas de síntesis; las cifras respetan el intervalo seleccionado."
+      ],
+      [
+        "Abstencionismo (%)",
+        "Serie histórica nacional; permite situar las elecciones y comparar el comportamiento temporal."
+      ],
+      [
+        "Número efectivo de partidos",
+        "Evolución de la fragmentación del voto legislativo mediante NEP."
+      ],
+      [
+        "Mujeres: de la candidatura al escaño",
+        "Comparación de la presencia de mujeres en la oferta y entre quienes resultaron electas."
+      ],
+      [
+        "Oferta partidaria y acceso a la Asamblea",
+        "Partidos con participación electoral y partidos que obtuvieron escaños."
+      ],
+      [
+        "Personas candidatas nuevas y recurrentes por elección",
+        "Composición entre primeras apariciones documentadas y personas ya observadas."
+      ],
+      [
+        "Peso de candidaturas recurrentes",
+        "Proporción de recurrencia respecto de la población de cada elección."
+      ],
+      [
+        "Renovación y recurrencia por elección",
+        "Resumen complementario de nuevas apariciones y continuidad nominal."
+      ],
+      [
+        "Organizaciones con votos en ambas arenas",
+        "Comparación de la oferta con resultados documentados en Presidencia y Asamblea."
+      ]
+    ],
+    "controls": "Intervalo, territorio y elección de detalle. La navegación interna permite llegar a participación, competencia y representación desde la misma lectura inicial."
+  },
+  {
+    "n": "02",
+    "name": "Participación",
+    "goal": "Comparar participación, abstención y composición de los sufragios desde Costa Rica hasta sus cantones y distritos.",
+    "shots": [
+      21
+    ],
+    "charts": [
+      [
+        "Series de participación y escrutinio",
+        "Abstencionismo, participación, padrón, emitidos, válidos, blancos y nulos según la medida y arena elegidas."
+      ],
+      [
+        "Comparación entre arenas",
+        "Contraste de Presidencia y Diputaciones con denominadores explícitos; primera ronda para comparabilidad."
+      ],
+      [
+        "Valores provinciales y nacional",
+        "Matriz provincia × elección, junto al total de Costa Rica calculado desde los numeradores y denominadores."
+      ],
+      [
+        "Ranking provincial histórico",
+        "Posiciones provinciales por elección y referencia nacional; la clasificación se distingue del porcentaje observado."
+      ],
+      [
+        "Composición del padrón",
+        "Distribución del electorado entre las siete provincias a lo largo de las elecciones."
+      ],
+      [
+        "Diez primeros territorios",
+        "Vista de los cantones o distritos destacados por el indicador seleccionado."
+      ],
+      [
+        "Matriz territorial completa",
+        "Cantones agrupados por provincia; distritos organizados por provincia y cantón. Los años se leen en el eje horizontal y se conserva la jerarquía territorial."
+      ],
+      [
+        "Comparación de segunda ronda",
+        "Consulta separada de los procesos con segunda ronda presidencial; no se extiende a elecciones legislativas."
+      ]
+    ],
+    "controls": "Arena, medida, nivel territorial, presentación en cantidades o porcentajes según la vista, selección territorial y rango de elecciones. Los colores provinciales ayudan a mantener el contexto; las marcas de extremos permiten identificar valores destacados."
+  },
+  {
+    "n": "03",
+    "name": "Competencia",
+    "goal": "Distinguir cantidad de partidos, concentración del voto y competencia efectiva.",
+    "shots": [
+      61
+    ],
+    "charts": [
+      [
+        "Número efectivo de partidos",
+        "NEP electoral y parlamentario cuando la población dispone de votos y escaños."
+      ],
+      [
+        "Número de partidos frente a partidos efectivos",
+        "Diferencia entre contar organizaciones y ponderar su peso relativo."
+      ],
+      [
+        "Concentración electoral",
+        "Peso del primer lugar y de los dos partidos principales según el indicador disponible."
+      ],
+      [
+        "Comparaciones entre arenas",
+        "Lectura presidencial, legislativa o general dentro del intervalo."
+      ],
+      [
+        "Matrices y comparaciones de competencia",
+        "Variación de los indicadores por provincia y elección; los detalles descargables conservan las observaciones."
+      ],
+      [
+        "Oferta y acceso a representación",
+        "Contraste entre participación electoral y presencia efectiva en la Asamblea."
+      ]
+    ],
+    "controls": "Indicador de competencia, arena y filtros globales. Los valores del cursor y las descargas permiten identificar el proceso y la escala de cada observación."
+  },
+  {
+    "n": "04",
+    "name": "Presidencia / diputaciones",
+    "goal": "Comparar las distribuciones agregadas de voto presidencial y legislativo sin atribuir comportamientos individuales.",
+    "shots": [
+      29
+    ],
+    "charts": [
+      [
+        "Brecha presidencial − legislativa por partido",
+        "Diferencia firmada en puntos porcentuales para una misma denominación y elección."
+      ],
+      [
+        "La brecha a lo largo del tiempo",
+        "Trayectoria temporal de la diferencia de apoyo entre arenas."
+      ],
+      [
+        "Apoyo presidencial frente a legislativo",
+        "Contraste de los porcentajes de voto del partido en las dos arenas."
+      ],
+      [
+        "Divergencia entre distribuciones completas",
+        "Distancia agregada entre las distribuciones partidarias."
+      ],
+      [
+        "Quiebre del voto por provincia y elección",
+        "Matriz histórica de distancia agregada entre Presidencia y Diputaciones."
+      ],
+      [
+        "Ranking provincial del quiebre del voto",
+        "Posición provincial por proceso y columna de promedio global."
+      ],
+      [
+        "Provincias con mayor distancia en la elección de detalle",
+        "Comparación de los siete valores en un mismo proceso."
+      ]
+    ],
+    "controls": "Partido, elección y periodo. La comparación usa primera ronda presidencial; un resultado agregado diferente no identifica qué personas dividieron su voto."
+  },
+  {
+    "n": "05",
+    "name": "Padrón y escaños",
+    "goal": "Examinar el peso del electorado y la distribución territorial de las diputaciones.",
+    "shots": [
+      7
+    ],
+    "charts": [
+      [
+        "Distribución del padrón legislativo",
+        "Peso de cada provincia en el electorado nacional."
+      ],
+      [
+        "Escaños por provincia",
+        "Magnitud de cada circunscripción y cambios en la asignación documentada."
+      ],
+      [
+        "Peso en padrón frente a peso en escaños",
+        "Comparación de ambas participaciones porcentuales."
+      ],
+      [
+        "Sobre/subrepresentación relativa al padrón",
+        "Brecha entre proporción de escaños y proporción de padrón en la elección seleccionada."
+      ],
+      [
+        "Historia de la brecha escaños–padrón",
+        "Series de las siete provincias con colores consistentes."
+      ],
+      [
+        "Ranking provincial histórico",
+        "Matriz 1–7 por elección y ranking global derivado del promedio de brechas firmadas."
+      ],
+      [
+        "Ranking provincial de detalle",
+        "Orden de las provincias en el proceso seleccionado."
+      ]
+    ],
+    "controls": "Elección de detalle e intervalo. Los hitos de redistribución ayudan a contextualizar los cambios; una brecha territorial no equivale a una evaluación causal del sistema electoral."
+  },
+  {
+    "n": "06",
+    "name": "Votos y escaños",
+    "goal": "Estudiar la conversión de los sufragios legislativos en representación partidaria.",
+    "shots": [
+      51
+    ],
+    "charts": [
+      [
+        "Votos y escaños por partido",
+        "Comparación de porcentajes de sufragios y de diputaciones."
+      ],
+      [
+        "Prima o déficit de representación",
+        "Diferencia entre porcentaje de escaños y porcentaje de votos."
+      ],
+      [
+        "Desproporcionalidad a través del tiempo",
+        "Índice de Gallagher con las distribuciones completas."
+      ],
+      [
+        "Fragmentación electoral y parlamentaria",
+        "Comparación de fragmentación del voto y de la cámara."
+      ],
+      [
+        "Voto válido destinado a partidos sin diputaciones",
+        "Puntos y tallos proporcionales; el complemento corresponde al voto a partidos con representación."
+      ],
+      [
+        "Líder de votos legislativos: votos frente a escaños",
+        "Peso electoral y bancada del partido que recibió más votos legislativos."
+      ],
+      [
+        "Partido presidencial electo: voto legislativo y bancada",
+        "El partido del ganador definitivo de la Presidencia se observa en la arena legislativa."
+      ],
+      [
+        "Voto presidencial a partidos sin diputaciones",
+        "Serie histórica de voto presidencial correspondiente a partidos sin escaños legislativos."
+      ]
+    ],
+    "controls": "Vista de arenas, partido y filtros temporales. Los votos a partidos sin diputaciones no se interpretan como ausencia de representación jurídica de las personas votantes."
+  },
+  {
+    "n": "07",
+    "name": "Presidencia y Asamblea",
+    "goal": "Consultar el escrutinio territorial y su contexto con un mapa provincial siempre disponible.",
+    "shots": [
+      23
+    ],
+    "charts": [
+      [
+        "Mapa provincial de resultados",
+        "Ganador por provincia de la elección, arena y ronda vigentes; seleccionar una provincia abre su resultado total."
+      ],
+      [
+        "Votos por organización política",
+        "Barras horizontales con cantidades o porcentajes y espacio para los nombres partidarios."
+      ],
+      [
+        "Resultados por territorio y organización política",
+        "Matriz comparativa por provincias, cantones o distritos dentro del ámbito elegido."
+      ],
+      [
+        "Tarjetas de escrutinio",
+        "Válidos, emitidos, participación, abstencionismo, blancos y nulos del territorio seleccionado."
+      ],
+      [
+        "Consulta del resultado total",
+        "Resultado nacional, provincial, cantonal o distrital con su propio contexto territorial."
+      ],
+      [
+        "Exploración por cantones y distritos",
+        "Descenso voluntario desde el total; agrupación de distritos por provincia y cantón."
+      ],
+      [
+        "Identificación nominal y contexto legislativo",
+        "Vínculos disponibles a diputaciones y personas documentadas en el contexto del resultado."
+      ],
+      [
+        "Fórmula presidencial electa",
+        "Tarjetas de la fórmula ganadora con vínculos nominales a Presidencia y vicepresidencias."
+      ],
+      [
+        "Composición partidaria de la Asamblea",
+        "Representación de la cámara electa y de sus bancadas."
+      ],
+      [
+        "Cámara por provincia",
+        "Agrupación de diputaciones nominales por las siete circunscripciones y registro completo de la Asamblea."
+      ],
+      [
+        "Presidencia, líder legislativo y primera bancada",
+        "Identificación de tres resultados que pueden corresponder a partidos diferentes."
+      ],
+      [
+        "Escaños provinciales del partido presidencial",
+        "Composición territorial de la bancada del partido ganador de la Presidencia."
+      ],
+      [
+        "Comparador cartográfico entre arenas",
+        "Voto presidencial, legislativo y brecha del partido seleccionado; distribución y tendencia contextual."
+      ]
+    ],
+    "controls": "Elección, Presidencia o Diputaciones, ronda solo cuando corresponde a Presidencia, provincia, cantón, distrito, total o comparación territorial y modo de presentación. El mapa se apila sobre el resultado para evitar recortes. El botón de regreso al total de Costa Rica y la navegación territorial permiten recuperar el contexto. Esta sección conserva el comportamiento aprobado de la V38."
+  },
+  {
+    "n": "08",
+    "name": "Partidos y territorio",
+    "goal": "Distinguir quién recibe más votos de quién domina una mayor cantidad de unidades territoriales.",
+    "shots": [
+      19
+    ],
+    "charts": [
+      [
+        "Partido más votado",
+        "Matriz histórica provincia/cantón/distrito × elección con identificación partidaria y colores."
+      ],
+      [
+        "Predominio de cantones por provincia",
+        "Para cada provincia y elección: partido con más primeros lugares cantonales, unidades ganadas / unidades observadas y porcentaje."
+      ],
+      [
+        "Predominio de distritos por provincia",
+        "La misma lectura usando los distritos efectivamente observados en cada proceso."
+      ],
+      [
+        "Diferencias: votos provinciales y predominio territorial",
+        "Coincidencias, diferencias y empates entre ganador provincial y partido con más cantones o distritos; conserva los nombres y denominadores."
+      ],
+      [
+        "Composición de los primeros lugares electorales",
+        "Resumen nacional de victorias territoriales por partido dentro del intervalo."
+      ],
+      [
+        "Composición por provincia",
+        "Las siete provincias en una visualización conjunta de sus primeros lugares; composición porcentual y cantidades auditables."
+      ],
+      [
+        "Bastiones y concentración del voto",
+        "Diferencia entre apoyo local y cuota nacional del partido en la misma arena y elección."
+      ],
+      [
+        "Matriz de competencia territorial",
+        "Lectura comparada de fortaleza local y resultados observados."
+      ],
+      [
+        "Persistencia histórica de la fortaleza",
+        "Continuidad de la ventaja y primeros lugares a lo largo de las elecciones."
+      ],
+      [
+        "Oferta partidaria por arena y cobertura",
+        "Clasificación de participación presidencial, legislativa o ambas; cobertura legislativa de una, varias o siete provincias."
+      ],
+      [
+        "Evolución histórica de partidos",
+        "Series y matrices configurables de identidades, candidaturas y diputaciones por categorías observadas."
+      ],
+      [
+        "Transiciones entre participaciones",
+        "Origen y destino, composición del flujo y matriz de cambios de clasificación entre participaciones consecutivas."
+      ],
+      [
+        "Participación electoral única y cohortes",
+        "Composición y matrices de organizaciones observadas en un solo proceso y recorridos de clasificación."
+      ],
+      [
+        "Composición de diputaciones por participación partidaria",
+        "Resultados electos según participación presidencial y cobertura legislativa observada."
+      ]
+    ],
+    "controls": "Arena, dimensión territorial, lectura provincial por votos/cantones/distritos, periodo y partido según bloque. Las segundas rondas se exploran separadamente. Las descargas de composición pueden ser individuales o conjuntas; el alcance de cada botón acompaña a la figura. Una victoria en una provincia puede diferir de la mayoría de sus cantones o distritos, y la cobertura observada no certifica escala jurídica."
+  },
+  {
+    "n": "09",
+    "name": "Candidaturas",
+    "goal": "Explorar la oferta nominal y las características de las listas legislativas.",
+    "shots": [
+      1
+    ],
+    "charts": [
+      [
+        "Evolución del tamaño de las listas",
+        "Número de candidaturas registradas por elección y ámbito."
+      ],
+      [
+        "Posiciones de lista",
+        "Distribución de posiciones y condición de candidatura."
+      ],
+      [
+        "Candidaturas, encabezamientos y escaños",
+        "Contraste de oferta, primeras posiciones y resultados documentados."
+      ],
+      [
+        "Mujeres por posición de lista",
+        "Presencia de mujeres dentro del orden de las candidaturas."
+      ],
+      [
+        "De la postulación propietaria al escaño",
+        "Relación entre candidaturas propietarias y resultados electos."
+      ],
+      [
+        "Experiencia electoral registrada",
+        "Primeras apariciones y recurrencias dentro de la cobertura disponible."
+      ],
+      [
+        "Catálogo nominal de candidaturas",
+        "Tarjetas y búsqueda de nombres, partidos, cargos y resultados; CSV de la selección."
+      ]
+    ],
+    "controls": "Población, condición propietaria/suplente, sexo, partido, resultado, trayectoria y texto libre según vista. Los nombres identificados permiten abrir el Explorador de personas."
+  },
+  {
+    "n": "10",
+    "name": "Sexo y representación",
+    "goal": "Comparar composición de la oferta y acceso documentado a los cargos por sexo.",
+    "shots": [
+      41,
+      47
+    ],
+    "charts": [
+      [
+        "Composición por sexo a través del tiempo",
+        "Participación relativa de cada categoría dentro de la población seleccionada."
+      ],
+      [
+        "Composición entre candidaturas electas",
+        "Distribución por sexo de las personas electas en cada elección."
+      ],
+      [
+        "Composición entre candidaturas no electas",
+        "Distribución equivalente entre las postulaciones sin elección registrada."
+      ],
+      [
+        "Dentro de cada sexo: electas y no electas",
+        "El denominador cambia a las candidaturas de cada sexo; no confundir con la composición del conjunto de personas electas."
+      ],
+      [
+        "Tasa de elección por sexo",
+        "Resultados electos respecto de candidaturas en cada grupo."
+      ],
+      [
+        "Número de registros por sexo",
+        "Cantidades documentadas, complementarias a las composiciones."
+      ],
+      [
+        "Consulta nominal de segmentos",
+        "Selección de una parte de la gráfica para reconocer las candidaturas que aportan al resultado."
+      ],
+      [
+        "Hitos institucionales",
+        "Referencias normativas contextualizan las series legislativas sin modificar los datos."
+      ]
+    ],
+    "controls": "Población, partido y filtros globales; los clics conservan año, sexo y resultado en la consulta nominal. Los valores desconocidos se distinguen de los ceros."
+  },
+  {
+    "n": "11",
+    "name": "Personas y trayectorias",
+    "goal": "Reconstruir recorridos nominales entre candidaturas, elecciones, partidos, provincias y cargos.",
+    "shots": [
+      15
+    ],
+    "charts": [
+      [
+        "Doble postulación: evolución histórica",
+        "Casos persona–elección con candidatura a diputación y a un cargo de fórmula presidencial."
+      ],
+      [
+        "Composición de la doble postulación por cargo nacional",
+        "Presidencia, primera y segunda vicepresidencia se distinguen en su relación con diputaciones."
+      ],
+      [
+        "Matriz provincia × elección de doble postulación",
+        "Cantidades, totales provinciales y total Costa Rica con una escala compartida."
+      ],
+      [
+        "Concentración territorial de dobles postulaciones",
+        "Distribución de casos por provincia de la candidatura legislativa."
+      ],
+      [
+        "Éxito legislativo en la doble postulación",
+        "Proporción que resultó electa a diputación dentro de esos casos."
+      ],
+      [
+        "Resultados simultáneos de las postulaciones dobles",
+        "Relación de los resultados documentados en ambos cargos."
+      ],
+      [
+        "Movilidad provincial",
+        "Matriz de movimientos y flujos entre provincias para candidaturas legislativas."
+      ],
+      [
+        "Flujos entre participaciones consecutivas",
+        "Cambios y continuidad de partido, provincia o cargo; un enlace cuenta transiciones documentadas."
+      ],
+      [
+        "Matriz de trayectorias entre cargos",
+        "Incluye repetir el mismo cargo en años diferentes."
+      ],
+      [
+        "Consulta nominal de recorridos",
+        "Personas que forman cada flujo y enlaces a su historial completo."
+      ],
+      [
+        "Matrices de doble postulación por cargo",
+        "Casos totales y diputaciones electas para cada cargo nacional, con visor nominal y ceros observados."
+      ],
+      [
+        "Auditoría de dobles postulaciones con partidos distintos",
+        "Casos que requieren revisar la correspondencia de denominaciones entre los cargos."
+      ],
+      [
+        "Historias completas de la selección",
+        "Relación nominal y cronología de personas presentes en los filtros."
+      ]
+    ],
+    "controls": "Población, origen, destino, cargo, resultado, sexo y partido según el análisis. Una persona puede aportar varias transiciones; los casos no se equiparan automáticamente a personas distintas. El antecedente de 1990 se documenta sin atribuciones jurídicas automáticas."
+  },
+  {
+    "n": "12",
+    "name": "Explorador de personas",
+    "goal": "Reunir la trayectoria electoral documentada de una persona en un solo perfil.",
+    "shots": [
+      59
+    ],
+    "charts": [
+      [
+        "Búsqueda avanzada",
+        "Nombre completo y filtros de población, sexo, partido, cargo, resultado y trayectoria disponibles."
+      ],
+      [
+        "Perfil electoral nominal",
+        "Nombre, cobertura del registro y resumen de participaciones, cargos o resultados."
+      ],
+      [
+        "Historia electoral completa",
+        "Tarjetas cronológicas con año, cargo, partido, provincia y resultado."
+      ],
+      [
+        "Cronología visual de candidaturas y resultados",
+        "Línea de tiempo de los eventos documentados."
+      ],
+      [
+        "Recorrido electoral de la persona",
+        "Cambios de cargo, partido o provincia que constan en la base."
+      ],
+      [
+        "Contexto de cada participación",
+        "Acceso al contexto partidario y territorial cuando existe correspondencia."
+      ]
+    ],
+    "controls": "Selector nominal y búsqueda; otros módulos pueden abrir directamente la identidad seleccionada. Los vínculos se basan en la conciliación nominal, no en una verificación civil exhaustiva."
+  },
+  {
+    "n": "13",
+    "name": "Fórmulas presidenciales",
+    "goal": "Identificar las fórmulas que compitieron en una elección y abrir las trayectorias de sus integrantes.",
+    "shots": [
+      43,
+      57
+    ],
+    "charts": [
+      [
+        "Fórmulas que compitieron por elección",
+        "Una tarjeta por fórmula, con color partidario, partido y condición de fórmula electa o candidatura registrada."
+      ],
+      [
+        "Presidencia y vicepresidencias",
+        "Tres posiciones de cada fórmula; los nombres enlazan al Explorador de personas cuando hay identificación nominal."
+      ],
+      [
+        "Presidencias electas: recorrido histórico",
+        "Lectura de las presidencias electas documentadas."
+      ],
+      [
+        "Consulta nominal presidencial",
+        "Búsqueda y filtros dentro de la población presidencial, con exportación de registros."
+      ],
+      [
+        "Resumen documental de la elección",
+        "Fórmulas, integrantes y resultados de la fuente sin duplicar la cuadrícula de fórmulas."
+      ]
+    ],
+    "controls": "Elección y consulta nominal. Se conserva la visualización con colores y vínculos; no se muestran dos versiones repetidas de la misma cuadrícula."
+  },
+  {
+    "n": "14",
+    "name": "Apellidos",
+    "goal": "Explorar coincidencias nominales entre personas distintas y facilitar la revisión de posibles conexiones documentales.",
+    "shots": [
+      5,
+      31
+    ],
+    "charts": [
+      [
+        "Coincidencias por personas distintas",
+        "Ranking de apellidos que se repiten entre identidades nominales, evitando contar cada candidatura como una persona adicional."
+      ],
+      [
+        "Persona de referencia",
+        "Permite escoger una persona histórica y explorar coincidencias de sus apellidos con otras personas."
+      ],
+      [
+        "Apellidos coincidentes por elección",
+        "Serie temporal de presencia de coincidencias documentadas."
+      ],
+      [
+        "Personas que comparten un apellido",
+        "Tarjetas de las identidades relacionadas con vínculos a sus perfiles; la persona de referencia se excluye de sus propias coincidencias."
+      ],
+      [
+        "Contexto partidario, cargos y resultados",
+        "Filtros y resumen del universo para comparar apellidos dentro de poblaciones diferentes."
+      ],
+      [
+        "Consulta nominal y descarga",
+        "Lista de registros que respalda la exploración y exportación del resultado."
+      ]
+    ],
+    "controls": "Población, criterio de coincidencia, persona de referencia, apellido, sexo, partido y resultado según el bloque. Compartir uno o dos apellidos no demuestra parentesco ni la existencia de una familia política."
+  },
+  {
+    "n": "15",
+    "name": "Diseño de papeletas",
+    "goal": "Relacionar características documentadas de las papeletas legislativas con su contexto histórico.",
+    "shots": [
+      11
+    ],
+    "charts": [
+      [
+        "Historia de las características registradas",
+        "Matriz elección × característica de diseño y codificación documental."
+      ],
+      [
+        "Características de la elección de detalle",
+        "Tabla de provincias y variables presentes en la fuente."
+      ],
+      [
+        "Comparación de voto no válido y diseño",
+        "Lecturas descriptivas entre características registradas y blancos/nulos; no atribuyen causalidad."
+      ],
+      [
+        "Recursos documentales",
+        "Material de referencia disponible y distinción de reconstrucciones cuando corresponde."
+      ]
+    ],
+    "controls": "Elección y característica. La matriz no sustituye el facsímil original; una ausencia documental no equivale a ausencia del elemento impreso."
+  },
+  {
+    "n": "16",
+    "name": "Nombres y cancelaciones",
+    "goal": "Examinar denominaciones partidarias y registros administrativos sin asumir continuidad jurídica por similitud del nombre.",
+    "shots": [
+      49
+    ],
+    "charts": [
+      [
+        "Cronología de nombres y cancelaciones",
+        "Intervalos registrales por denominación y estado documentado."
+      ],
+      [
+        "Denominaciones con múltiples registros",
+        "Nombres presentes en más de un registro, con sus diferencias documentales."
+      ],
+      [
+        "Registros cuyo intervalo comprende cada elección",
+        "Serie de intervalos registrales observados en cada proceso."
+      ],
+      [
+        "Tiempo entre cancelación e inscripción del mismo nombre",
+        "Distancia entre eventos registrados de denominaciones iguales."
+      ],
+      [
+        "Palabras en los nombres partidarios",
+        "Frecuencias de componentes nominales dentro de las organizaciones observadas."
+      ],
+      [
+        "Coincidencias entre registros electorales y administrativos",
+        "Tabla para revisar correspondencias sin convertir una etiqueta compartida en identidad jurídica."
+      ]
+    ],
+    "controls": "Estado registral, filtro de denominaciones y periodo de lectura según vista. Las fechas y vacíos se conservan como datos de la fuente."
+  },
+  {
+    "n": "17",
+    "name": "Perfiles de partidos",
+    "goal": "Consolidar lo documentado sobre una denominación y conectarlo con el resto del Atlas.",
+    "shots": [
+      39,
+      27
+    ],
+    "charts": [
+      [
+        "Selector e identidad visual",
+        "El selector del partido y la tarjeta con su bandera aparecen primero. La divisa se presenta como referencia visual, sin certificar su uso por homónimos en cada año."
+      ],
+      [
+        "Apoyo electoral del nombre seleccionado",
+        "Trayectoria presidencial y legislativa del porcentaje de votos válidos."
+      ],
+      [
+        "Bancada a través del tiempo",
+        "Diputaciones electas documentadas para el partido."
+      ],
+      [
+        "Distribución provincial del apoyo",
+        "Comparación del peso electoral entre provincias."
+      ],
+      [
+        "Cobertura efectiva de candidaturas",
+        "Presencia legislativa observada en el territorio."
+      ],
+      [
+        "Dónde encabeza cantones y distritos",
+        "Matriz provincial × elección del porcentaje de unidades donde obtuvo primer lugar, con unidades ganadas y observadas."
+      ],
+      [
+        "Candidaturas y escaños",
+        "Oferta nominal y resultados electos por elección."
+      ],
+      [
+        "Representación por sexo",
+        "Composición por sexo de las candidaturas del partido."
+      ],
+      [
+        "Personas del partido",
+        "Tarjetas y enlaces a perfiles nominales relacionados."
+      ],
+      [
+        "Registros y tablas del perfil",
+        "Elecciones observadas, candidaturas, diputaciones y coincidencias registrales según la cobertura."
+      ],
+      [
+        "Explorar el partido en el Atlas",
+        "Navegación contextual a territorio, mapas, participación, representación y personas con el partido seleccionado."
+      ],
+      [
+        "Presencia entre ganadores nacionales",
+        "Resultados nacionales y personas electas a la Presidencia bajo la denominación seleccionada."
+      ],
+      [
+        "Fórmulas presidenciales del partido",
+        "Participaciones de la organización en el ámbito nacional, con su consulta documental."
+      ],
+      [
+        "Resumen territorial del apoyo legislativo",
+        "Valores provinciales y posición del partido en primeros lugares cantonales y distritales."
+      ]
+    ],
+    "controls": "Un único selector partidario, intervalo y territorio. Los subpaneles de territorio, representación y personas complementan el perfil consolidado. Las cifras registrales pueden tener cobertura temporal distinta, indicada en la tarjeta."
+  },
+  {
+    "n": "18",
+    "name": "Mapas provinciales",
+    "goal": "Comparar medidas de las siete provincias, sus cambios y su evolución dentro de una vista cartográfica conectada.",
+    "shots": [
+      9,
+      17,
+      25
+    ],
+    "charts": [
+      [
+        "Mapa de valores provinciales",
+        "Participación, abstencionismo, votos u otras medidas compatibles con el modo y partido seleccionados."
+      ],
+      [
+        "Cambio respecto de otra elección",
+        "Diferencia provincial entre el proceso de detalle y la referencia."
+      ],
+      [
+        "Comparar dos elecciones",
+        "Valores de ambos procesos junto al cambio correspondiente."
+      ],
+      [
+        "Brecha presidencial y legislativa",
+        "Diferencia firmada para un partido o distancia agregada cuando se compara el conjunto."
+      ],
+      [
+        "Representación relativa al padrón",
+        "Relación entre peso provincial en el electorado y escaños, con denominadores identificados."
+      ],
+      [
+        "Ranking provincial asociado al mapa",
+        "Orden de las siete provincias para la medida actual."
+      ],
+      [
+        "Explorar una provincia",
+        "Tarjetas del valor actual, referencia y variación; selección por mapa o botones provinciales."
+      ],
+      [
+        "Evolución provincial",
+        "Trayectorias temporales de la medida que acompaña al mapa."
+      ],
+      [
+        "Valores provinciales del mapa",
+        "Tabla descargable que respalda la cartografía."
+      ],
+      [
+        "Conexiones contextuales",
+        "Abrir participación, competencia, laboratorio y el resultado provincial relacionado."
+      ]
+    ],
+    "controls": "Arena, modo, medida, partido, elección de referencia y provincia. Los faltantes se mantienen como tales; la brecha de un partido no se confunde con la distancia entre distribuciones completas. Esta sección es distinta del visor de escrutinio de la sección 07."
+  },
+  {
+    "n": "19",
+    "name": "Éxito electoral",
+    "goal": "Distinguir resultados de candidaturas, personas electas, intentos previos y antecedentes de sus carreras.",
+    "shots": [
+      55
+    ],
+    "charts": [
+      [
+        "Resultados de candidaturas por elección",
+        "Distribución entre electas y no electas para la población seleccionada."
+      ],
+      [
+        "Resultado de personas",
+        "Resumen por personas nominales distintas, separado del conteo de candidaturas."
+      ],
+      [
+        "Tasa de elección por experiencia y movilidad",
+        "Contraste descriptivo de grupos de trayectoria."
+      ],
+      [
+        "Carrera de candidaturas no electas",
+        "Qué resultados posteriores se observan dentro de la cobertura."
+      ],
+      [
+        "Elecciones disputadas entre quienes repitieron",
+        "Distribución del número de años electorales distintos."
+      ],
+      [
+        "Ruta hasta la primera elección exitosa",
+        "Incluye el universo completo y distingue las personas nunca observadas como electas."
+      ],
+      [
+        "Entre quienes sí fueron electos",
+        "Intentos documentados hasta su primera elección exitosa."
+      ],
+      [
+        "Reelecciones observadas después de la primera victoria",
+        "Resultados electos posteriores dentro del intervalo documental."
+      ],
+      [
+        "Antecedentes de quienes ganaron un cargo",
+        "Dos distribuciones: cargos ganados previamente y cargos disputados por quienes todavía no habían ganado."
+      ],
+      [
+        "Personas que aportan a cada antecedente",
+        "Selección nominal de segmentos, tarjetas y tablas auditables de los eventos previos."
+      ]
+    ],
+    "controls": "Cargo, unidad de análisis, población y filtros de trayectoria. Los porcentajes de antecedentes cuentan eventos anteriores; no equivalen a porcentajes de personas. El redondeo visible puede distribuir restos para sumar 100,0 %, y el CSV conserva el valor sin redondear."
+  },
+  {
+    "n": "20",
+    "name": "Laboratorio",
+    "goal": "Cruzar los conjuntos integrados y explorar relaciones estadísticas con observaciones y denominadores inspeccionables.",
+    "shots": [
+      37
+    ],
+    "charts": [
+      [
+        "Dispersión y ajuste lineal",
+        "Relación entre dos variables, recta OLS y resúmenes de observaciones completas, Pearson, Spearman, pendiente y R²."
+      ],
+      [
+        "Tendencia de variables",
+        "Mediana y cuartiles territoriales por elección; lectura descriptiva sin ponderación automática."
+      ],
+      [
+        "Distribuciones por provincia",
+        "Diagramas de caja con observaciones, mediana y cuartiles."
+      ],
+      [
+        "Matriz de correlaciones",
+        "Comparación multivariable con los pares completos disponibles y su número de observaciones."
+      ],
+      [
+        "Componentes principales",
+        "Proyección de casos completos, proporción de varianza y cargas de las variables seleccionadas."
+      ],
+      [
+        "Agrupamiento exploratorio",
+        "Clasificación de observaciones mediante variables estandarizadas y agrupamiento reproducible."
+      ],
+      [
+        "Cruce de categorías",
+        "Tabla/matriz de contingencia y asociación mediante V de Cramér cuando es calculable."
+      ],
+      [
+        "Diccionario y lectura del cruce",
+        "Definiciones de variables, unidades de observación y advertencias específicas del análisis."
+      ],
+      [
+        "Exportación del análisis",
+        "Registros usados y representación gráfica del cruce seleccionado."
+      ]
+    ],
+    "controls": "Universo, arena, nivel territorial, tarea, variables X/Y, color de puntos y variables múltiples según método. Se requieren casos completos y variación suficiente. Los resultados son exploratorios: correlación, regresión, componentes y grupos no establecen causalidad ni parentesco."
+  },
+  {
+    "n": "21",
+    "name": "Explorador de datos",
+    "goal": "Construir consultas y descargas verificables de las tablas que alimentan el Atlas.",
+    "shots": [
+      3
+    ],
+    "charts": [
+      [
+        "Centro de datos: consulta personalizada",
+        "Selección del conjunto, arena, población y texto de búsqueda."
+      ],
+      [
+        "Filtros de resultados y candidaturas",
+        "Provincia, partido, año, sexo, condición y resultado cuando existen en la tabla."
+      ],
+      [
+        "Selector de columnas",
+        "Mostrar, ocultar, seleccionar todas o limpiar columnas exportables."
+      ],
+      [
+        "Tabla consultable",
+        "Vista de filas y columnas seleccionadas, con información del conjunto y filtros."
+      ],
+      [
+        "Descarga de selección",
+        "CSV de la consulta activa; no confundir con la descarga de la tabla completa."
+      ],
+      [
+        "Descargas temáticas y fuentes originales",
+        "Acceso a conjuntos derivados y al paquete de bases disponible en el proyecto."
+      ],
+      [
+        "Conciliación de nombres",
+        "Decisiones nominales y registros de auditoría para revisar cómo se vinculan las personas."
+      ]
+    ],
+    "controls": "Los controles se adaptan al esquema de cada conjunto. La aplicación ofrece descargas locales; algunos archivos auxiliares requieren conservar la carpeta salidas junto al HTML."
+  },
+  {
+    "n": "22",
+    "name": "Metodología y fuentes",
+    "goal": "Hacer explícitos el alcance, las unidades de análisis, las fórmulas y las cautelas del producto.",
+    "shots": [
+      35
+    ],
+    "charts": [
+      [
+        "Cobertura documental",
+        "Elecciones, provincias, unidades territoriales y rondas incluidas."
+      ],
+      [
+        "Autoría y contexto",
+        "Proyecto académico de Práctica Profesional IFED–TSE y autoría del desarrollo."
+      ],
+      [
+        "Definiciones y fórmulas",
+        "Participación, abstención, voto no válido, NEP, brechas, representación y otros indicadores usados."
+      ],
+      [
+        "Identidades nominales",
+        "Límites de la normalización de personas y partidos; los homónimos no se resuelven por suposición."
+      ],
+      [
+        "Fuentes y extensiones documentales",
+        "Catálogo de bases, derivados y alcance de los vínculos."
+      ],
+      [
+        "Guía de controles y descargas",
+        "Interpretación de filtros, años, territorio, detalle y exportaciones."
+      ],
+      [
+        "Glosario metodológico",
+        "Diferencias entre cobertura electoral, escala jurídica, categorías de participación y resultados."
+      ]
+    ],
+    "controls": "Lectura de notas, tablas y vínculos. La aplicación complementa la consulta de las fuentes institucionales y conserva los faltantes y restricciones de cobertura."
+  }
+]

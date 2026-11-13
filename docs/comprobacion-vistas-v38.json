@@ -1,0 +1,117 @@
+[
+  {
+    "vista": "intro",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 0
+  },
+  {
+    "vista": "panorama",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 7
+  },
+  {
+    "vista": "participacion",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 7
+  },
+  {
+    "vista": "competencia",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 1
+  },
+  {
+    "vista": "dualidad",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 9
+  },
+  {
+    "vista": "representacion",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 7
+  },
+  {
+    "vista": "gobierno",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 12
+  },
+  {
+    "vista": "partidos",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 13
+  },
+  {
+    "vista": "candidaturas",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 2
+  },
+  {
+    "vista": "genero",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 4
+  },
+  {
+    "vista": "trayectorias",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 13
+  },
+  {
+    "vista": "formulas",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 0
+  },
+  {
+    "vista": "apellidos",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 1
+  },
+  {
+    "vista": "papeletas",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 2
+  },
+  {
+    "vista": "cancelaciones",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 3
+  },
+  {
+    "vista": "laboratorio",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 1
+  },
+  {
+    "vista": "datos",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 0
+  },
+  {
+    "vista": "metodo",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 0
+  },
+  {
+    "vista": "mapas",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 3
+  },
+  {
+    "vista": "perfiles",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 6
+  },
+  {
+    "vista": "credenciales",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 1
+  },
+  {
+    "vista": "outcomes",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 13
+  },
+  {
+    "vista": "representacion_voto",
+    "estado": "OK",
+    "figuras_en_seleccion_inicial": 5
+  }
+]

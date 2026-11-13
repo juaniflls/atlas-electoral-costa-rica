@@ -1,0 +1,49 @@
+{
+  "hashes": {
+    "Base_Electoral_Diputaciones_1953-2026.xlsx": "ff423c026422dd28eeef21ef212b0c02cb6082fec663a73dfa072301a1e00a77",
+    "Base_Electoral_Presidencial_1953-2026.xlsx": "e2a9448829f1d271f7393cb623b2d7228fbd9506b5fcf372dcce9b6e3d22c3a1"
+  },
+  "auditoria": {
+    "elecciones": [
+      1953,
+      1958,
+      1962,
+      1966,
+      1970,
+      1974,
+      1978,
+      1982,
+      1986,
+      1990,
+      1994,
+      1998,
+      2002,
+      2006,
+      2010,
+      2014,
+      2018,
+      2022,
+      2026
+    ],
+    "distritos_2026": 492,
+    "registros_fuente": 232669,
+    "duplicados_clave": 119,
+    "votos_negativos": 0,
+    "segundas_rondas": [
+      2002,
+      2014,
+      2018,
+      2022
+    ],
+    "niveles": {
+      "Provincia": 2786,
+      "Cantón": 31878,
+      "Distrito": 178942
+    },
+    "distritos_con_diferencias_emitidos_entre_papeletas": 4800
+  },
+  "archivos": [
+    "Base_Electoral_Diputaciones_1953-2026.xlsx",
+    "Base_Electoral_Presidencial_1953-2026.xlsx"
+  ]
+}

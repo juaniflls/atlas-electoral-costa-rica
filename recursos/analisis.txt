@@ -1,0 +1,103 @@
+/* Herramientas transversales: consulta personalizada, laboratorio y perfiles históricos. */
+function atlasDataWorkbench(){
+ const container=document.getElementById('content');if(!container||document.getElementById('atlas-v26-data'))return;
+ const sec=block('Centro de datos · consulta personalizable','Seleccione una base, filtre su universo, elija columnas y descargue exactamente los registros consultados.','atlas-v26-data');
+ const sources={
+  metricas:{title:'Participación y escrutinio territorial',data:dataRows},
+  votos:{title:'Votos por partido y territorio',data:voteRows},
+  lideres:{title:'Primer lugar de cada territorio',data:leaderRows},
+  quiebre:{title:'Distancia agregada presidencial–legislativa',data:(V.quiebre||[]).map(r=>({year:r[0],level:r[1],key:String(r[2]),quiebre_pp:r[3]}))},
+  candidaturas:{title:'Candidaturas y resultados',data:V.nomination_rows||[]}
+ };
+ sec.innerHTML+=`<div class="a26-tools">${select('a26-data-set','Base de datos',Object.entries(sources).map(([k,v])=>[k,v.title]))}${select('a26-data-year','Elección',[['all','Todas las elecciones'],...years.map(y=>[String(y),String(y)])])}${select('a26-data-arena','Arena',[['all','Ambas arenas'],['P','Presidencial 1.ª ronda'],['L','Legislativa'],['R','Presidencial 2.ª ronda']])}${select('a26-data-level','Escala territorial',[['all','Todas las escalas'],['n','Nacional'],['p','Provincia'],['c','Cantón'],['d','Distrito']])}<label>Buscar partido, persona o código<input id="a26-data-search" type="search" placeholder="Partido, nombre, territorio…"/></label></div>
+ <div class="a26-tools"><label>Operación<select id="a26-data-operation"><option value="detail">Registros originales de la consulta</option><option value="aggregate">Resumen por dimensión</option></select></label>${select('a26-data-group','Agrupar por',[['year','Año'],['arena','Arena'],['party','Partido'],['province','Provincia'],['level','Escala'],['key','Código territorial']])}${select('a26-data-measure','Indicador numérico',[['votes','Votos'],['validos','Votos válidos'],['abstenciones','Abstenciones'],['share','% votos válidos'],['part_pct','Participación %'],['abst_pct','Abstención %'],['quiebre_pp','Quiebre (pp)']])}<label>Función<select id="a26-data-agg"><option value="sum">Suma</option><option value="mean">Promedio</option><option value="max">Máximo</option><option value="min">Mínimo</option></select></label></div>
+ <div class="a26-fields-head"><strong>Columnas de exportación</strong><button type="button" id="a26-data-all">Seleccionar todas</button><button type="button" id="a26-data-clear">Limpiar selección</button></div><div class="a26-field-list" id="a26-data-fields"></div>
+ <div class="a26-exportbar"><span id="a26-data-count"></span><button id="a26-data-csv" class="a26-primary" type="button">Descargar CSV personalizado</button><button id="a26-data-json" type="button">Descargar JSON</button></div><div class="a25-tablewrap"><table id="a26-data-table"></table></div><p class="a26-footnote">Vista preliminar: 120 registros. Las descargas contienen todas las filas que cumplen los filtros, no solamente las visibles.</p>`;
+ container.prepend(sec);
+ const $=id=>sec.querySelector('#'+id);let selection=[],columns=[],shown=[];
+ function compute(){let set=sources[$('a26-data-set').value].data;const yr=$('a26-data-year').value,arena=$('a26-data-arena').value,level=$('a26-data-level').value,search=$('a26-data-search').value.toLowerCase();
+  let filtered=set.filter(r=>(yr==='all'||String(r.year)===yr)&&(arena==='all'||!('arena'in r)||r.arena===arena)&&(level==='all'||!('level'in r)||r.level===level)&&(!search||[r.party,r.Partido,r.name,r.key,r.province,r.office].some(s=>String(s||'').toLowerCase().includes(search))));
+  if($('a26-data-operation').value==='aggregate'){
+   const key=$('a26-data-group').value,value=$('a26-data-measure').value,mode=$('a26-data-agg').value,g=new Map();for(const r of filtered){if(r[key]===undefined)continue;const x=Number(r[value]);if(!Number.isFinite(x))continue;const k=String(r[key]);if(!g.has(k))g.set(k,[]);g.get(k).push(x)}
+   filtered=[...g].map(([k,items])=>({[key]:k,observaciones:items.length,[`${mode}_${value}`]:mode==='sum'?items.reduce((a,b)=>a+b,0):mode==='max'?Math.max(...items):mode==='min'?Math.min(...items):items.reduce((a,b)=>a+b,0)/items.length})).sort((a,b)=>b.observaciones-a.observaciones)
+  }
+  selection=filtered;
+  const fields=[...new Set(filtered.slice(0,100).flatMap(r=>Object.keys(r)))];const former=$('a26-data-fields').querySelectorAll('input');let checked=new Set([...former].filter(e=>e.checked).map(e=>e.value));
+  if(!fields.every(f=>$('a26-data-fields').querySelector(`input[value="${f}"]`)))checked=new Set(fields);
+  $('a26-data-fields').innerHTML=fields.map(f=>`<label class="a26-field-chip"><input type="checkbox" value="${esc(f)}" ${checked.has(f)?'checked':''}/> ${esc(f)}</label>`).join('');
+  render();
+ }
+ function render(){columns=[...$('a26-data-fields').querySelectorAll('input:checked')].map(e=>e.value);shown=selection.slice(0,120);$('a26-data-count').textContent=`${fmt(selection.length)} registros · ${columns.length} columnas seleccionadas`;
+  $('a26-data-table').innerHTML='<thead><tr>'+columns.map(f=>`<th>${esc(f)}</th>`).join('')+'</tr></thead><tbody>'+shown.map(r=>'<tr>'+columns.map(f=>`<td>${esc(typeof r[f]==='number'?fmt(r[f],String(f).includes('pct')||String(f).includes('share')?2:0):r[f]??'')}</td>`).join('')+'</tr>').join('')+'</tbody>';
+ }
+ $('a26-data-fields').addEventListener('change',render);sec.querySelectorAll('select').forEach(el=>el.addEventListener('change',compute));$('a26-data-search').addEventListener('input',compute);
+ $('a26-data-all').onclick=()=>{$('a26-data-fields').querySelectorAll('input').forEach(x=>x.checked=true);render()};$('a26-data-clear').onclick=()=>{$('a26-data-fields').querySelectorAll('input').forEach(x=>x.checked=false);render()};
+ function resultData(){return selection.map(r=>Object.fromEntries(columns.map(c=>[c,r[c]])))}
+ $('a26-data-csv').onclick=()=>csv(resultData(),'atlas_consulta_personalizada.csv');$('a26-data-json').onclick=()=>download('atlas_consulta_personalizada.json',JSON.stringify(resultData(),null,2),'application/json');compute();
+}
+function atlasLaboratory(){
+ const container=document.getElementById('content');if(!container||document.getElementById('atlas-v26-lab'))return;
+ const sec=block('Laboratorio de ciencia de datos electoral','Análisis reproducible de indicadores: exploración, correlación, regresión descriptiva y agrupamiento de territorios.','atlas-v26-lab');
+ const measures=[['part_pct','Participación (%)'],['abst_pct','Abstención (%)'],['valid_pct','Voto válido / emitidos (%)'],['blancos_pct','Blancos / emitidos (%)'],['nulos_pct','Nulos / emitidos (%)'],['noval_pct','Voto no válido / emitidos (%)'],['validos','Votos válidos (n)'],['abstenciones','Abstenciones (n)']];
+ sec.innerHTML+=`<div class="a26-tools">${select('a26-lab-arena','Arena',[['P','Presidencial'],['L','Legislativa'],['R','Segunda ronda']])}${select('a26-lab-level','Unidad de análisis',[['p','Provincia × elección'],['c','Cantón × elección'],['d','Distrito × elección']])}${select('a26-lab-x','Variable X',measures)}${select('a26-lab-y','Variable Y',measures)}${select('a26-lab-task','Método',[['scatter','Dispersión y correlación'],['trend','Series temporales'],['cluster','Agrupamiento K-means']])}${select('a26-lab-k','Número de grupos (K)',[[2,'2'],[3,'3'],[4,'4'],[5,'5'],[6,'6']])}</div>
+ <div class="a26-metric-cards" id="a26-lab-stats"></div><div class="a26-chart-title"><h4 id="a26-lab-title">Exploración estadística</h4>${buttons}</div><div id="a26-lab-plot" class="a26-plot"></div><div class="a25-tablewrap"><table id="a26-lab-table"></table></div><p class="a26-footnote">Los resultados estadísticos muestran asociaciones descriptivas y patrones de los agregados territoriales; no identifican efectos causales ni comportamientos de personas individuales.</p>`;
+ container.prepend(sec);const $=id=>sec.querySelector('#'+id);let output=[];
+ function draw(){const a=$('a26-lab-arena').value,l=$('a26-lab-level').value,x=$('a26-lab-x').value,y=$('a26-lab-y').value,task=$('a26-lab-task').value;
+  $('a26-lab-k').closest('label').hidden=task!=='cluster';let raw=dataRows.filter(r=>r.arena===a&&r.level===l&&Number.isFinite(Number(r[x]))&&Number.isFinite(Number(r[y])));
+  if(raw.length>20000){raw=raw.filter((_,i)=>i%Math.ceil(raw.length/20000)===0)}
+  const xx=raw.map(r=>+r[x]),yy=raw.map(r=>+r[y]),n=raw.length;let mx=xx.reduce((a,b)=>a+b,0)/(n||1),my=yy.reduce((a,b)=>a+b,0)/(n||1);
+  const sxx=xx.reduce((s,v)=>s+(v-mx)**2,0),syy=yy.reduce((s,v)=>s+(v-my)**2,0),sxy=xx.reduce((s,v,i)=>s+(v-mx)*(yy[i]-my),0);const r=sxx>0&&syy>0?sxy/Math.sqrt(sxx*syy):null;
+  const slope=sxx>0?sxy/sxx:null,intercept=slope==null?null:my-slope*mx;
+  let colors=raw.map(()=> '#247f8b');let labels=raw.map(row=>`${row.year} · ${label(l,String(row.key))}`);
+  output=raw.map((row,i)=>({anio:row.year,arena:a,nivel:l,territorio:label(l,String(row.key)),codigo:row.key,variable_x:x,valor_x:xx[i],variable_y:y,valor_y:yy[i]}));
+  if(task==='cluster'&&n>0){const k=Math.min(+$('a26-lab-k').value,n),sx=Math.sqrt(sxx/(n||1))||1,sy=Math.sqrt(syy/(n||1))||1;
+   const points=raw.map((_,i)=>[(xx[i]-mx)/sx,(yy[i]-my)/sy]);let centers=Array.from({length:k},(_,i)=>points[Math.floor(i*(points.length-1)/Math.max(1,k-1))].slice());let assignment=new Array(n).fill(0);
+   for(let t=0;t<25;t++){assignment=points.map(p=>centers.reduce((best,c,ci)=>{const dist=(p[0]-c[0])**2+(p[1]-c[1])**2;return dist<best.dist?{idx:ci,dist}:best},{idx:0,dist:Infinity}).idx);centers=centers.map((c,ci)=>{const set=points.filter((_,i)=>assignment[i]===ci);return set.length?[set.reduce((s,z)=>s+z[0],0)/set.length,set.reduce((s,z)=>s+z[1],0)/set.length]:c})}
+   colors=assignment.map(i=>['#1f7988','#b87c4e','#785b9b','#27935e','#be556d','#aab05a'][i]);output.forEach((r,i)=>r.grupo=assignment[i]+1);
+  }
+  $('a26-lab-title').textContent=task==='cluster'?'Agrupamiento K-means descriptivo':task==='trend'?'Evolución de los indicadores':'Relación entre indicadores';
+  const traces=task==='trend'?[{type:'scatter',mode:'markers',x:raw.map(r=>r.year),y:yy,marker:{color:colors,size:7,opacity:.6},text:labels,hovertemplate:'%{text}<br>%{y:.2f}<extra></extra>'}]:[{type:'scattergl',mode:'markers',x:xx,y:yy,marker:{color:colors,size:8,opacity:.6,line:{width:0}},text:labels,hovertemplate:'%{text}<br>X: %{x:.2f}<br>Y: %{y:.2f}<extra></extra>'}];
+  if(task==='scatter'&&slope!=null){const lo=Math.min(...xx),hi=Math.max(...xx);traces.push({type:'scatter',mode:'lines',x:[lo,hi],y:[intercept+slope*lo,intercept+slope*hi],name:'Ajuste lineal',line:{color:'#b66e49',dash:'dash',width:2}})}
+  graph($('a26-lab-plot'),traces,{height:550,margin:{l:75,r:30,t:20,b:85},xaxis:{title:task==='trend'?'Elección':measures.find(q=>q[0]===x)?.[1]},yaxis:{title:measures.find(q=>q[0]===y)?.[1]},showlegend:task==='scatter'});
+  $('a26-lab-stats').innerHTML=[['Observaciones',fmt(n)],['Correlación de Pearson',r==null?'—':fmt(r,3)],['Pendiente lineal',slope==null?'—':fmt(slope,3)],['R²',r==null?'—':fmt(r*r,3)]].map(([k,v])=>`<div><small>${k}</small><strong>${v}</strong></div>`).join('');
+  $('a26-lab-table').innerHTML='<thead><tr><th>Elección</th><th>Territorio</th><th>X</th><th>Y</th></tr></thead><tbody>'+output.slice(0,150).map(q=>`<tr><td>${q.anio}</td><td>${esc(q.territorio)}</td><td>${fmt(q.valor_x,2)}</td><td>${fmt(q.valor_y,2)}</td></tr>`).join('')+'</tbody>';
+ }
+ sec.querySelectorAll('select').forEach(x=>x.addEventListener('change',draw));sec.querySelectorAll('[data-atlas-export]').forEach(b=>b.addEventListener('click',async()=>{const ex=b.dataset.atlasExport;if(ex==='csv')return csv(output,'atlas_laboratorio_analisis.csv');await Plotly.downloadImage($('a26-lab-plot'),{format:ex,filename:'atlas_laboratorio',width:1550,height:850,scale:ex==='png'?2:1})}));
+ $('a26-lab-y').value='noval_pct';draw();
+}
+function atlasPartyProfiles(){
+ const container=document.getElementById('content');if(!container||document.getElementById('atlas-v26-profiles'))return;
+ const sec=block('Perfil histórico integrado de organizaciones políticas','Resultados, presencia territorial, candidaturas, votos y antecedentes jurídicos disponibles en las bases.','atlas-v26-profiles');
+ const partyNames=[...new Set(voteRows.filter(r=>r.level==='n').map(r=>r.party))].sort((x,y)=>x.localeCompare(y,'es'));
+ sec.innerHTML+=`<div class="a26-tools">${select('a26-profile-party','Organización política',partyNames.map(p=>[p,p]))}${select('a26-profile-arena','Arena',[['P','Presidencial'],['L','Legislativa']])}</div><div id="a26-profile-head"></div><div class="a26-chart-title"><h4>Trayectoria de votos y presencia electoral</h4>${buttons}</div><div id="a26-profile-plot" class="a26-plot"></div><div class="a25-tablewrap"><table id="a26-profile-table"></table></div><details><summary>Candidaturas vinculadas al partido</summary><div id="a26-profile-noms" class="a26-person-grid"></div><button id="a26-profile-csv" type="button">Descargar candidaturas de este partido</button></details>`;
+ container.prepend(sec);const $=id=>sec.querySelector('#'+id);let output=[],nominal=[];
+ function draw(){let name=$('a26-profile-party').value,a=$('a26-profile-arena').value;const rs=voteRows.filter(r=>r.level==='n'&&r.arena===a&&norm(r.party)===norm(name)).sort((u,v)=>u.year-v.year);
+  output=rs.map(r=>({Eleccion:r.year,Partido:name,Arena:names[a],Votos:r.votes,Porcentaje:r.share}));nominal=(V.nomination_rows||[]).filter(r=>norm(r.party)===norm(name));
+  const yearsSeen=rs.length?rs.map(r=>r.year).join(' · '):'Sin registros en esta arena';
+  $('a26-profile-head').innerHTML=`<div class="a26-profile-hero" style="--a26-party:${partyColor(name)}"><div class="a26-profile-swatch"></div><div><h3>${esc(name)}</h3><p>${fmt(rs.length)} elecciones con votos en la arena seleccionada · ${fmt(nominal.length)} candidaturas nominales en el corpus</p><small>${esc(yearsSeen)}</small></div></div>`;
+  const tr=[{type:'scatter',mode:'lines+markers',name:'Cuota nacional',x:rs.map(r=>r.year),y:rs.map(r=>r.share),line:{color:partyColor(name),width:3},marker:{size:9},customdata:rs.map(r=>r.votes),hovertemplate:'%{x}: %{y:.2f}% · %{customdata:,} votos<extra></extra>'}];
+  graph($('a26-profile-plot'),tr,{height:440,margin:{l:75,r:35,t:30,b:75},xaxis:{title:'Elección',tickmode:'array',tickvals:years,tickangle:-45},yaxis:{title:'% de votos válidos'}});
+  $('a26-profile-table').innerHTML='<thead><tr><th>Elección</th><th>Votos</th><th>Cuota nacional</th><th>Primeros lugares cantonales</th><th>Primeros lugares distritales</th></tr></thead><tbody>'+rs.map(r=>`<tr><td>${r.year}</td><td>${fmt(r.votes)}</td><td>${fmt(r.share,2)} %</td><td>${leaders.get(key(r.year,a,'c','101'))?'': ''}${leaderRows.filter(x=>x.year===r.year&&x.arena===a&&x.level==='c'&&norm(x.party)===norm(name)).length}</td><td>${leaderRows.filter(x=>x.year===r.year&&x.arena===a&&x.level==='d'&&norm(x.party)===norm(name)).length}</td></tr>`).join('')+'</tbody>';
+  $('a26-profile-noms').innerHTML=nominal.slice(0,300).map(x=>`<div class="a25-nom"><span class="a25-swatch" style="background:${partyColor(name)}"></span><div><b>${esc(x.name)}</b><small>${x.year} · ${esc(x.office)} · ${esc(x.province)}</small></div><span class="a25-outcome ${x.elected?'is-elected':''}">${x.elected?'✓ Electa':'Candidatura'}</span></div>`).join('');
+ }
+ sec.querySelectorAll('select').forEach(x=>x.addEventListener('change',draw));
+ sec.querySelectorAll('[data-atlas-export]').forEach(b=>b.addEventListener('click',async()=>{const ex=b.dataset.atlasExport;if(ex==='csv')return csv(output,'atlas_perfil_partido.csv');await Plotly.downloadImage($('a26-profile-plot'),{format:ex,filename:'perfil_electoral',width:1600,height:820,scale:ex==='png'?2:1})}));
+ $('a26-profile-csv').onclick=()=>csv(nominal.map(x=>({anio:x.year,partido:x.party,persona:x.name,cargo:x.office,provincia:x.province,electa:x.elected})),'atlas_perfil_candidaturas.csv');
+ if(window.AtlasV26SelectedParty&&partyNames.some(n=>norm(n)===norm(window.AtlasV26SelectedParty)))$('a26-profile-party').value=partyNames.find(n=>norm(n)===norm(window.AtlasV26SelectedParty));draw();
+}
+function atlasPaperBallots(){
+ const container=document.getElementById('content');if(!container||document.getElementById('atlas-v26-ballots'))return;
+ const sec=block('Documentación de papeletas por arena','La base documental legislativa está disponible; el diseño presidencial se incorporará una vez concluida su codificación.','atlas-v26-ballots');
+ sec.innerHTML+=`<div class="a26-tools">${select('a26-ballot-arena','Tipo de papeleta',[['L','Diputaciones'],['P','Presidencia · base prevista']])}</div><div id="a26-ballot-content"></div>`;
+ container.prepend(sec);const field=sec.querySelector('#a26-ballot-arena');function draw(){sec.querySelector('#a26-ballot-content').innerHTML=field.value==='P'?'<div class="a26-pending"><strong>Base presidencial en preparación</strong><p>Este apartado está previsto en la arquitectura; no muestra registros simulados.</p></div>':'<p class="a26-footnote">Consulte debajo los diseños legislativos históricos, las características documentales y su relación con las elecciones.</p>';}
+ field.addEventListener('change',draw);draw();
+}
+function atlasGlobalPolish(){
+ const content=document.getElementById('content');if(!content)return;
+ // La intervención global conserva los gráficos existentes; mejora rótulos y estructura de lectura.
+ const namesList={apellidos:'Nombres y conexiones nominales',trayectorias:'Personas y carreras electorales',mapas:'Cartografía provincial',datos:'Explorador y descarga de datos',laboratorio:'Laboratorio de análisis electoral',metodo:'Metodología, bases y fuentes'};
+ const tab=[...document.querySelectorAll('.navbutton')].find(x=>x.classList.contains('active'));
+ if(tab){const k=[...document.querySelectorAll('.navbutton')].indexOf(tab);if(k>=0)document.body.dataset.atlasTab=tab.textContent.trim()}
+ const header=content.querySelector('.section-head');if(header){header.classList.add('a26-section-heading')}
+ for(const box of content.querySelectorAll('.card,.panel'))box.classList.add('a26-card');
+}

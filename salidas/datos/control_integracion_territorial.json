@@ -1,0 +1,17 @@
+{
+  "version": "25.0",
+  "proyecto": "Atlas Electoral de Costa Rica 1953-2026",
+  "n_years": 19,
+  "n_cantons": 84,
+  "n_districts": 508,
+  "n_votes": 214104,
+  "n_metrics": 21469,
+  "n_nomination_rows": 15400,
+  "n_catalog_colors": 136,
+  "html_size": 110549647,
+  "html_sha256": "aac0120c79cd49cf5e337c270ca994a4d11e2626b02590e64b5ce74b9de3fd8b",
+  "source_sha256": {
+    "atlas_integracion_territorial.js": "dec94374bdb8a0388fdfc2320113b29f24080ae1c817b261b36a32096d72f881",
+    "atlas_integracion_territorial.css": "e479df21c773b0d0345e9df2ca5b5db5432b0b4686672378fcf43b38a44e4b24"
+  }
+}

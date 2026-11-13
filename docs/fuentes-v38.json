@@ -1,0 +1,42 @@
+[
+  {
+    "archivo": "Base_Electoral_Diputaciones_1953-2026.xlsx",
+    "bytes": 11349713,
+    "sha256": "ff423c026422dd28eeef21ef212b0c02cb6082fec663a73dfa072301a1e00a77"
+  },
+  {
+    "archivo": "Base_Electoral_Presidencial_1953-2026.xlsx",
+    "bytes": 10318055,
+    "sha256": "e2a9448829f1d271f7393cb623b2d7228fbd9506b5fcf372dcce9b6e3d22c3a1"
+  },
+  {
+    "archivo": "Base_Final_Candidaturas_Diputaciones_1953-2026.xlsx",
+    "bytes": 921446,
+    "sha256": "5bfb2815b2e3d796b9774a93c09c4385ff109fc76d3e39af00c894cc461842d7"
+  },
+  {
+    "archivo": "Base_Final_Candidaturas_Presidenciales_1953-2026.xlsx",
+    "bytes": 38190,
+    "sha256": "20b7dc97ba7e15d66ad8f7401ea2ec83addcf3a079d87f43092cf2ef06d60619"
+  },
+  {
+    "archivo": "Base_Final_Diputaciones_Electas_1953-2026.xlsx",
+    "bytes": 71918,
+    "sha256": "99b5c831c568efcbbab6f8a6c80a341974d953e014c46c4b1620aa8a758674b8"
+  },
+  {
+    "archivo": "Base_Final_Diseno_Papeletas_Diputaciones_1953-2026.xlsx",
+    "bytes": 31861,
+    "sha256": "632769f1f8d4d65e2c1905ba62534d5556b67a404862b8f2852797045913ff61"
+  },
+  {
+    "archivo": "Base_Final_Partidos_Politicos_1953-2026.xlsx",
+    "bytes": 50977,
+    "sha256": "b50e1cb27898410a01f4a21bec8d4caeccf803e04ec68e6c12cb6ab3d04d0b11"
+  },
+  {
+    "archivo": "Base_partidos_cancelados.xlsx",
+    "bytes": 65633,
+    "sha256": "c5a51115166fd55b4ce3f63b6bfd81dec636fed08440667ab547af36c6ec4c24"
+  }
+]

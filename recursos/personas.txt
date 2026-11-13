@@ -1,0 +1,32 @@
+/* Candidaturas, fórmulas, personas y recurrencias usan el mismo universo nominal ya conciliado. */
+function atlasNominalExplorer(section){
+ const container=document.getElementById('content');if(!container||document.getElementById('atlas-v26-nominal'))return;
+ const configured=section==='formulas'?'P':section==='candidaturas'?'all':'all';
+ const title={candidaturas:'Consulta integrada de candidaturas',formulas:'Fórmulas presidenciales: personas y resultados',trayectorias:'Personas y recurrencia electoral',apellidos:'Exploración de nombres y coincidencias nominales'}[section]||'Consulta nominal';
+ const sec=block(title,'Filtre por elección, partido, cargo y persona. Cada registro mantiene su candidatura y su resultado; las coincidencias nominales no acreditan parentesco.','atlas-v26-nominal');
+ const parties=[...new Set((V.nomination_rows||[]).map(r=>r.party))].sort((a,b)=>a.localeCompare(b,'es'));
+ sec.innerHTML+=`<div class="a26-tools">${select('a26-n-year','Elección',[['all','Todas'],...years.map(y=>[String(y),String(y)])])}${select('a26-n-arena','Arena',[['all','Ambas'],['P','Presidencial y vicepresidencias'],['L','Legislativa']])}${select('a26-n-party','Partido',[['all','Todos'],...parties.map(p=>[p,p])])}${select('a26-n-outcome','Resultado',[['all','Todas'],['yes','Electas'],['no','No electas']])}${select('a26-n-frequency','Trayectoria',[['all','Todas las personas'],['multiple','Más de una candidatura'],['single','Una candidatura registrada']])}<label>Buscar nombre o cargo<input id="a26-n-search" type="search" placeholder="Nombre, apellido, candidatura..."/></label></div>
+ <div class="a26-metric-cards" id="a26-n-summary"></div><div class="a26-exportbar"><span id="a26-n-count"></span><button id="a26-n-download" class="a26-primary" type="button">Descargar candidaturas CSV</button></div><div class="a26-person-grid" id="a26-n-list"></div><button type="button" id="a26-n-next">Mostrar más registros</button><div class="a26-election-case" id="a26-n-case">Seleccione una persona para consultar sus candidaturas y resultados registrados.</div>`;
+ (container.querySelector('.section-head')||container.firstChild)?.after(sec);
+ const $=id=>sec.querySelector('#'+id);const nom=V.nomination_rows||[],freq=new Map();for(const r of nom){const n=norm(r.name);freq.set(n,(freq.get(n)||0)+1)}
+ if(configured!=='all')$('a26-n-arena').value=configured;
+ let current=[],page=0;
+ function render(){const yr=$('a26-n-year').value,a=$('a26-n-arena').value,p=$('a26-n-party').value,o=$('a26-n-outcome').value,frequency=$('a26-n-frequency').value,search=$('a26-n-search').value.toLowerCase();
+  current=nom.filter(x=>(yr==='all'||String(x.year)===yr)&&(a==='all'||x.arena===a)&&(p==='all'||x.party===p)&&(o==='all'||Boolean(x.elected)===(o==='yes'))&&(!search||[x.name,x.office,x.party].some(v=>String(v).toLowerCase().includes(search)))&&(frequency==='all'||(freq.get(norm(x.name))>1)===(frequency==='multiple')));
+  const people=new Set(current.map(x=>norm(x.name))).size,success=current.filter(x=>x.elected).length;
+  $('a26-n-summary').innerHTML=[['Candidaturas',fmt(current.length)],['Personas nominales',fmt(people)],['Resultados electos',fmt(success)],['Con más de una candidatura',fmt(new Set(current.filter(x=>freq.get(norm(x.name))>1).map(x=>norm(x.name))).size)]].map(([k,v])=>`<div><small>${k}</small><strong>${v}</strong></div>`).join('');
+  $('a26-n-count').textContent=`${fmt(current.length)} registros · selección completa descargable`;
+  const rows=current.slice(0,(page+1)*100);$('a26-n-list').innerHTML=rows.map((x,i)=>`<button type="button" class="a26-person-option" data-nom="${i}"><span class="a25-swatch" style="background:${partyColor(x.party)}"></span><div><strong>${esc(x.name)}</strong><small>${x.year} · ${esc(x.party)} · ${esc(x.office)} · ${esc(x.province)}</small></div><span class="a25-outcome ${x.elected?'is-elected':''}">${x.elected?'✓ Electa':'No electa'}</span></button>`).join('');
+  $('a26-n-next').hidden=rows.length===current.length;
+ }
+ $('a26-n-list').addEventListener('click',e=>{const b=e.target.closest('[data-nom]');if(!b)return;const person=current[+b.dataset.nom];if(!person)return;const records=nom.filter(x=>norm(x.name)===norm(person.name)).sort((a,b)=>a.year-b.year);
+  $('a26-n-case').innerHTML=`<h4>${esc(person.name)} · ${fmt(records.length)} candidaturas registradas</h4><div class="a26-person-timeline">${records.map(x=>`<div><b>${x.year}</b><span>${esc(x.party)} · ${esc(x.office)} · ${esc(x.province)}</span><strong>${x.elected?'✓ Electa':'No electa'}</strong></div>`).join('')}</div>`;
+ });
+ $('a26-n-next').onclick=()=>{page++;render()};sec.querySelectorAll('select').forEach(e=>e.addEventListener('change',()=>{page=0;render()}));$('a26-n-search').addEventListener('input',()=>{page=0;render()});
+ $('a26-n-download').onclick=()=>csv(current.map(x=>({eleccion:x.year,arena:x.arena,provincia:x.province,partido:x.party,nombre:x.name,cargo:x.office,electa:x.elected})),'atlas_candidaturas_consulta.csv');render();
+}
+function atlasMethods(){const c=document.getElementById('content');if(!c||c.querySelector('#atlas-v26-methods'))return;
+ const sec=block('Arquitectura y cobertura de fuentes','Ocho bases de datos integradas y una novena base documental presidencial prevista para una etapa posterior.','atlas-v26-methods');
+ sec.innerHTML+=`<div class="a26-feature-cards"><div><h3>19 elecciones</h3><p>1953–2026, con resultados presidenciales y legislativos.</p></div><div><h3>84 cantones</h3><p>Cobertura 2026; 65 en 1953. Se preservan códigos y vigencia histórica.</p></div><div><h3>Distritos administrativos</h3><p>492 en 2026, y 508 códigos diferentes presentes a lo largo del corpus.</p></div><div><h3>Cuatro segundas rondas</h3><p>2002, 2014, 2018 y 2022. Resultados de ronda explícitos.</p></div></div><p class="a26-footnote">Los indicadores de abstención de elecciones simultáneas se integran mediante la conciliación territorial ya realizada. Se mantienen separados los votos válidos, blancos y nulos de cada papeleta. Una ausencia territorial histórica no se equipara a cero.</p>`;
+ (c.querySelector('.section-head')||c.firstChild)?.after(sec);
+}

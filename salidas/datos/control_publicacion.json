@@ -1,0 +1,10 @@
+{
+  "version": "27.0",
+  "fuentes": 8,
+  "elecciones": 19,
+  "observaciones_metricas": 21469,
+  "filas_votos": 214104,
+  "archivo_html": "Atlas_Electoral_Costa_Rica_1953_2026.html",
+  "bases_descargables": "Atlas_Bases_Electorales_Originales.zip",
+  "sha256_js": "141f23da2e2c6c50dd25fe98ad19b40d0643d9a094d10370737f6abacefcd90e"
+}

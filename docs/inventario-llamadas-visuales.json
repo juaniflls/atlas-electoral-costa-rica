@@ -1,0 +1,722 @@
+[
+  {
+    "modulo": "aplicacion-base",
+    "linea": 139,
+    "rotulo": "Mujeres: de la candidatura al escaño"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 143,
+    "rotulo": "Distribución del padrón legislativo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 144,
+    "rotulo": "Primera y segunda ronda: abstencionismo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 148,
+    "rotulo": "Número de partidos frente a partidos efectivos"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 149,
+    "rotulo": "Partido más votado por provincia"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 153,
+    "rotulo": "Brecha presidencial − legislativa por partido"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 155,
+    "rotulo": "La brecha a lo largo del tiempo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 156,
+    "rotulo": "Apoyo presidencial frente a legislativo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 157,
+    "rotulo": "Divergencia entre distribuciones completas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 160,
+    "rotulo": "Votos y escaños por partido"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 161,
+    "rotulo": "Prima o déficit de representación"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 162,
+    "rotulo": "Desproporcionalidad a través del tiempo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 162,
+    "rotulo": "Fragmentación electoral y parlamentaria"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 163,
+    "rotulo": "Escaños por provincia"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 167,
+    "rotulo": "Bancada del partido presidencial"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 167,
+    "rotulo": "El partido de gobierno en la elección siguiente"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 170,
+    "rotulo": "Trayectoria electoral del nombre seleccionado"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 170,
+    "rotulo": "Distribución provincial del apoyo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 172,
+    "rotulo": "Cobertura efectiva de candidaturas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 175,
+    "rotulo": "Palabras en los nombres partidarios"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 180,
+    "rotulo": "Evolución del tamaño de las listas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 181,
+    "rotulo": "Posiciones de lista"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 185,
+    "rotulo": "Candidaturas, encabezamientos y escaños"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 187,
+    "rotulo": "Mujeres por posición de lista"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 188,
+    "rotulo": "De la postulación propietaria al escaño"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 197,
+    "rotulo": "Experiencia electoral registrada"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 199,
+    "rotulo": "Intentos hasta la primera elección observada"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 202,
+    "rotulo": "Mujeres en las tres posiciones de fórmula"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 206,
+    "rotulo": "Apellidos más frecuentes"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 210,
+    "rotulo": "Voto no válido según característica registrada"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 213,
+    "rotulo": "Denominaciones repetidas en el listado"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 214,
+    "rotulo": "Intervalos registrales"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 221,
+    "rotulo": "Relación entre variables"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 360,
+    "rotulo": "Matriz de movimientos provinciales · ${arena}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 376,
+    "rotulo": "Oferta partidaria y acceso a la Asamblea"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 381,
+    "rotulo": "La diferencia que ocultan las líneas superpuestas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 385,
+    "rotulo": "Provincias a través del tiempo · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 386,
+    "rotulo": "Ranking provincial por elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 387,
+    "rotulo": "Ranking · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 396,
+    "rotulo": "Votos destinados a partidos sin escaño"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 402,
+    "rotulo": "Quién ganó cada arena en cada elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 408,
+    "rotulo": "Cómo participa la oferta partidaria"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 416,
+    "rotulo": "Mujeres y hombres · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 417,
+    "rotulo": "Número de registros por sexo · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 422,
+    "rotulo": "Composición por sexo · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 430,
+    "rotulo": "Tiempo entre cancelación e inscripción del mismo nombre"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 436,
+    "rotulo": "Distribución provincial · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 456,
+    "rotulo": "Escaños y representación territorial · evolución"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 466,
+    "rotulo": "Distribución provincial · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 467,
+    "rotulo": "La misma variable a través de las elecciones"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 471,
+    "rotulo": "Apoyo electoral del nombre seleccionado"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 471,
+    "rotulo": "Bancada a través del tiempo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 477,
+    "rotulo": "Apellidos más frecuentes"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 479,
+    "rotulo": "Cruce · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 518,
+    "rotulo": "Evolución del indicador territorial"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 524,
+    "rotulo": "Sobre/subrepresentación relativa al padrón · elección de detalle"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 530,
+    "rotulo": "Peso en padrón frente a peso en escaños"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 532,
+    "rotulo": "Historia de la brecha escaños–padrón por provincia"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 533,
+    "rotulo": "Ranking provincial en la elección de detalle"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 536,
+    "rotulo": "Ranking provincial asociado al mapa"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 536,
+    "rotulo": "Trayectoria provincial de la medida seleccionada"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 538,
+    "rotulo": "Movimientos observados por elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 539,
+    "rotulo": "Recorrido electoral de la persona"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 664,
+    "rotulo": "Composición partidaria de la Asamblea"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 711,
+    "rotulo": "Cronología visual de candidaturas y outcomes"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 733,
+    "rotulo": "Apellidos visibles en el ranking"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 735,
+    "rotulo": "Outcome de personas con «${selected}»"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 738,
+    "rotulo": "Red exploratoria: coincidencia nominal → partidos"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 751,
+    "rotulo": "Outcome a nivel de personas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 752,
+    "rotulo": "Tasa de elección por experiencia y movilidad"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 755,
+    "rotulo": "Outcome de candidaturas por elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 767,
+    "rotulo": "Flujos auditables entre una participación y la siguiente"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 782,
+    "rotulo": "${bFrom} → ${bTo}: outcome antes y después"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 793,
+    "rotulo": "Antecedentes antes de resultar electo en ${anteCargo}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 811,
+    "rotulo": "Frecuencia histórica de resultados nacionales"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 814,
+    "rotulo": "Apoyo legislativo provincial observado"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 950,
+    "rotulo": "Cronología visual de candidaturas y outcomes"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 967,
+    "rotulo": "Electa o no electa dentro de cada cargo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 971,
+    "rotulo": "Tasa de elección por sexo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 979,
+    "rotulo": "Qué ocurrió en la carrera de las candidaturas no electas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 987,
+    "rotulo": "Entre quienes repitieron: cuántos años electorales distintos disputaron"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 989,
+    "rotulo": "Ruta de todas las personas hasta su primera elección exitosa"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 991,
+    "rotulo": "Entre quienes sí resultaron electos: camino hasta la primera elección exitosa"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 994,
+    "rotulo": "Después de la primera victoria: cuántas veces volvieron a resultar electas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1018,
+    "rotulo": "Flujos auditables entre una elección y la siguiente · ${flowArena}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1030,
+    "rotulo": "Matriz de trayectorias entre cargos (incluye el mismo cargo en distintos años)"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1065,
+    "rotulo": "Cómo llegaban quienes resultaron electos en ${anteCargo}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1092,
+    "rotulo": "Composición por sexo a través del tiempo"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1096,
+    "rotulo": "Dentro de cada sexo: candidaturas electas y no electas"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1110,
+    "rotulo": "Composición por sexo · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1111,
+    "rotulo": "Tasa de elección por sexo · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1126,
+    "rotulo": "Personas candidatas nuevas y recurrentes por elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1127,
+    "rotulo": "Peso de candidaturas recurrentes en cada elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1551,
+    "rotulo": "Voto válido destinado a partidos sin diputaciones"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1559,
+    "rotulo": "Líder de votos legislativos · votos frente a escaños"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1562,
+    "rotulo": "Partido presidencial electo · voto legislativo y bancada"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1660,
+    "rotulo": "Voto presidencial a partidos sin diputaciones electas · serie histórica"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1709,
+    "rotulo": "Partido más votado por provincia · ${labelsArena[arena]}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1722,
+    "rotulo": "Diferencia agregada entre voto presidencial y legislativo · 1953–2026"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1729,
+    "rotulo": "Liderazgos territoriales comparados · Presidencia y diputaciones"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1740,
+    "rotulo": "Resultado posterior y continuidad partidaria · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1754,
+    "rotulo": "De ${prev} a ${next} · elección posterior y cambios observados"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1768,
+    "rotulo": "Ranking provincial de participación · ${labelsArena[arena]}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1776,
+    "rotulo": "Composición del padrón electoral · ${labelsArena[arena]}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1784,
+    "rotulo": "Oferta partidaria · porcentajes visibles por arena"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1856,
+    "rotulo": "Voto presidencial y legislativo · diferencia agregada por provincia y elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1878,
+    "rotulo": "Abstencionismo legislativo nacional · 1953–2026"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 1919,
+    "rotulo": "Composición porcentual de la oferta partidaria por arena"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2010,
+    "rotulo": "Valores provinciales y nacional · ${metricLabels[key]} · ${arena}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2079,
+    "rotulo": "Composición del padrón · ${arena}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2092,
+    "rotulo": "Registros por denominación · ${escala} · ${tipo}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2094,
+    "rotulo": "Registros cuyo intervalo comprende cada elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2197,
+    "rotulo": "Composición histórica de liderazgos provinciales · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2214,
+    "rotulo": "Quiebre del voto · distancia presidencial–legislativa por provincia y elección"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2232,
+    "rotulo": "Ranking provincial del quiebre del voto · último campo: promedio global"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2242,
+    "rotulo": "Provincias con mayor quiebre agregado · elección "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2267,
+    "rotulo": "Oferta partidaria y acceso a diputaciones · "
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2317,
+    "rotulo": "Cronología de nombres y cancelaciones · ${filter}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2325,
+    "rotulo": "Denominaciones con múltiples registros · ${filter}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2333,
+    "rotulo": "Registros cuyo intervalo comprende cada elección · ${filter}"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2542,
+    "rotulo": "Doble postulación · fórmula presidencial y diputación · evolución histórica"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2547,
+    "rotulo": "Composición de la doble postulación por cargo nacional"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2628,
+    "rotulo": "Doble postulación por provincia y elección · total Costa Rica"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2642,
+    "rotulo": "Concentración territorial de las dobles postulaciones"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2652,
+    "rotulo": "Éxito legislativo entre las dobles postulaciones · por provincia"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2666,
+    "rotulo": "Resultados de las postulaciones dobles · ambos cargos"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 2711,
+    "rotulo": "Matriz de movimientos provinciales · diputaciones"
+  },
+  {
+    "modulo": "aplicacion-base",
+    "linea": 3141,
+    "rotulo": "Ranking provincial histórico de representación relativa al padrón"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 461,
+    "rotulo": "Evolución histórica de partidos · comparación configurable por elección"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 501,
+    "rotulo": "De la participación anterior a la siguiente · origen y destino"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 529,
+    "rotulo": "Matriz de transición entre participaciones consecutivas"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 740,
+    "rotulo": "Composición del flujo · origen frente a destino"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 802,
+    "rotulo": "Distribución de "
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 827,
+    "rotulo": "Matriz de "
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 1032,
+    "rotulo": "Composición de los partidos con participación electoral única"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 1049,
+    "rotulo": "Matriz de partidos con participación electoral única"
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 1726,
+    "rotulo": "Distribución histórica de la cobertura · "
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 1733,
+    "rotulo": "Cronología de cambios de clasificación · "
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 1748,
+    "rotulo": "Votación legislativa documentada · "
+  },
+  {
+    "modulo": "atlas234-territorio",
+    "linea": 1769,
+    "rotulo": "Historia legislativa de "
+  },
+  {
+    "modulo": "atlas-v2317-js",
+    "linea": 202,
+    "rotulo": "Presidencial"
+  },
+  {
+    "modulo": "atlas-v2317-js",
+    "linea": 202,
+    "rotulo": "Legislativa"
+  },
+  {
+    "modulo": "atlas-v27-js",
+    "linea": 170,
+    "rotulo": "Puesto"
+  },
+  {
+    "modulo": "atlas-v27-js",
+    "linea": 187,
+    "rotulo": "Territorio"
+  }
+]

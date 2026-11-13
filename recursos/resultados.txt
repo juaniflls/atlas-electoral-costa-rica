@@ -1,0 +1,73 @@
+/* Sección 07 · extensión de la consulta ORIGINAL (sin crear otro visor electoral). */
+function integrateResults(){
+ const root=document.getElementById('atlas-v2317-seccion07');
+ if(!root?.__atlasResultControl||root.querySelector('#atlas-v26-detail'))return;
+ const shell=root.querySelector('.ar-shell'), originalControls=shell?.querySelector('.ar-controls');
+ if(!shell||!originalControls)return;
+ const area=document.createElement('div');area.id='atlas-v26-detail';area.className='a26-integrated';
+ area.innerHTML=`<header class="a26-inline-head"><div><span class="a26-kicker">ESCRUTINIO · MISMA ELECCIÓN Y PROVINCIA</span><h3>Resultados detallados por territorio</h3><p>La consulta utiliza la selección superior y conserva el mapa y los resultados anteriores. Desglose los votos sin cambiar de explorador.</p></div></header>
+ <div class="a26-tools">${select('a26-detail-level','División territorial',[['p','Provincia'],['c','Cantón'],['d','Distrito']])}${select('a26-detail-round','Ronda presidencial',[['P','Primera ronda'],['R','Segunda ronda']])}${select('a26-detail-zone','Territorio',[['all','Todos los territorios']])}${select('a26-detail-party','Partido',[['','Todos los partidos']])}</div>
+ <div class="a26-metric-cards" id="a26-detail-summary"></div>
+ <div class="a26-chart-title"><h4 id="a26-detail-title">Escrutinio territorial</h4>${buttons}</div>
+ <div class="a26-dual"><div class="a26-plot" id="a26-detail-plot"></div><div class="a26-plot" id="a26-detail-map" hidden></div></div>
+ <div class="a26-table-bar"><label>Buscar en los resultados <input id="a26-detail-search" type="search" placeholder="Cantón, distrito, partido…"/></label><span id="a26-detail-counter"></span></div>
+ <div class="a25-tablewrap a26-big-table"><table id="a26-detail-table"></table></div><div class="a26-pagination"><button id="a26-detail-prev" type="button">Anterior</button><span id="a26-detail-page"></span><button id="a26-detail-next" type="button">Siguiente</button></div>
+ <details class="a26-candidates"><summary><strong>Candidaturas y personas electas</strong><span>Fórmulas presidenciales y listas legislativas · abrir consulta nominal</span></summary>
+ <div class="a26-tools"><label>Buscar persona o partido <input id="a26-nom-search" type="search" placeholder="Nombre, partido, cargo…"/></label>${select('a26-nom-status','Condición',[['all','Todas'],['yes','Electas'],['no','No electas']])}<button id="a26-nom-csv" type="button">Descargar candidaturas CSV</button></div>
+ <p class="a26-footnote">Los votos legislativos pertenecen a listas partidarias, no a cada persona. Los votos presidenciales se atribuyen a la fórmula de su partido.</p>
+ <div id="a26-nom-count"></div><div id="a26-nom-grid" class="a26-person-grid"></div><button id="a26-nom-more" type="button">Mostrar más candidaturas</button></details>`;
+ const grid=shell.querySelector('.ar-grid');if(grid)grid.after(area);else shell.append(area);
+ const $=id=>area.querySelector('#'+id);let filtered=[],full=[],nominal=[],nominalFiltered=[],page=0,nomPage=0,current={};
+ const mapDiv=$('a26-detail-map');
+ function prepareGeo(y,a){
+  const g=V.province_geojson;if(!g||!window.Plotly)return;
+  const prov=provinces;const vals=prov.map(p=>{const rs=dataVotes(y,a,'p',p);return rs[0]?.share??null});
+  const winners=prov.map(p=>dataVotes(y,a,'p',p)[0]);
+  const colorIndex=[...new Set(winners.filter(Boolean).map(x=>norm(x.party)))];
+  const z=winners.map(w=>w?colorIndex.indexOf(norm(w.party)):null);
+  const shades=colorIndex.flatMap((name,i)=>{const col=partyColor(winners.find(w=>w&&norm(w.party)===name)?.party||name);return [[(i+.001)/Math.max(1,colorIndex.length),col],[(i+.999)/Math.max(1,colorIndex.length),col]]});
+  Plotly.react(mapDiv,[{type:'choropleth',geojson:g,featureidkey:V.geo_name_key||'properties.provincia',locations:prov,z:z,colorscale:shades.length?shades:[[0,'#dce7ed'],[1,'#7f9cad']],showscale:false,marker:{line:{color:'#ffffff',width:1.6}},customdata:prov.map((p,i)=>[winners[i]?.party||'Sin datos',winners[i]?.votes||0,vals[i]]),hovertemplate:'%{location}<br>%{customdata[0]}<br>%{customdata[1]:,} votos · %{customdata[2]:.1f}%<extra></extra>'}],{geo:{scope:'world',projection:{type:'mercator'},fitbounds:'locations',showcoastlines:false,showframe:false,showland:false,bgcolor:'rgba(0,0,0,0)'},margin:{l:0,r:0,t:10,b:0},height:460,paper_bgcolor:'rgba(0,0,0,0)'},{displaylogo:false,responsive:true});
+ }
+ function readState(){const s=root.__atlasResultControl?.getState?.();if(!s)return null;return {year:Number(s.year),province:s.province||'Costa Rica',arena:s.arena==='Legislativa'?'L':$('a26-detail-round').value}}
+ function sync(){const s=readState();if(!s)return;const y=s.year,p=s.province,a=s.arena,l=$('a26-detail-level').value;
+  const round=$('a26-detail-round');round.closest('label').hidden=s.arena==='L';const rOpt=round.querySelector('option[value="R"]');rOpt.hidden=!haveRound.has(y);rOpt.disabled=!haveRound.has(y);
+  if(!haveRound.has(y)&&round.value==='R'){round.value='P';s.arena='P'}
+  const geo=l==='p'?(p==='Costa Rica'?provinces.map(x=>({key:x,name:x})): [{key:p,name:p}]):l==='c'?cantons.filter(x=>p==='Costa Rica'||x.province===p).filter(x=>V.canton_years[x.code]?.includes(y)).map(x=>({key:x.code,name:x.name+' · '+x.province})):districts.filter(x=>p==='Costa Rica'||x.province===p).filter(x=>V.district_years[x.code]?.includes(y)).map(x=>({key:x.code,name:x.name+' · '+x.canton+' · '+x.province}));
+  let old=$('a26-detail-zone').value;$('a26-detail-zone').innerHTML='<option value="all">Todos los territorios</option>'+geo.map(x=>`<option value="${esc(x.key)}">${esc(x.name)}</option>`).join('');if(old&&geo.some(x=>x.key===old))$('a26-detail-zone').value=old;
+  const zone=$('a26-detail-zone').value;const selected=geo.filter(x=>zone==='all'||x.key===zone);
+  let result=selected.flatMap(x=>dataVotes(y,s.arena,l,x.key).map(r=>({Eleccion:y,Arena:names[s.arena],Provincia:p==='Costa Rica'?(l==='p'?x.key:l==='c'?cantonIndex.get(x.key)?.province:districtIndex.get(x.key)?.province):p,Division:l==='p'?'Provincia':l==='c'?'Cantón':'Distrito',Territorio:x.name,Codigo:x.key,Partido:r.party,Votos:r.votes,Porcentaje_validos:r.share})));
+  full=result;const parties=[...new Set(result.map(x=>x.Partido))].sort((x,y)=>x.localeCompare(y,'es'));old=$('a26-detail-party').value;$('a26-detail-party').innerHTML='<option value="">Todos los partidos</option>'+parties.map(q=>`<option value="${esc(q)}">${esc(q)}</option>`).join('');if(parties.includes(old))$('a26-detail-party').value=old;
+  current={year:y,arena:s.arena,province:p,level:l,zone,geo};let nation=dataMetric(y,s.arena,p==='Costa Rica'?'n':'p',p==='Costa Rica'?'CR':p);
+  let mm=zone!=='all'?dataMetric(y,s.arena,l,zone):nation;
+  $('a26-detail-summary').innerHTML=[['Votos válidos',fmt(mm?.validos)],['Emitidos',fmt(mm?.emitidos)],['Participación',fmt(mm?.part_pct,2)+' %'],['Abstención',fmt(mm?.abst_pct,2)+' %'],['Blancos',fmt(mm?.blancos)],['Nulos',fmt(mm?.nulos)]].map(([lab,val])=>`<div><small>${lab}</small><strong>${val}</strong></div>`).join('');
+  $('a26-detail-title').textContent=`${names[s.arena]} · ${p} · ${y} · ${l==='p'?'Provincias':l==='c'?'Cantones':'Distritos'}`;
+  const oldMap=root.querySelector('[data-role="map"]')?.closest('.ar-panel');if(oldMap){oldMap.hidden=s.arena==='R';}
+  mapDiv.hidden=s.arena!=='R';if(s.arena==='R')prepareGeo(y,s.arena);else{mapDiv.replaceChildren();}
+  const candidat=(V.nomination_rows||[]).filter(x=>x.year===y&&x.arena===(s.arena==='L'?'L':'P')&&(s.arena!=='L'||p==='Costa Rica'||x.province===p));
+  nominal=candidat;nomPage=0;drawNominal();page=0;drawTable();
+ }
+ function drawTable(){const search=$('a26-detail-search').value.toLocaleLowerCase('es'),party=$('a26-detail-party').value;
+  filtered=full.filter(x=>(!party||x.Partido===party)&&(!search||[x.Territorio,x.Provincia,x.Partido].some(v=>String(v).toLocaleLowerCase('es').includes(search))));
+  const steps=90;page=Math.max(0,Math.min(page,Math.max(0,Math.ceil(filtered.length/steps)-1)));const rows=filtered.slice(page*steps,(page+1)*steps);
+  $('a26-detail-counter').textContent=`${fmt(filtered.length)} resultados · ${fmt(full.length)} registros en selección`;
+  $('a26-detail-table').innerHTML='<thead><tr><th>Territorio</th><th>Provincia</th><th>Partido</th><th>Votos</th><th>% de válidos</th></tr></thead><tbody>'+rows.map(r=>`<tr><td>${esc(r.Territorio)}</td><td>${esc(r.Provincia)}</td><td><span class="a25-swatch" style="background:${partyColor(r.Partido)}"></span>${esc(r.Partido)}</td><td>${fmt(r.Votos)}</td><td><strong>${fmt(r.Porcentaje_validos,2)} %</strong></td></tr>`).join('')+'</tbody>';
+  $('a26-detail-page').textContent=`Página ${page+1} de ${Math.max(1,Math.ceil(filtered.length/steps))}`;
+  $('a26-detail-prev').disabled=page===0;$('a26-detail-next').disabled=(page+1)*steps>=filtered.length;
+  const rows2=filtered.slice(0,35).reverse();$('a26-detail-plot').hidden=current.level==='p';if(current.level==='p')return;graph($('a26-detail-plot'),[{type:'bar',orientation:'h',x:rows2.map(r=>r.Porcentaje_validos),y:rows2.map(r=>r.Partido+' · '+r.Territorio),marker:{color:rows2.map(r=>partyColor(r.Partido))},customdata:rows2.map(r=>r.Votos),hovertemplate:'%{y}<br>%{x:.2f}% · %{customdata:,} votos<extra></extra>'}],{height:Math.max(410,rows2.length*26+95),margin:{l:255,r:65,t:20,b:55},xaxis:{title:'% de votos válidos'}});
+ }
+ function drawNominal(){const needle=$('a26-nom-search').value.toLowerCase(),status=$('a26-nom-status').value;
+  nominalFiltered=nominal.filter(x=>(status==='all'||(status==='yes')===Boolean(x.elected))&&(!needle||[x.name,x.party,x.office].some(v=>String(v).toLowerCase().includes(needle))));
+  const max=(nomPage+1)*70;$('a26-nom-count').textContent=`${fmt(nominalFiltered.length)} candidaturas registradas`; $('a26-nom-grid').innerHTML=nominalFiltered.slice(0,max).map(x=>`<div class="a25-nom"><span class="a25-swatch" style="background:${partyColor(x.party)}"></span><div><b>${esc(x.name)}</b><small>${esc(x.party)} · ${esc(x.office)}${x.province==='Nacional'?'':' · '+esc(x.province)}</small></div><span class="a25-outcome ${x.elected?'is-elected':''}">${x.elected?'✓ Electa':'Candidatura'}</span></div>`).join('');$('a26-nom-more').hidden=nominalFiltered.length<=max;
+ }
+ area.querySelectorAll('select').forEach(c=>c.addEventListener('change',e=>{if(e.target.id==='a26-detail-party')drawTable();else if(e.target.id==='a26-nom-status')drawNominal();else sync()}));
+ $('a26-detail-search').addEventListener('input',()=>{page=0;drawTable()});$('a26-nom-search').addEventListener('input',()=>{nomPage=0;drawNominal()});
+ $('a26-detail-prev').onclick=()=>{page--;drawTable()};$('a26-detail-next').onclick=()=>{page++;drawTable()};$('a26-nom-more').onclick=()=>{nomPage++;drawNominal()};
+ $('a26-nom-csv').onclick=()=>csv(nominalFiltered.map(x=>({eleccion:x.year,arena:x.arena,provincia:x.province,partido:x.party,persona:x.name,cargo:x.office,electa:x.elected})),'atlas_candidaturas_seleccionadas.csv');
+ area.querySelectorAll('[data-atlas-export]').forEach(b=>b.addEventListener('click',async()=>{const ext=b.dataset.atlasExport,file=`atlas_resultados_${current.year}_${current.arena}_${current.level}`;
+  if(ext==='csv')return csv(filtered,file+'.csv');await Plotly.downloadImage($('a26-detail-plot'),{format:ext,filename:file,width:1600,height:Math.max(750,$('a26-detail-plot').offsetHeight),scale:ext==='png'?2:1});}));
+ root.addEventListener('change',e=>{if(!area.contains(e.target))sync()},true);
+ root.addEventListener('click',e=>{if(!area.contains(e.target))setTimeout(sync,65)},true);
+ root.addEventListener('atlas-results-updated',sync);
+ const head=shell.querySelector('.ar-top');if(head){head.querySelector('.ar-eyebrow').textContent='CONSULTA ELECTORAL · RESULTADOS Y CANDIDATURAS';head.querySelector('h2').textContent='Resultados electorales · Presidencia y Asamblea';head.querySelector('p:not(.ar-eyebrow)').textContent='Explore la elección, su mapa provincial, la distribución partidaria y el detalle cantonal o distrital dentro de una misma consulta.';}
+ sync();
+}

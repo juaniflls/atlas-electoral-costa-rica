@@ -113,6 +113,17 @@ def extract_elections(root):
                             if h[j] and v is not None:seats.append({'anio':year,'provincia':p,'partido':party(h[j]),'escanos':v})
         w.close()
     v=pd.DataFrame(votes);t=pd.DataFrame(totals);s=pd.DataFrame(seats)
+    # Un mismo padrón y abstención para Presidencia primera ronda y Diputaciones.
+    # Conservar las cifras originales de cada libro para auditoría; no cambiar los votos.
+    t['abstenciones_fuente']=t['abstenciones']
+    t['padron_fuente']=t['padron']
+    ref=(t[(t.arena=='Presidencial')&(t.ronda==1)]
+        .set_index(['anio','provincia'])[['abstenciones','padron']])
+    idx=(t.arena=='Legislativa')&(t.ronda==1)
+    ids=pd.MultiIndex.from_frame(t.loc[idx,['anio','provincia']])
+    if not ids.isin(ref.index).all():
+        raise ValueError('No hay referencia presidencial para alguna provincia legislativa')
+    t.loc[idx,['abstenciones','padron']]=ref.reindex(ids)[['abstenciones','padron']].to_numpy()
     # Nacional = suma de las siete provincias, nunca promedio de porcentajes.
     keys=['anio','arena','ronda'];cols=list(controls.values())+['suma_partidos','emitidos_fuente']
     nat=t.groupby(keys)[cols].sum(min_count=7).reset_index();nat['provincia']='Nacional'
@@ -122,6 +133,13 @@ def extract_elections(root):
     ns=s.groupby(['anio','partido'],as_index=False).escanos.sum();ns['provincia']='Nacional';s=pd.concat([s,ns],ignore_index=True)
     for col,num,den in [('abstencion_pct','abstenciones','padron'),('participacion_pct','emitidos','padron'),('blancos_pct','blancos','emitidos'),('nulos_pct','nulos','emitidos')]:
         t[col]=100*t[num]/t[den].replace(0,np.nan)
+    # Participación de la jornada: asistencia / padrón, independientemente de
+    # las incidencias de escrutinio de papeletas, que permanecen en emitidos.
+    same_day=(t.ronda==1)&t.arena.isin(['Legislativa','Presidencial'])
+    t.loc[same_day,'participacion_pct']=100*(t.loc[same_day,'padron']-t.loc[same_day,'abstenciones'])/t.loc[same_day,'padron'].replace(0,np.nan)
+    # Asistencia común de la jornada, distinta del escrutinio de cada papeleta.
+    t['asistencia_jornada'] = t['padron'] - t['abstenciones']
+    t['diferencia_papeletas_asistencia'] = t['emitidos'] - t['asistencia_jornada']
     t['invalidos_pct']=100*(t.blancos+t.nulos)/t.emitidos.replace(0,np.nan)
     v=v.merge(t[keys+['provincia','validos']],on=keys+['provincia'],validate='many_to_one')
     v['porcentaje']=100*v.votos/v.validos.replace(0,np.nan)
@@ -331,7 +349,7 @@ def render_app(data,template,output):
     from plotly.offline import get_plotlyjs
     text=Path(template).read_text(encoding='utf-8')
     extensions='\n'.join((Path(template).parent/name).read_text(encoding='utf-8')
-                         for name in ('atlas_v3.js','atlas_final.js','atlas_v12.js','atlas_v14.js'))
+                         for name in ('atlas_exploracion.js','atlas_final.js','atlas_navegacion.js','atlas_trayectorias.js'))
     text=text.replace('__V3_EXTENSIONS__',extensions)
     payload=json.dumps(data,ensure_ascii=False,allow_nan=False).replace('</','<\\/')
     text=text.replace('__PLOTLY_JS__',get_plotlyjs()).replace('__ATLAS_DATA__',payload)

@@ -1,0 +1,94 @@
+/* Sección 02. Rankings comparables por puesto y matrices por territorio. */
+function participationExplorer(){
+ const container=document.getElementById('content');
+ if(!container||container.querySelector('#atlas-v27-participacion'))return;
+ const sec=block('Participación electoral · territorios y tendencias','Explore los indicadores y sus cambios entre elecciones, desde las provincias hasta los cantones y distritos administrativos.','atlas-v27-participacion');
+ const fields=[['abst_pct','Abstencionismo (%)'],['part_pct','Participación (%)'],['valid_pct','Votos válidos / emitidos (%)'],['blancos_pct','Votos en blanco / emitidos (%)'],['nulos_pct','Votos nulos / emitidos (%)'],['noval_pct','Votos no válidos / emitidos (%)'],['abstenciones','Abstenciones (cantidad)'],['validos','Votos válidos (cantidad)'],['emitidos','Votos emitidos (cantidad)'],['blancos','Votos blancos (cantidad)'],['nulos','Votos nulos (cantidad)']];
+ sec.innerHTML+=`<div class="a27-controls">${select('a27-p-arena','Elección',[['L','Diputaciones'],['P','Presidencia'],['R','Segunda ronda presidencial']])}${select('a27-p-scale','Escala territorial',[['p','Provincias'],['c','Cantones'],['d','Distritos']])}${select('a27-p-indicator','Indicador',fields)}${select('a27-p-mode','Forma de comparación',[['top10','Los diez primeros de cada elección'],['matrix','Matriz territorial completa'],['first','Primer territorio por elección'],['single','Ranking de una elección']])}${select('a27-p-direction','Orden',[['desc','Mayor a menor'],['asc','Menor a mayor']])}${select('a27-p-year','Elección de detalle',years.map(y=>[String(y),String(y)]))}</div>
+ <div id="a27-p-status" class="a27-status"></div><div id="a27-p-kpis" class="a26-metric-cards" hidden></div>
+ <div class="a27-section-title"><div><h4 id="a27-p-title"></h4><p id="a27-p-subtitle"></p></div>${buttons}</div>
+ <div id="a27-p-table-region" class="a27-scroll-matrix"></div><div id="a27-p-plot" class="a27-p-plot" hidden></div><div id="a27-p-details" class="a27-small-table"></div>`;
+ (container.querySelector('.section-head')||container.firstChild)?.after(sec);
+ const $=id=>sec.querySelector('#'+id),palette={'San José':'#278e96','Alajuela':'#346ab2','Cartago':'#7859ad','Heredia':'#308c76','Guanacaste':'#c47b46','Puntarenas':'#297eaa','Limón':'#a65d87'};
+ const nvalid=(v)=>v!==null&&v!==undefined&&Number.isFinite(Number(v));
+ const unit=m=>m.endsWith('_pct')?'%':'';
+ const dec=m=>m.endsWith('_pct')?1:0;
+ const shown=(v,m)=>nvalid(v)?`${fmt(v,dec(m))}${unit(m)}`:'—';
+ const territoryInfo=(l,r)=>l==='p'?{name:r.key,province:r.key,sub:''}:l==='c'?{name:cantonIndex.get(String(r.key))?.name||r.key,province:cantonIndex.get(String(r.key))?.province||'',sub:''}:{name:districtIndex.get(String(r.key))?.name||r.key,province:districtIndex.get(String(r.key))?.province||'',sub:districtIndex.get(String(r.key))?.canton||''};
+ const universe=(y,a,l,m)=>dataRows.filter(r=>r.arena===a&&r.level===l&&r.year===y&&nvalid(r[m])).map(r=>({...r,...territoryInfo(l,r)}));
+ const sort=(arr,m,dir)=>arr.sort((x,z)=>(dir==='desc'?+z[m]- +x[m]:+x[m]- +z[m])||String(x.key).localeCompare(String(z.key)));
+ let exportRows=[],plot=false,matrixMode=false;
+ function matrix(head,body,footer){return `<table class="a27-matrix"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${footer}</tfoot></table>`}
+ function heading(label,ys,first='Territorio'){return `<tr><th class="a27-freeze-col">${esc(label)}</th>${ys.map(y=>`<th>${y}</th>`).join('')}</tr>`}
+ function rankMatrix(yset,a,l,m,dir){
+  const ordered=new Map(yset.map(y=>[y,sort(universe(y,a,l,m),m,dir).slice(0,10)]));exportRows=[];
+  let body='';
+  for(let pos=0;pos<10;pos++){
+   body+=`<tr><th class="a27-freeze-col a27-rank-label">${pos+1}.º</th>`;
+   for(const y of yset){const r=(ordered.get(y)||[])[pos];if(!r){body+='<td class="a27-missing">—</td>';continue}
+    exportRows.push({eleccion:y,puesto:pos+1,escala:l,provincia:r.province,canton:r.sub||'',territorio:r.name,codigo:r.key,indicador:m,valor:r[m]});
+    const color=palette[r.province]||'#54809a';
+    body+=`<td class="a27-rank-cell" style="--a27-territory-color:${color}" title="${esc(r.name)} · ${esc(r.sub)} · ${esc(r.province)} · ${y} · ${shown(r[m],m)}"><span class="a27-geo-label">${esc(r.name)}</span><small>${esc(r.sub?r.sub+' · '+r.province:r.province)}</small><strong>${shown(r[m],m)}</strong></td>`;
+   }body+='</tr>';
+  }
+  $('a27-p-table-region').innerHTML=matrix(heading('Puesto',yset),body,heading('Puesto',yset));
+  $('a27-p-subtitle').textContent=`Exactamente diez posiciones por elección. Cada puesto puede pertenecer a un territorio diferente en otro año. ${dir==='desc'?'Valores mayores primero.':'Valores menores primero.'}`;
+ }
+ function completeMatrix(yset,a,l,m){
+  const items=l==='p'?provinces.map(p=>({key:p,name:p,province:p,sub:''})):l==='c'?cantons.map(c=>({key:c.code,name:c.name,province:c.province,sub:''})):districts.map(d=>({key:d.code,name:d.name,province:d.province,sub:d.canton}));
+  items.sort((x,z)=>provinces.indexOf(x.province)-provinces.indexOf(z.province)||x.name.localeCompare(z.name,'es'));
+  exportRows=[];let body='',last='';
+  for(const u of items){if(last!==u.province){last=u.province;body+=`<tr class="a27-prov-divider"><th colspan="${yset.length+1}">${esc(last)}</th></tr>`}
+   body+=`<tr><th class="a27-freeze-col" title="${esc(u.sub)} · ${esc(u.province)}">${esc(u.name)}${u.sub?`<small>${esc(u.sub)}</small>`:''}</th>`;
+   for(const y of yset){const r=dataMetric(y,a,l,u.key);const val=r?.[m];const exists=l==='p'||(l==='c'?V.canton_years[u.key]:V.district_years[u.key])?.includes(y);
+    const css=nvalid(val)?'a27-intensity':'a27-missing';const amt=nvalid(val)?Math.max(.12,Math.min(.96,Number(val)/(m.endsWith('_pct')?100:Math.max(1,Math.max(...yset.map(q=>Number(dataMetric(q,a,l,u.key)?.[m]||0))))))):0;
+    exportRows.push({eleccion:y,escala:l,provincia:u.province,territorio:u.name,canton:u.sub,codigo:u.key,indicador:m,valor:nvalid(val)?val:null,estado:nvalid(val)?'Observado':exists?'Sin dato':'No existía'});
+    body+=`<td class="${css}" ${nvalid(val)?`style="--a27-alpha:${amt.toFixed(3)}"`:''} title="${esc(u.name)} · ${y} · ${nvalid(val)?shown(val,m):exists?'Sin dato':'No existía en la elección'}">${nvalid(val)?shown(val,m):exists?'—':'×'}</td>`;
+   }body+='</tr>';
+  }
+  if(l!=='d'){body+=`<tr class="a27-national"><th class="a27-freeze-col">Costa Rica</th>`+yset.map(y=>{const r=dataMetric(y,a,'n','CR');exportRows.push({eleccion:y,escala:'n',provincia:'Costa Rica',territorio:'Costa Rica',indicador:m,valor:r?.[m]??null});return `<td>${shown(r?.[m],m)}</td>`}).join('')+'</tr>'}
+  $('a27-p-table-region').innerHTML=matrix(heading('Territorio',yset),body,heading('Territorio',yset));
+  $('a27-p-subtitle').textContent=`Territorios agrupados por provincia; × significa que el territorio no figuraba en esa elección. El total nacional aparece al final cuando corresponde.`;
+ }
+ function singleYear(y,a,l,m,dir){
+  const rank=sort(universe(y,a,l,m),m,dir).slice(0,10);
+  exportRows=rank.map((r,i)=>({eleccion:y,puesto:i+1,provincia:r.province,canton:r.sub||'',territorio:r.name,codigo:r.key,indicador:m,valor:r[m]}));
+  const b=rank.slice().reverse();$('a27-p-table-region').innerHTML='';$('a27-p-plot').hidden=false;plot=true;
+  graph($('a27-p-plot'),[{type:'bar',orientation:'h',x:b.map(r=>r[m]),y:b.map(r=>r.name+(r.sub?' · '+r.sub:'')),marker:{color:b.map(r=>palette[r.province]||'#557f90')},text:b.map(r=>shown(r[m],m)),textposition:'outside',hovertemplate:'%{y}<br>%{x:,.2f}<extra></extra>'}],{height:525,margin:{l:290,r:100,t:30,b:65},xaxis:{title:fields.find(r=>r[0]===m)?.[1]}});
+  $('a27-p-subtitle').textContent=`Diez territorios de ${y}, ordenados en todo el país, no por provincia.`;
+ }
+ function yearlyFirst(yset,a,l,m,dir){
+  exportRows=yset.map(y=>{const r=sort(universe(y,a,l,m),m,dir)[0];return {eleccion:y,provincia:r?.province||'',territorio:r?.name||'',canton:r?.sub||'',codigo:r?.key||'',indicador:m,valor:r?.[m]??null}});
+  $('a27-p-table-region').innerHTML='';$('a27-p-plot').hidden=false;plot=true;
+  graph($('a27-p-plot'),[{type:'scatter',mode:'lines+markers',x:exportRows.map(q=>q.eleccion),y:exportRows.map(q=>q.valor),customdata:exportRows.map(q=>[q.territorio,q.canton,q.provincia]),line:{color:'#147b88',width:2.8},marker:{size:10,color:exportRows.map(q=>palette[q.provincia]||'#557f90')},hovertemplate:'%{x} · %{customdata[0]}<br>%{customdata[1]} · %{customdata[2]}<br>Valor: %{y:,.2f}<extra></extra>'}],{height:480,margin:{l:90,r:45,t:25,b:100},xaxis:{tickmode:'array',tickvals:yset,tickangle:-50,title:'Elección'},yaxis:{title:fields.find(q=>q[0]===m)?.[1]}});
+  $('a27-p-subtitle').textContent='La serie representa el valor extremo de cada elección; el nombre del territorio aparece en la tabla y en el cursor.';
+ }
+ function draw(){
+  const a=$('a27-p-arena').value,l=$('a27-p-scale').value,m=$('a27-p-indicator').value,view=$('a27-p-mode').value,dir=$('a27-p-direction').value,y=+$('a27-p-year').value;
+  const ys=years.filter(z=>a!=='R'||haveRound.has(z));const one=y&&ys.includes(y)?y:ys[ys.length-1];
+  $('a27-p-year').closest('label').hidden=view!=='single';
+  $('a27-p-kpis').hidden=view!=='single';
+  $('a27-p-title').textContent=`${fields.find(z=>z[0]===m)?.[1]} · ${names[a]} · ${l==='p'?'Provincias':l==='c'?'Cantones':'Distritos'}`;
+  $('a27-p-table-region').hidden=false;$('a27-p-plot').hidden=true;$('a27-p-details').innerHTML='';matrixMode=false;plot=false;
+  const national=dataMetric(one,a,'n','CR');
+  $('a27-p-kpis').innerHTML=[['Abstencionismo',national?.abst_pct,'%'],['Participación',national?.part_pct,'%'],['Votos válidos',national?.validos,''],['Votos en blanco',national?.blancos,''],['Votos nulos',national?.nulos,''],['Emitidos',national?.emitidos,'']].map(([k,v,s])=>`<div><small>${k} · ${one}</small><strong>${shown(v,s?'part_pct':'validos')}</strong></div>`).join('');
+  const actual=(view==='matrix'&&l==='d')?'top10':view;
+  const description=actual==='top10'?'Diez puestos por elección':actual==='matrix'?'Matriz longitudinal de territorios':actual==='single'?'Clasificación de una elección':'Territorio principal en cada elección';
+  $('a27-p-status').textContent=`${description} · ${ys.length} elecciones · ${l==='d'?'distritos administrativos':l==='c'?'cantones':'provincias'}`;
+  if(actual==='top10'){rankMatrix(ys,a,l,m,dir);matrixMode=true}
+  if(actual==='matrix'){completeMatrix(ys,a,l,m);matrixMode=true}
+  if(actual==='single'){singleYear(one,a,l,m,dir)}
+  if(actual==='first'){yearlyFirst(ys,a,l,m,dir)}
+  if(actual==='first'||actual==='single'){
+   $('a27-p-details').innerHTML='<table><thead><tr><th>Elección</th><th>#</th><th>Territorio</th><th>Provincia</th><th>Indicador</th></tr></thead><tbody>'+exportRows.map(r=>`<tr><td>${r.eleccion}</td><td>${r.puesto??'1'}</td><td>${esc(r.territorio)}</td><td>${esc(r.provincia)}</td><td>${shown(r.valor,m)}</td></tr>`).join('')+'</tbody></table>';
+  }
+ }
+ sec.querySelectorAll('select').forEach(s=>s.addEventListener('change',draw));
+ sec.querySelectorAll('[data-atlas-export]').forEach(b=>b.addEventListener('click',async()=>{
+  const extension=b.dataset.atlasExport,file=`participacion_${$('a27-p-indicator').value}_${$('a27-p-scale').value}_${$('a27-p-mode').value}`;
+  if(extension==='csv')return csv(exportRows,file+'.csv');
+  if(matrixMode)return downloadMatrix(matrixSVG($('a27-p-table-region'),$('a27-p-title').textContent),extension,file);
+  if(plot)await Plotly.downloadImage($('a27-p-plot'),{format:extension,filename:file,width:1750,height:850,scale:extension==='png'?2:1});
+ }));
+ $('a27-p-mode').value='top10';$('a27-p-scale').value='c';$('a27-p-year').value='2026';draw();
+}

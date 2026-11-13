@@ -1,18 +1,4 @@
 ﻿base,anio,provincia,detalle,diferencia
-leg,1974.0,Alajuela,Padrón frente a emitidos y abstenciones,5775.0
-leg,1974.0,Alajuela,"Emitidos frente a válidos, blancos y nulos",-5775.0
-leg,1974.0,Cartago,Padrón frente a emitidos y abstenciones,4488.0
-leg,1974.0,Cartago,"Emitidos frente a válidos, blancos y nulos",-4488.0
-leg,1974.0,Guanacaste,Padrón frente a emitidos y abstenciones,4447.0
-leg,1974.0,Guanacaste,"Emitidos frente a válidos, blancos y nulos",-4447.0
-leg,1974.0,Heredia,Padrón frente a emitidos y abstenciones,2262.0
-leg,1974.0,Heredia,"Emitidos frente a válidos, blancos y nulos",-2262.0
-leg,1974.0,Limón,Padrón frente a emitidos y abstenciones,2060.0
-leg,1974.0,Limón,"Emitidos frente a válidos, blancos y nulos",-2060.0
-leg,1974.0,Puntarenas,Padrón frente a emitidos y abstenciones,4162.0
-leg,1974.0,Puntarenas,"Emitidos frente a válidos, blancos y nulos",-4162.0
-leg,1974.0,San José,Padrón frente a emitidos y abstenciones,10884.0
-leg,1974.0,San José,"Emitidos frente a válidos, blancos y nulos",-10884.0
 cand,,Varias,Filas sin nombre excluidas de conteos de personas/candidaturas identificadas,4.0
 cand/electas,1970.0,Limón,Bandera electa y cruce nominal no coinciden: Reginaldo Adolfo Mackwell Kenede · LIBERACION NACIONAL,
 cand/electas,1978.0,San José,Bandera electa y cruce nominal no coinciden: José Vega Chaves · UNIDAD,

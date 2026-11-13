@@ -1,0 +1,38 @@
+{
+  "n_cantones_1953": 65,
+  "n_cantones_2026": 84,
+  "n_distritos_1953": 324,
+  "n_distritos_2026": 492,
+  "n_distritos_historicos": 508,
+  "n_cantones_historicos": 84,
+  "segundas_rondas": [
+    2002,
+    2014,
+    2018,
+    2022
+  ],
+  "n_metricas": 21469,
+  "n_votos_agrupados": 214104,
+  "nonexisting_or_notobserved": "Los años sin registro de un territorio se diferencian de cero votos; se utiliza el catálogo observado por elección.",
+  "nota_criterios": "La matriz distingue ausencia territorial observada de cero votos. La abstención es común para Presidencia y Diputaciones.",
+  "entradas": [
+    {
+      "archivo": "Base_Electoral_Diputaciones_1953-2026.xlsx",
+      "hoja": "Detalle_diputaciones",
+      "filas": 118986,
+      "sha256": "ff423c026422dd28eeef21ef212b0c02cb6082fec663a73dfa072301a1e00a77"
+    },
+    {
+      "archivo": "Base_Electoral_Presidencial_1953-2026.xlsx",
+      "hoja": "Detalle_primera_vuelta",
+      "filas": 104128,
+      "sha256": "e2a9448829f1d271f7393cb623b2d7228fbd9506b5fcf372dcce9b6e3d22c3a1"
+    },
+    {
+      "archivo": "Base_Electoral_Presidencial_1953-2026.xlsx",
+      "hoja": "Detalle_segunda_vuelta",
+      "filas": 9555,
+      "sha256": "e2a9448829f1d271f7393cb623b2d7228fbd9506b5fcf372dcce9b6e3d22c3a1"
+    }
+  ]
+}

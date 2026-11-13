@@ -1,0 +1,35 @@
+/* Sección 08. Los mapas/matrices provinciales originales son la vista inicial y no se sustituyen. */
+function partiesExplorer(){
+ const container=document.getElementById('content');if(!container||document.getElementById('atlas-v26-leadership'))return;
+ const head=[...container.querySelectorAll('.atlas17-subhead,h2,h3,h4')].find(h=>/Liderazgos por provincia y arena/i.test(h.textContent));
+ const oldCharts=[...container.querySelectorAll('.card,article.card,section.card')].filter(c=>/Partido más votado por provincia|Liderazgos provinciales y referencia de los colores/i.test(c.querySelector('h3')?.textContent||''));
+ const sec=block('Liderazgos provinciales y cantonales','La matriz provincial original se mantiene. La versión cantonal reproduce el diseño de cuadrados con colores partidarios y los años en el eje inferior.','atlas-v26-leadership');
+ sec.innerHTML+=`<div class="a26-tools">${select('a26-win-level','División territorial',[['p','Provincias · gráfica original'],['c','Cantones · matriz histórica']])}${select('a26-win-arena','Arena',[['L','Diputaciones'],['P','Presidencia · primera ronda']])}</div>
+ <div class="a26-canton-only" id="a26-canton-content" hidden><div class="a26-chart-title"><h4>Matriz histórica de partidos más votados</h4>${buttons}</div><div class="a26-canton-wrap" id="a26-win-matrix"></div><div class="a26-election-case" id="a26-win-case">Seleccione una celda para consultar el partido ganador y el detalle de votos.</div></div>`;
+ if(head){head.after(sec)}else container.prepend(sec);
+ const $=id=>sec.querySelector('#'+id);let active=[];
+ function render(){const l=$('a26-win-level').value,a=$('a26-win-arena').value;
+  $('a26-canton-content').hidden=l!=='c';oldCharts.forEach(c=>c.hidden=l==='c');
+  // Se conserva la visualización aprobada de provincias en su ubicación original.
+  if(l!=='c')return;
+  const cats=provinces.flatMap(p=>cantons.filter(x=>x.province===p).sort((x,y)=>x.name.localeCompare(y.name,'es')));let last='';active=[];
+  let html='<table class="a26-history-matrix"><thead><tr><th class="a26-first-col">Provincia</th><th class="a26-second-col">Cantón</th><th colspan="19" class="a26-grid-heading">ELECCIONES HISTÓRICAS →</th></tr></thead><tbody>';
+  for(const c of cats){if(c.province!==last){last=c.province;html+=`<tr class="a26-prov-row"><th colspan="21">${esc(last)}</th></tr>`}
+   html+=`<tr><td class="a26-province-col"></td><th class="a26-canton-col">${esc(c.name)}</th>`;
+   for(const yr of years){const w=leaders.get(key(yr,a,'c',c.code));const exist=V.canton_years[c.code]?.includes(yr);active.push({anio:yr,provincia:c.province,canton:c.name,codigo:c.code,partido:w?.party??'',votos:w?.votes??null,porcentaje:w?.share??null,estado:!exist?'No existía en la fuente de esa elección':w?'Con resultados':'Sin observación'});
+    html+=w?`<td><button type="button" class="a26-party-cell" data-canton="${c.code}" data-year="${yr}" style="background:${partyColor(w.party)}" title="${esc(w.party)} · ${yr} · ${fmt(w.votes)} votos · ${fmt(w.share,2)}%"><span>${fmt(w.share,0)}%</span></button></td>`:`<td class="a26-no-cell" title="${exist?'Sin registro':'Cantón no existente o sin observación histórica'}">${exist?'—':'×'}</td>`;
+   }html+='</tr>';
+  }
+  html+='<tr class="a26-national"><th colspan="2">Costa Rica · Partido más votado</th>'+years.map(yr=>{const w=leaders.get(key(yr,a,'n','CR'));return w?`<td><button type="button" class="a26-party-cell" data-canton="CR" data-year="${yr}" style="background:${partyColor(w.party)}" title="${esc(w.party)} · ${fmt(w.votes)} votos">${fmt(w.share,0)}%</button></td>`:'<td>—</td>'}).join('')+'</tr>';
+  html+='</tbody><tfoot><tr><th>Provincia</th><th>Cantón</th>'+years.map(yr=>`<th>${yr}</th>`).join('')+'</tr></tfoot></table>';
+  $('a26-win-matrix').innerHTML=html;
+ }
+ $('a26-win-matrix').addEventListener('click',e=>{const button=e.target.closest('[data-canton]');if(!button)return;const code=button.dataset.canton,y=+button.dataset.year,a=$('a26-win-arena').value,l=code==='CR'?'n':'c',w=leaders.get(key(y,a,l,code));if(!w)return;
+  const associated=dataVotes(y,a,l,code).slice(0,12);const territory=code==='CR'?'Costa Rica':cantonIndex.get(code)?.name+' · '+cantonIndex.get(code)?.province;
+  $('a26-win-case').innerHTML=`<div class="a26-case-title"><span class="a26-color-dot" style="background:${partyColor(w.party)}"></span><div><span>${y} · ${esc(territory)} · ${esc(names[a])}</span><h4>${esc(w.party)}</h4><p>${fmt(w.votes)} votos · ${fmt(w.share,2)}% de válidos</p></div></div><div class="a26-case-parties">${associated.map(r=>`<div><span class="a25-swatch" style="background:${partyColor(r.party)}"></span>${esc(r.party)} <strong>${fmt(r.share,2)}%</strong></div>`).join('')}</div><button class="a26-primary" id="a26-win-profile">Abrir ficha histórica del partido</button>`;
+  $('a26-win-profile').onclick=()=>{window.AtlasV26SelectedParty=w.party;const nav=document.querySelector('[data-tab="perfiles"]');if(nav)nav.click();else window.gotoTab?.('perfiles')};
+ });
+ sec.querySelectorAll('select').forEach(e=>e.addEventListener('change',render));
+ sec.querySelectorAll('[data-atlas-export]').forEach(b=>b.addEventListener('click',()=>{const ext=b.dataset.atlasExport,file=`liderazgo_cantonal_${$('a26-win-arena').value}`;if(ext==='csv')return csv(active,file+'.csv');return downloadMatrix(matrixSVG($('a26-win-matrix'),'Liderazgo cantonal · '+names[$('a26-win-arena').value]),ext,file)}));
+ render();
+}

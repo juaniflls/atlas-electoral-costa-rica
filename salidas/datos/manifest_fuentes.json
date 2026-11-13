@@ -2,14 +2,14 @@
   {
     "base": "leg",
     "archivo": "Base_Electoral_Diputaciones_1953-2026.xlsx",
-    "sha256": "d2ba3a2f6cc49009cfb9652e81c8cc125fcb1df5af7d80af996461471d10b052",
-    "bytes": 102548
+    "sha256": "ff423c026422dd28eeef21ef212b0c02cb6082fec663a73dfa072301a1e00a77",
+    "bytes": 11349713
   },
   {
     "base": "pres",
     "archivo": "Base_Electoral_Presidencial_1953-2026.xlsx",
-    "sha256": "3e67aef35545d59f85eccb7e82cc2a109ffd99ea3a3517eda120d208a9c3286e",
-    "bytes": 71925
+    "sha256": "e2a9448829f1d271f7393cb623b2d7228fbd9506b5fcf372dcce9b6e3d22c3a1",
+    "bytes": 10318055
   },
   {
     "base": "cand",

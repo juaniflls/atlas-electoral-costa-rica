@@ -1,0 +1,870 @@
+{
+  ".gitattributes": {
+    "bytes": 772,
+    "sha256": "8400daec4bc118dd72740bf751e986b18e891f1ed36ee865be76e9059441056d"
+  },
+  ".gitignore": {
+    "bytes": 173,
+    "sha256": "5872a9b35c0b77570dcd3d98816574a830c72c404e6540fba7e52887a18215c5"
+  },
+  "Atlas_Electoral_Costa_Rica_1953_2026.html": {
+    "bytes": 114150988,
+    "sha256": "56888c6554a6517c837a2e56a273fb65aea8a81dc3d80197d3d1749171a7bd16"
+  },
+  "Atlas_Electoral_V38_Publico.ipynb": {
+    "bytes": 5985164,
+    "sha256": "4c82736c71b85cf30ad02f9055ea558e2b990e7d7d9a0e37014f15610560a072"
+  },
+  "Base_Electoral_Diputaciones_1953-2026.xlsx": {
+    "bytes": 11349713,
+    "sha256": "ff423c026422dd28eeef21ef212b0c02cb6082fec663a73dfa072301a1e00a77"
+  },
+  "Base_Electoral_Presidencial_1953-2026.xlsx": {
+    "bytes": 10318055,
+    "sha256": "e2a9448829f1d271f7393cb623b2d7228fbd9506b5fcf372dcce9b6e3d22c3a1"
+  },
+  "Base_Final_Candidaturas_Diputaciones_1953-2026.xlsx": {
+    "bytes": 921446,
+    "sha256": "5bfb2815b2e3d796b9774a93c09c4385ff109fc76d3e39af00c894cc461842d7"
+  },
+  "Base_Final_Candidaturas_Presidenciales_1953-2026.xlsx": {
+    "bytes": 38190,
+    "sha256": "20b7dc97ba7e15d66ad8f7401ea2ec83addcf3a079d87f43092cf2ef06d60619"
+  },
+  "Base_Final_Diputaciones_Electas_1953-2026.xlsx": {
+    "bytes": 71918,
+    "sha256": "99b5c831c568efcbbab6f8a6c80a341974d953e014c46c4b1620aa8a758674b8"
+  },
+  "Base_Final_Diseno_Papeletas_Diputaciones_1953-2026.xlsx": {
+    "bytes": 31861,
+    "sha256": "632769f1f8d4d65e2c1905ba62534d5556b67a404862b8f2852797045913ff61"
+  },
+  "Base_Final_Partidos_Politicos_1953-2026.xlsx": {
+    "bytes": 50977,
+    "sha256": "b50e1cb27898410a01f4a21bec8d4caeccf803e04ec68e6c12cb6ab3d04d0b11"
+  },
+  "Base_partidos_cancelados.xlsx": {
+    "bytes": 65633,
+    "sha256": "c5a51115166fd55b4ce3f63b6bfd81dec636fed08440667ab547af36c6ec4c24"
+  },
+  "CITATION.cff": {
+    "bytes": 678,
+    "sha256": "61d30ba4194dcdd72d4ed4a6b97c24de6bcd8f6172ffebde5b42b87f462b5cab"
+  },
+  "LICENSE": {
+    "bytes": 1085,
+    "sha256": "15a216fce70de13060a18a0e75b92b34efcdadac806310e1ba0f1f0876155da2"
+  },
+  "NOTICE.md": {
+    "bytes": 1241,
+    "sha256": "73b08e35d4c7f8dd6f666ebde1eeea52a24b1737120e30eb835145a93a8e4b80"
+  },
+  "README.md": {
+    "bytes": 62061,
+    "sha256": "b036b3505d91ef78b03e9442d41adc1108ec2ef43044a187b71a6e7866299536"
+  },
+  "assets/branding/atlas-electoral-v38.png": {
+    "bytes": 100913,
+    "sha256": "0701b609ac0be590890a1de9f391872cb05fbdf836cd75c63184b48243df5d4c"
+  },
+  "assets/branding/atlas-electoral-v38.svg": {
+    "bytes": 948834,
+    "sha256": "d9582e78860e90eb1e2b7d70ce008fb967f94a58fe38f0c550971c4b8af1d70a"
+  },
+  "assets/screenshots/01-panorama.png": {
+    "bytes": 465527,
+    "sha256": "724e81ba40535af16923c3dd11105dbb806045f584b93cffd5e5d0d6418d4f7b"
+  },
+  "assets/screenshots/02-participacion.png": {
+    "bytes": 474819,
+    "sha256": "83b8f0d92ca576978fd017d6b814b758c0922d8aad1aeab17dfe684ef5cfacad"
+  },
+  "assets/screenshots/03-competencia.png": {
+    "bytes": 527437,
+    "sha256": "b90d8031e9f91f5672395df30cbc303f7358849645a2c629f12adb57c38e8aae"
+  },
+  "assets/screenshots/04-quiebre-voto.png": {
+    "bytes": 508167,
+    "sha256": "e6e4461c0cb30ff5946d89cd38cc04f8309583f2d0ea0e6da177519c3a61030b"
+  },
+  "assets/screenshots/05-padron-escanos.png": {
+    "bytes": 659959,
+    "sha256": "d4f2bfcd15a0c8bd5db1eb6ae45b9bd04e2d25771375b3eefc749e5d1095a552"
+  },
+  "assets/screenshots/06-votos-escanos.png": {
+    "bytes": 485238,
+    "sha256": "96bae2f57b3ae1e24780c6d8ee837acafb1441a5498a1a78a159b9804db02caa"
+  },
+  "assets/screenshots/07-escrutinio.png": {
+    "bytes": 437836,
+    "sha256": "54e901eff2a414e7a06107c4e265169dfcb29928f9ff9d20a6fee8b63db626a3"
+  },
+  "assets/screenshots/08-partidos-territorio.png": {
+    "bytes": 511971,
+    "sha256": "0729d5df8ac289780475330345d27878b3f51266209a9c0591e8a53e3ef50014"
+  },
+  "assets/screenshots/09-candidaturas.png": {
+    "bytes": 712571,
+    "sha256": "460b51395c0cfdd645b2cee83541f050c2e9a18482ac5b99d345db35a8f8b04d"
+  },
+  "assets/screenshots/10-sexo-composicion.png": {
+    "bytes": 165291,
+    "sha256": "834debcfe8b56416d346e9f74eab7f7215106820fc218e3eb763ef1c35e3a558"
+  },
+  "assets/screenshots/10-sexo-representacion.png": {
+    "bytes": 474523,
+    "sha256": "3cd189540ab3614a27b724193c7c44630173fafaaf9afbb056b94e5d1f3bfe33"
+  },
+  "assets/screenshots/11-trayectorias.png": {
+    "bytes": 577184,
+    "sha256": "6db7f3c3e008c00dc522ccc7aac2e141c04945f80e98ee9d7e36ee305d02bc23"
+  },
+  "assets/screenshots/12-explorador-personas.png": {
+    "bytes": 579036,
+    "sha256": "b317c75140e48c1aaa0525b69e679ecb115eeb5ab9d431e76a679f310e5dac55"
+  },
+  "assets/screenshots/13-formulas-consulta.png": {
+    "bytes": 748446,
+    "sha256": "b37a9851e21a9c91c3c6371b9a9907222a6db5aa9552ae2a1c92bf1ba228aca2"
+  },
+  "assets/screenshots/13-formulas.png": {
+    "bytes": 759634,
+    "sha256": "e6abe61b2101c9d520f9fdb80b5d5913a9a0ca73b3738e7325da7cf96f6f959e"
+  },
+  "assets/screenshots/14-apellidos-coincidencias.png": {
+    "bytes": 510368,
+    "sha256": "81685b49200fe361419d03c0cd52219c926336bb976b5647162c336f31c706bf"
+  },
+  "assets/screenshots/14-apellidos-personas.png": {
+    "bytes": 721123,
+    "sha256": "c1f9fcdc98b8bfb5914578e4c23035e9c7a9bff906a13771ea753d4bba048c19"
+  },
+  "assets/screenshots/15-papeletas.png": {
+    "bytes": 605997,
+    "sha256": "3b3024ba6a328317345ac8b372862429d9b558613a794bc3c10b296d126ef16c"
+  },
+  "assets/screenshots/16-nombres-cancelaciones.png": {
+    "bytes": 476640,
+    "sha256": "b2a340ed35a0e0f0b7e47712497576c9908f514f81c1cbe5325198feffbb5a03"
+  },
+  "assets/screenshots/17-perfiles-partido.png": {
+    "bytes": 504218,
+    "sha256": "00b2020ab0327d4b69e8c23ca63096081369a9b298c631eb424b614e286506e5"
+  },
+  "assets/screenshots/17-perfiles-territorio.png": {
+    "bytes": 482277,
+    "sha256": "163d59a355332d2a424ac21c041947b2cb1dbbced1278f673a92e162a7bd89d4"
+  },
+  "assets/screenshots/18-mapas-detalle.png": {
+    "bytes": 136305,
+    "sha256": "4e4cc61f206e322b239b08b62482f041dff278124b0aa999d89029bfe30ef689"
+  },
+  "assets/screenshots/18-mapas-evolucion.png": {
+    "bytes": 492915,
+    "sha256": "d84ce95bc3603c624cce40e8630edbb3627e789ffbe4e2dd1bb400ff6662243d"
+  },
+  "assets/screenshots/18-mapas-participacion.png": {
+    "bytes": 509880,
+    "sha256": "92f66e1d81ca1d35d28fb545c8f7c43d11cd6dddd1dbda7756996e113ae7a581"
+  },
+  "assets/screenshots/19-exito-electoral.png": {
+    "bytes": 465355,
+    "sha256": "d44eb04f09f21803370fff233dd86f823bf54f4adfb11d5330fc4a0b65fd4d1f"
+  },
+  "assets/screenshots/20-laboratorio.png": {
+    "bytes": 570007,
+    "sha256": "bf90319ffaf6604bcd9409590d98f9ea85fa240dad09455056bcead8c2ee9f8c"
+  },
+  "assets/screenshots/21-explorador-datos.png": {
+    "bytes": 710602,
+    "sha256": "3fb21a6cbf4f2325f86f5ded37e6fe11cc0bf8cd43364e1c7953939534f4dd96"
+  },
+  "assets/screenshots/22-metodologia.png": {
+    "bytes": 768362,
+    "sha256": "fe174471ebd377b525d7edc1572f45ac57a8635e5e9650b947713a23dc30f444"
+  },
+  "completar_interfaz.py": {
+    "bytes": 17138,
+    "sha256": "7823720773575325fdd0f5b36bcc9f136e393346dff1337b86f687c469c04f30"
+  },
+  "conciliar_resultados.py": {
+    "bytes": 4520,
+    "sha256": "518fb7da3c7e8ec2057b9c1aba6a737962df64e7a0b39e8716910823b6b05ece"
+  },
+  "construir_interfaz.py": {
+    "bytes": 7806,
+    "sha256": "606d9d60de040afc2f5f6c1be3dfcf93b926b43a73a0e183ce4b81d79faaffd4"
+  },
+  "dist/aplicacion-v38.json": {
+    "bytes": 182,
+    "sha256": "09ad056be59ca6c1c0c30e2baa2aff4f27c2de121a4cc5c0e6b0bb820d076eaa"
+  },
+  "dist/atlas-electoral-v38-aplicacion.zip": {
+    "bytes": 13386930,
+    "sha256": "f15b04a1de35564cfba96ec4e36c30a009ca56d6a38d99417ec0101096da353c"
+  },
+  "docs/ACTUALIZAR_REPOSITORIO.md": {
+    "bytes": 2633,
+    "sha256": "e597b1377efa6c564e844eeb3206b1ee3ba615b4fafb1bfec7766665e1bcde78"
+  },
+  "docs/INVENTARIO_VISUAL.md": {
+    "bytes": 11474,
+    "sha256": "7ad6e6f4e60b73ae9b55e4a74eb7b4a105ab6d7c61f0d026925fd7404ec1d5d1"
+  },
+  "docs/VERIFICACION_V38.md": {
+    "bytes": 5218,
+    "sha256": "e0af2f093f9f0150feaa1f7e7692c7422c06956fc05e0491d1b59bc67150f9fe"
+  },
+  "docs/catalogo-secciones-v38.json": {
+    "bytes": 38848,
+    "sha256": "77659c353600875f14e2039b9554773485a4afb87eb4b55b608b1abcfa86f2d3"
+  },
+  "docs/comprobacion-vistas-v38.json": {
+    "bytes": 2157,
+    "sha256": "44a415586e12b87fa82100b8eddb3979a5dbc25c94e561f0397ffae0926fca99"
+  },
+  "docs/fuentes-v38.json": {
+    "bytes": 1404,
+    "sha256": "863d9f5ac5fc2b3a2e401999366615d7ac95573ed29b97ae28ce26d929061521"
+  },
+  "docs/inventario-llamadas-visuales.json": {
+    "bytes": 17600,
+    "sha256": "b464da6ed83e6e3635fe5d68568e1a399b66e4e4e4ff0aafa783fb23ecfa6135"
+  },
+  "integrar_territorios.py": {
+    "bytes": 6549,
+    "sha256": "1330f9a7de12231d0c0e75435e7420fd0e03c6bd3c8f9fd8ba4e73165473dcbf"
+  },
+  "publicar_aplicacion.py": {
+    "bytes": 2940,
+    "sha256": "65130bb1d550e2559e8743e542d8f7b58813742e33997d2ce441cef41b6dfc48"
+  },
+  "publicar_interfaz.py": {
+    "bytes": 2717,
+    "sha256": "97377b1aada08d16c6a57a089dfcdb1d82b6a09719b3ad5fba3178fa6c189d06"
+  },
+  "recursos/analisis.txt": {
+    "bytes": 18221,
+    "sha256": "95165dddc720b9a846a6c6cebf179fcbc583bfcdb8b9be4f3844042581d6a1c0"
+  },
+  "recursos/atlas_datos_territoriales.py": {
+    "bytes": 13308,
+    "sha256": "c15bd3d0f5f617cd1a9d05a645799296418d42556023d2a1e4c51c3cb02daeb6"
+  },
+  "recursos/atlas_enhancements.py": {
+    "bytes": 7439,
+    "sha256": "088cbcb302fdd5a468470945563d8d59ff7d81920ef92a75d46d597fd20a1689"
+  },
+  "recursos/atlas_estudio_partidos.py": {
+    "bytes": 7971,
+    "sha256": "88ce928bdd0bc23ccc56f12d9c7fce31b59ebb8a8201e9fe15aab324c19a71ad"
+  },
+  "recursos/atlas_exploracion.js": {
+    "bytes": 33725,
+    "sha256": "06030061cda3d9b0ce82aa02cbe73a8a1e744db0b65c0b4f8db8fe180c0a2b4f"
+  },
+  "recursos/atlas_explorador_territorial.js": {
+    "bytes": 26360,
+    "sha256": "99db56b075993695e6a71cfb2c25b3426560225f0c7f2319171b2d0f0a354c06"
+  },
+  "recursos/atlas_fastxlsx.py": {
+    "bytes": 2008,
+    "sha256": "5a561270c2313c8f14084be84449d65f2a1774c22b53cfe0fc2e56c153401648"
+  },
+  "recursos/atlas_figuras_partidos.py": {
+    "bytes": 6446,
+    "sha256": "a3dc01be345448373b4e193f6730915034483d21e7c8209f8182fcfd63405098"
+  },
+  "recursos/atlas_final.js": {
+    "bytes": 176390,
+    "sha256": "735fb2e8e45c0ebcf3e63906d523274a321912dfc26b7b7948a4386d55a808b7"
+  },
+  "recursos/atlas_geography.py": {
+    "bytes": 2019,
+    "sha256": "2850d22758fc0d1a53d69d4da02fa0c00c989af86479131c75ec26eb5cf5fa3e"
+  },
+  "recursos/atlas_historico.py": {
+    "bytes": 36967,
+    "sha256": "ec862af406e18959435cdca174dc33bfe79f823a9d5bd65535b5a989b5ce1391"
+  },
+  "recursos/atlas_integracion.py": {
+    "bytes": 2356,
+    "sha256": "c5b7c9ee5f7963165bb0f928265425fd562fb6a1dad20857bbed91888265f4c3"
+  },
+  "recursos/atlas_integracion_territorial.css": {
+    "bytes": 9025,
+    "sha256": "e479df21c773b0d0345e9df2ca5b5db5432b0b4686672378fcf43b38a44e4b24"
+  },
+  "recursos/atlas_integracion_territorial.js": {
+    "bytes": 33708,
+    "sha256": "dec94374bdb8a0388fdfc2320113b29f24080ae1c817b261b36a32096d72f881"
+  },
+  "recursos/atlas_interfaz.css": {
+    "bytes": 23203,
+    "sha256": "04e0e6dcc561bee8ff1a7c06258464e6c4e11f3963a03b65838b1e1446e366c2"
+  },
+  "recursos/atlas_interfaz.js": {
+    "bytes": 77953,
+    "sha256": "141f23da2e2c6c50dd25fe98ad19b40d0643d9a094d10370737f6abacefcd90e"
+  },
+  "recursos/atlas_interfaz_base.css": {
+    "bytes": 14610,
+    "sha256": "bafd33eecffe7960d60baa888cb311d611c6a2888c074a9e3be2f98d8e1bf595"
+  },
+  "recursos/atlas_interfaz_base.js": {
+    "bytes": 69207,
+    "sha256": "92b8248a27fd3f0ad2df0b3cc138e19edaec415b23b44f40672f6cfd89b17c47"
+  },
+  "recursos/atlas_manifiesto.json": {
+    "bytes": 154,
+    "sha256": "552f4ea0ee9d7e32da2da9dbbd04fbb5ecc645b8cd2ce64ee0cb82cad7660551"
+  },
+  "recursos/atlas_navegacion.js": {
+    "bytes": 20573,
+    "sha256": "3c0b71bcb819a7b18dfb4fbaf6015e5b098fbff286620a67f582b877e9015168"
+  },
+  "recursos/atlas_outcomes.py": {
+    "bytes": 14232,
+    "sha256": "39a41bc38a6dfd553f7ebc8fee9d4d2b2eac93c4d791b93439422b0551958621"
+  },
+  "recursos/atlas_partidos_territorio.js": {
+    "bytes": 83392,
+    "sha256": "a7b57d0fea4de82c61dfdabf16209eb86ac1d65e2823280357003bec9f30a508"
+  },
+  "recursos/atlas_pipeline.py": {
+    "bytes": 30332,
+    "sha256": "07150b8f18e892173245235c9bc89c4c6d527ee2d671b32e19f61aeba7ee8b32"
+  },
+  "recursos/atlas_presentacion.css": {
+    "bytes": 6328,
+    "sha256": "a956db93084ab82eca6d659ae91993fd6bb43fffec9e108be81db1c7fa5ee68a"
+  },
+  "recursos/atlas_presentacion.js": {
+    "bytes": 18430,
+    "sha256": "175af754104e32ea684769edcd828d31e365fd3e81884e4e7840311f66bb8744"
+  },
+  "recursos/atlas_recursos.json": {
+    "bytes": 3620,
+    "sha256": "5a20ddf36ad1fa4d4aa84648262b808b26f4d52b72f4cf53a3affea27e7238d2"
+  },
+  "recursos/atlas_template.html": {
+    "bytes": 215189,
+    "sha256": "1762239d9dc374e9da354ea566703482b25b7518dd8c86eea0686ff3be730b30"
+  },
+  "recursos/atlas_territorio.css": {
+    "bytes": 4199,
+    "sha256": "169d166791ea8f77e8b7c7c0c54ee73d771ccb24a9a3a0cc5b891bcc942e3189"
+  },
+  "recursos/atlas_territorio.js": {
+    "bytes": 21245,
+    "sha256": "a12248b229cbf6c70cb9b46821d25702d16d0ff3c146a37de735e5d57f21e7b9"
+  },
+  "recursos/atlas_territorio.py": {
+    "bytes": 13969,
+    "sha256": "9689e19ea353293836ca8749ecabe5f80d12052c45e0a3e7d12d2e083faa5fd8"
+  },
+  "recursos/atlas_trayectorias.js": {
+    "bytes": 18214,
+    "sha256": "5830cb273a396ea963a620793bfc89ad5e3ea39cb5fb8c11797560533200371a"
+  },
+  "recursos/atlas_visual_extensions.js": {
+    "bytes": 24008,
+    "sha256": "0488a00dae3c8dd15435a6624e3ae9aa22dc9b9035a754b195f08261d2db6b20"
+  },
+  "recursos/colores/0174f10e9c.png": {
+    "bytes": 13281,
+    "sha256": "167d902caa6876d26f42f0357e042dc876145b8576d94a083186b27a705de3ec"
+  },
+  "recursos/colores/02cbb178b9.png": {
+    "bytes": 7646,
+    "sha256": "fca1ad511f491310b40e94a8bc7a9f0f2c5c72e44fcb91f0ca5b849c60978310"
+  },
+  "recursos/colores/03da5b582c.png": {
+    "bytes": 523,
+    "sha256": "21fe7448aefb571040312bb2af55b63beca89094ba3d13e7af17d5e0e6182333"
+  },
+  "recursos/colores/08518b954e.png": {
+    "bytes": 8134,
+    "sha256": "89f62dc7e5a7f480b3ce98417f5cd8396fb7e148cf9910b8cb26ecb4020637ee"
+  },
+  "recursos/colores/1085ac530b.png": {
+    "bytes": 3077,
+    "sha256": "cba1fa798a3b71c06dee4f80c2bfdbe9c43801da97c135bf0b567258e0767940"
+  },
+  "recursos/colores/1722a60db1.png": {
+    "bytes": 12770,
+    "sha256": "bf477ef1b49606a916180edfbac237f59de9ceca6eddf15e2b4283cb1336a6b3"
+  },
+  "recursos/colores/19d379958e.png": {
+    "bytes": 10189,
+    "sha256": "4e3150b9792df9ac53da2f0e9b563dfca7a859e2a4d7da3cf20d552e399b6836"
+  },
+  "recursos/colores/1bf8527cb8.png": {
+    "bytes": 389930,
+    "sha256": "aaddeb5498f20b4886983cf1c8b2a7f19cf9281f7cc205ebc610eaf0cc6aa056"
+  },
+  "recursos/colores/1ce5f162e6.png": {
+    "bytes": 2714,
+    "sha256": "20b4ba57991e3769d90a4178f04bdc053d788a64221492efb1a851415b2d617b"
+  },
+  "recursos/colores/1facd1ff1a.png": {
+    "bytes": 10026,
+    "sha256": "0c6daed8a1931672f82193d2da0a67f1799062b5017872a09e0310ac36b411d4"
+  },
+  "recursos/colores/1faf47e68a.png": {
+    "bytes": 9167,
+    "sha256": "b2c50bf5701b2b8b47cb2d0c2be5469639f3fe422265ade0446fb49b223c8deb"
+  },
+  "recursos/colores/23d298691f.png": {
+    "bytes": 3640,
+    "sha256": "5c4804b36e6d7eb2f855553fe05c38b169639f431ec139190a05a6a83cf294d7"
+  },
+  "recursos/colores/2860ba3a74.png": {
+    "bytes": 8726,
+    "sha256": "4d0c08d709275c248c70ec79da86b782607531a07d3c3fc9131b26b852540ec2"
+  },
+  "recursos/colores/296b08ad6f.png": {
+    "bytes": 9950,
+    "sha256": "a8a84cf897f336681965cc758c47e8e064d195527944fad599f97cab56a30408"
+  },
+  "recursos/colores/2d7bc7c08f.png": {
+    "bytes": 4459,
+    "sha256": "2c14c191939f08a0913e7b630bdddcde127c2237fdf072f3ddd9937756e8999f"
+  },
+  "recursos/colores/2ea068a385.png": {
+    "bytes": 3185,
+    "sha256": "68e080df5ef74083376df2f554d0614a4a26dc420a58fa5ce3ce583aeca857ab"
+  },
+  "recursos/colores/3a2f7092bb.png": {
+    "bytes": 8498,
+    "sha256": "ccbee108291af9ff2c9fb20507f390a07887a171971338c329e117414e2ad49f"
+  },
+  "recursos/colores/446e4bdc55.png": {
+    "bytes": 2045,
+    "sha256": "b3847b3caa9f1da3d292ab6ab7945dbbfcf535a8da1379539200b9dfafc29ed2"
+  },
+  "recursos/colores/4e45efc52f.png": {
+    "bytes": 8039,
+    "sha256": "c5c5756f3155ed1087373ed739b361579763993ba078e53e176a6d5e84cc1e6f"
+  },
+  "recursos/colores/5351cbe584.png": {
+    "bytes": 8759,
+    "sha256": "553d46e4f92b8977acfaebed89e84e0c27f72b1c20edd75dafe7dcfe965e4aea"
+  },
+  "recursos/colores/53b65ab674.png": {
+    "bytes": 8533,
+    "sha256": "809dd07a861febc28da0fa0f9f15235cb796216bad3f4f14f049fc7803c37d20"
+  },
+  "recursos/colores/59374e26f8.png": {
+    "bytes": 5722,
+    "sha256": "d7c7054ebf69866ed60bce0a112b5dccacd74eb1e959e40aa366f9d8f3640d2e"
+  },
+  "recursos/colores/5d53aa95dd.png": {
+    "bytes": 3528,
+    "sha256": "636470f2a378ebaf4159e7d6540569f312091babe00c491e329446e8f5a8c3fb"
+  },
+  "recursos/colores/62f0cf72fc.png": {
+    "bytes": 9336,
+    "sha256": "0fea7a248d75e0ba1cc674002109d3443734d3c13653ba15aa249a895ea15da2"
+  },
+  "recursos/colores/69f88e135e.png": {
+    "bytes": 5863,
+    "sha256": "3db1a4a4fc019e6bd80190475b6106661b2d86615ed1a615d56ee95a58f04291"
+  },
+  "recursos/colores/7cf5bc3a04.png": {
+    "bytes": 8375,
+    "sha256": "4b2dc8ff9e2cd583fe843178acdd4ff7db15cd5f1c0166420ecc62a8fba0e689"
+  },
+  "recursos/colores/8c8dd8e4e5.png": {
+    "bytes": 11356,
+    "sha256": "d1df73ee47bd7696b65a793dadcc7fa6618db3340d40e2f9d353dfd29ad3d3e6"
+  },
+  "recursos/colores/8d61b89336.png": {
+    "bytes": 9925,
+    "sha256": "cef02ff0cc177947772517ac67dda5e60726084208c29216f30106d88c984b14"
+  },
+  "recursos/colores/97033e3892.png": {
+    "bytes": 8194,
+    "sha256": "b831e387541a471d17ccce3368b7e25e44dde7915b8cc15fef3f93ce55e8ef67"
+  },
+  "recursos/colores/a98f5cc4a7.png": {
+    "bytes": 3417,
+    "sha256": "be7408521897a00bab4ddd488cfc2980e4a8438714f37982938836ddcd0da1da"
+  },
+  "recursos/colores/aa2af00873.png": {
+    "bytes": 4166,
+    "sha256": "9a3b0ef9c1c6e0f7e8a31d9b61d88111bdbb8f43b0692947c168a157954568ac"
+  },
+  "recursos/colores/ab338943b1.png": {
+    "bytes": 386950,
+    "sha256": "8e614d7a27265af8fad655d252c00f15d0b35984003b5e35028c6874186fddf9"
+  },
+  "recursos/colores/b31c927a37.png": {
+    "bytes": 7959,
+    "sha256": "fc9cd92cbd95b5cb47bb1c52eae0ca87caf31ec5389e6df60d31e934b7710d23"
+  },
+  "recursos/colores/b9000796f6.png": {
+    "bytes": 3153,
+    "sha256": "466d6386e0d10b51c759a594f4077334967c5172bf86143b37b30658c215b269"
+  },
+  "recursos/colores/ba39976176.png": {
+    "bytes": 461,
+    "sha256": "9715b1642a8a627ac3328b0b15bcc0590b0d494fdc6123dd40367731b15ecd0e"
+  },
+  "recursos/colores/ba3aded9df.png": {
+    "bytes": 537,
+    "sha256": "497ceb922a5ad7d67e6da314ef9b9fdf6b70f763a7ae23ba7a784be5d43085f6"
+  },
+  "recursos/colores/c1e1d2eea8.png": {
+    "bytes": 6052,
+    "sha256": "42f20b424cfcda91abd6ded5e226e2231cd89382e8a312af4f423031a330afe7"
+  },
+  "recursos/colores/c1f722ee78.png": {
+    "bytes": 12048,
+    "sha256": "92b3193f553af0aef03289d6d4abdb2a8ea3957c2727c60a90e016014acb8670"
+  },
+  "recursos/colores/c2a3932220.png": {
+    "bytes": 6527,
+    "sha256": "2c1fb40463f3bcd8a4cd81b28bca8a1e9a391ae318f35a42debb80d42a1f6352"
+  },
+  "recursos/colores/c450244ad3.png": {
+    "bytes": 8860,
+    "sha256": "b3934b47c174df9f4479237301de48048fc0e4dabb01b9df294767d3bad8ffca"
+  },
+  "recursos/colores/c8cf1414aa.png": {
+    "bytes": 9839,
+    "sha256": "511c1e61479dea53be3441cf24277e052169ee3ad7269fdf1b409f1aee09cddb"
+  },
+  "recursos/colores/cab0397fa9.png": {
+    "bytes": 8698,
+    "sha256": "512b3e5904593471f8603d16ffe35898bef1db9403c553905c4465c819da33c4"
+  },
+  "recursos/colores/cf25d97aa5.png": {
+    "bytes": 6596,
+    "sha256": "f325217c9e25005e40b072c8b74fd6642784e1e0d64d36ec64050dda26c65634"
+  },
+  "recursos/colores/d6bb39b299.png": {
+    "bytes": 9121,
+    "sha256": "53db03498a5bc92b3c5181681833e4ae1bbd8f072eefcb148e8d44923812b937"
+  },
+  "recursos/colores/d8561dd4cf.png": {
+    "bytes": 12086,
+    "sha256": "e27bfd9292c25e12ce893acfa1e831b0c9b6ac2b5be9e0bdec103d32ae6dcee6"
+  },
+  "recursos/colores/dc5b268e3c.png": {
+    "bytes": 5643,
+    "sha256": "83f71437afa5fcaae8791c2b52586433a3624be79609874d405408f94dd3bc30"
+  },
+  "recursos/colores/e08356e215.png": {
+    "bytes": 389397,
+    "sha256": "1765a79a3c5458b6ab3861e111ceff071ab9302fe85616fd0d74ae2874b63e8b"
+  },
+  "recursos/colores/e52679451a.png": {
+    "bytes": 10713,
+    "sha256": "64bf35632e2b630b95911845c11aa535e9a0e3748c49d4bb112895cc96940487"
+  },
+  "recursos/colores/e69c4bc37d.png": {
+    "bytes": 6208,
+    "sha256": "bc38ceb7ba024139cbc64ddb6136dba41676a9e81d442fa145c88711c2b4a07e"
+  },
+  "recursos/colores/eafb1f5770.png": {
+    "bytes": 21204,
+    "sha256": "48ef8220519cf5f81098a97c09b9a20ac36a02e4da56fa9dbf61207c371d65ce"
+  },
+  "recursos/colores/edbb768616.png": {
+    "bytes": 11455,
+    "sha256": "a29f82a6d1e03eefa74d16c13fcaf246c0135f02fe32c84a129d45ce7076042d"
+  },
+  "recursos/colores/fb49610c2f.png": {
+    "bytes": 2845,
+    "sha256": "40c02c52dcdf597d67d1f2335dc10f2f959047f2379d8361ceab8904a6176595"
+  },
+  "recursos/colores/fb630cfeef.png": {
+    "bytes": 8225,
+    "sha256": "52f63ea016569180450c6df596489b0046316166a185cae8f24a2d5dd3d23ab6"
+  },
+  "recursos/colores_partidos.json": {
+    "bytes": 2074621,
+    "sha256": "d3d3681296e88e1853d9f9778d6dc10b640afff1961360c1feab195dfae849e7"
+  },
+  "recursos/costaricaprovincias.geojson": {
+    "bytes": 2375204,
+    "sha256": "68de780ac8f1295d5ef7c128ec18cac11d3adad040f033f333f049353674462f"
+  },
+  "recursos/diseno.txt": {
+    "bytes": 8592,
+    "sha256": "4defeb538d53be28258e2bdae290cb6f5479fb61a40e0a7f581d5b3ba38d36fa"
+  },
+  "recursos/juan_ignacio_headshot.jpg": {
+    "bytes": 14599,
+    "sha256": "3754a215dfd0b5a82fd6990ad59969e9180fb38f7336922a54bfdc6425734cf0"
+  },
+  "recursos/juan_ignacio_headshot_cropped.jpg": {
+    "bytes": 69495,
+    "sha256": "fd6bc4bb2edaae501a96f2d97ad8e8d55f08b19249e2984cc3edf0567ffd4d78"
+  },
+  "recursos/liderazgos.txt": {
+    "bytes": 5473,
+    "sha256": "aaa5670409216a9f6c23119c6b5ddb9eb87d9560f5264321f17f5900145491f5"
+  },
+  "recursos/manifest_fuentes.json": {
+    "bytes": 1257,
+    "sha256": "b7cf50d7d6cd703cd883bcf2b05e8aa6b2fbbab687794dbf7276fa7f263f1d2d"
+  },
+  "recursos/participacion.txt": {
+    "bytes": 11686,
+    "sha256": "9b36e3199a5c0db3f3b6cc86a2d61de036fe2e140287ef14fa73764a1352c1c8"
+  },
+  "recursos/personas.txt": {
+    "bytes": 6160,
+    "sha256": "e0aead40fc53a63a0193760b3935fe08ebbc3cfe63bba93f593e46b8974f523b"
+  },
+  "recursos/presentacion.txt": {
+    "bytes": 5723,
+    "sha256": "56d03e12c3935164cfad33178db4a1ae7cfb4b8c85c68882668a2d7bf36c71c4"
+  },
+  "recursos/resultados.txt": {
+    "bytes": 12055,
+    "sha256": "b140577eb8da8231fec745a69c3c0b570f2a74b64f2237520ed4fc905b6199e2"
+  },
+  "recursos/verificar_notebook.py": {
+    "bytes": 2050,
+    "sha256": "042008633ee246df162770d76f1df9c68209197885943f45d46954cb2a678a01"
+  },
+  "requirements-dev.txt": {
+    "bytes": 37,
+    "sha256": "0b2fa334f648957ee31508b2cc1db026dcb0aa9221536f0319ea53eb33497bf5"
+  },
+  "requirements.txt": {
+    "bytes": 106,
+    "sha256": "17eebc1e4687f478bc2cec3c757a956d9c2506b58227f103f69b153d2701dbcb"
+  },
+  "salidas/Atlas_Bases_Electorales_Originales.zip": {
+    "bytes": 22187317,
+    "sha256": "4359f1138d196dd2d7b325c3de89445b7f0b4646bab1944e131f3d1b1fc1b0b6"
+  },
+  "salidas/datos/alcance_partidos.csv": {
+    "bytes": 28285,
+    "sha256": "b4c6107991d025700fa8094ec6b3d39335f4f7ad9d824dd0ef83f1d5aa09ff77"
+  },
+  "salidas/datos/antecedentes_cargos_electos.csv": {
+    "bytes": 356160,
+    "sha256": "22ac2d2be1f7f4235420edcaf09872f13086f2715e19cf674485c55af1abf70f"
+  },
+  "salidas/datos/asociaciones.csv": {
+    "bytes": 15970,
+    "sha256": "5a9166c4d02093b7e06dd85c84ba208f7a891ee7bff606e50bad837b244005f8"
+  },
+  "salidas/datos/brechas_participacion.csv": {
+    "bytes": 7729,
+    "sha256": "e3ab2b6d4b03a1f4fec3d283e0ea9ca38636331d0a584ef3620166944ae89aef"
+  },
+  "salidas/datos/camara_electa.csv": {
+    "bytes": 342045,
+    "sha256": "10a9d651af6719ac449f54d11a5c6b94b47f4f952aeef2fb36f5acd4afaffbcb"
+  },
+  "salidas/datos/cambios_oferta.csv": {
+    "bytes": 3094,
+    "sha256": "83b8f7abb1c466d2352048ae85a04a5eacbc86f4a8fd32ce20e7578e434f263a"
+  },
+  "salidas/datos/cancelados.csv": {
+    "bytes": 31002,
+    "sha256": "5eb622726ce2dd480102964bfb64c8bd7226f304d571f7aca27a56ce5748c8a6"
+  },
+  "salidas/datos/candidaturas.csv": {
+    "bytes": 4142185,
+    "sha256": "dd3d6f3c82440b7fa6b2a9962fa95e1bade5a82d6f8e37d845f9aa5581eb0669"
+  },
+  "salidas/datos/coincidencias_registrales.csv": {
+    "bytes": 232597,
+    "sha256": "86843dab393b0bbf576b118d331fac453aad149519b89ef588fcd12188253f0e"
+  },
+  "salidas/datos/colores_partidos.csv": {
+    "bytes": 2062521,
+    "sha256": "a29e42d688d7cbc22e9a090a936119b40ab762431a91aac10e20ac16a833dd8f"
+  },
+  "salidas/datos/composicion_diputaciones_arena_cobertura_origen.csv": {
+    "bytes": 4681,
+    "sha256": "38f35a76ce2c6fc161fa117548e1f3913c072044b2ab7457564359bac9427f3d"
+  },
+  "salidas/datos/composicion_diputaciones_arena_origen.csv": {
+    "bytes": 2372,
+    "sha256": "84c086c8fb35b4709d215b473efdf0237bdfd69b4ab2aef488d5a7aa59e8a5f5"
+  },
+  "salidas/datos/composicion_diputaciones_detalle.csv": {
+    "bytes": 458313,
+    "sha256": "efc9e0aa0eee9dfedd1a8d305ff9bb7ff629c6e7b0511c60e7d18d1360974d49"
+  },
+  "salidas/datos/composicion_sexo.csv": {
+    "bytes": 106288,
+    "sha256": "1e62e813c4d24b040ee1f5f913ed59c31d87545168dce5650d6bcb5b7df21eb3"
+  },
+  "salidas/datos/conciliacion_nombres.csv": {
+    "bytes": 47624,
+    "sha256": "019bbbda81e4922d196f090bb17fecff77ce6fa3aa0e9b7bf5d0c08f4a8f3ea4"
+  },
+  "salidas/datos/concordancia_gobierno.csv": {
+    "bytes": 4575,
+    "sha256": "9eceb22dbeee21dc8b2500d3076aa0633d93711efb65b2e31af49d46d90f4ca4"
+  },
+  "salidas/datos/control_integracion_territorial.json": {
+    "bytes": 591,
+    "sha256": "c33534391993d35042bdae19ad5fb5da49ec61fdf63570808a9161ea9e993ad2"
+  },
+  "salidas/datos/control_publicacion.json": {
+    "bytes": 331,
+    "sha256": "e9f0cef3e08b978dcb9609a627aff77fdc606002f4c4099031c38a127f5619f7"
+  },
+  "salidas/datos/datos_integrados.json": {
+    "bytes": 82886238,
+    "sha256": "23a2ce72906cfbb63f6ea7ccaff5c935ebf396ab2bdf73388a1fbf7baa363b09"
+  },
+  "salidas/datos/ejecutivo_electo.csv": {
+    "bytes": 20777,
+    "sha256": "87df796a0db3b4469033128339d3de5b81a29def9f1834b3dde45a46fbf09979"
+  },
+  "salidas/datos/electas.csv": {
+    "bytes": 237831,
+    "sha256": "da1626c951e5b4206841ed05da43183d109d9c31c51f67b6aaf48bb7bd8a9a0f"
+  },
+  "salidas/datos/escanos.csv": {
+    "bytes": 99100,
+    "sha256": "33a956ad074c9f41676e5444e7e01d59812f61305c6493ff2fc84f886e020aa7"
+  },
+  "salidas/datos/eventos.csv": {
+    "bytes": 5259898,
+    "sha256": "fc50a28a2ea1f53130e3c22fd545c0653f1f46b38de20d8229113e04b0d29c20"
+  },
+  "salidas/datos/formulas.csv": {
+    "bytes": 171747,
+    "sha256": "c0b833e887f541d0123fff36cc11d3a994e68c27018a9596f2cb1be524f8c1f6"
+  },
+  "salidas/datos/genero_renovacion.csv": {
+    "bytes": 14568,
+    "sha256": "f8de7ca8a5cc4b2a02ef836298615346c0326e39f6202e8bdcedeabec11dd919"
+  },
+  "salidas/datos/historia_partidos.csv": {
+    "bytes": 13206,
+    "sha256": "6c3015107ac7e5386c6b9d03317ed71990a22ea5bcfd4e0eab655cf539f11361"
+  },
+  "salidas/datos/integridad.csv": {
+    "bytes": 1231,
+    "sha256": "3fc6654cd641cfdba0c8af85fb6c20901f50875f0b55f348e54d19ac52afabc5"
+  },
+  "salidas/datos/manifest_fuentes.json": {
+    "bytes": 1383,
+    "sha256": "0e9e81681158a3e37b68250f595afd9fcc765a6e2093348b90985741511c5b62"
+  },
+  "salidas/datos/metricas.csv": {
+    "bytes": 106330,
+    "sha256": "9b967dbc2ff6778e160c634471cd249252eec5ea257d6a6a5f779e9ca70392f9"
+  },
+  "salidas/datos/modelo_arena_cobertura.json": {
+    "bytes": 295283,
+    "sha256": "2afce56f44e3550ca2133790c198cbdb19eb0f76108393f518dabc49e7c4e899"
+  },
+  "salidas/datos/movimientos.csv": {
+    "bytes": 232900,
+    "sha256": "88a8aca2c3f4177395d74a5f732574df2a954d40d6f7bfbaa837811876c52c56"
+  },
+  "salidas/datos/oferta_partidos.csv": {
+    "bytes": 24592,
+    "sha256": "db9cdc0d6e2f81abaf8f151ff2f7dd1d3d7684af123761aa4269e83e38e6e718"
+  },
+  "salidas/datos/panel.csv": {
+    "bytes": 333554,
+    "sha256": "72f7652652dbf3e2af4f8a608933ce61e3730df439ea342d3abd7ea1b08451db"
+  },
+  "salidas/datos/papeletas.csv": {
+    "bytes": 61986,
+    "sha256": "a41a15f88dc3a241f0f43d975e41f7978873f01e43cadb84a84c2319e294c92e"
+  },
+  "salidas/datos/personas.csv": {
+    "bytes": 2018294,
+    "sha256": "1372d642815089f2a38c24ea813fefa299925707802c477fb6a44f7be82dd90a"
+  },
+  "salidas/datos/presidencia_asamblea.csv": {
+    "bytes": 2912,
+    "sha256": "f154168ef95ea15237527ebd7464a8ebc10441cd05e7df64425881d0831ac6b8"
+  },
+  "salidas/datos/puentes_cargos.csv": {
+    "bytes": 1296104,
+    "sha256": "37fff83ace8af12d3338ac8b2a18b71b310a15fa820deb0f5f2cd540c09ce61f"
+  },
+  "salidas/datos/rankings_provinciales.csv": {
+    "bytes": 15673,
+    "sha256": "a1a422dc92f925370a42579bc141f4cc3511b88e0485f909b3275395833f333b"
+  },
+  "salidas/datos/representacion_territorial.csv": {
+    "bytes": 78075,
+    "sha256": "2f10885acadf8fd07c11825dd1474894543d3747c35a95d0101bc5a2432539f2"
+  },
+  "salidas/datos/resultados_candidaturas.csv": {
+    "bytes": 6941015,
+    "sha256": "0a71c9cf13110ca49eed30954a1a4ecf7d4ed6b2d3ed7569da0a991561f9edae"
+  },
+  "salidas/datos/resultados_personas.csv": {
+    "bytes": 4616552,
+    "sha256": "4568ce6b8c2328d17de5851444675a987502a5533b7f4cba2d452420a3862fd3"
+  },
+  "salidas/datos/reutilizacion_nombres.csv": {
+    "bytes": 4735,
+    "sha256": "52ea16f93ed97cc0d38bfff841d5ddaee721e7081e496e4f43ca3c6d3ec7ce6a"
+  },
+  "salidas/datos/territorio_auditoria.json": {
+    "bytes": 1274,
+    "sha256": "1fc3d557d5ef51abd6fea4c30e9de32b20ab04bcf393904c65b6dde733ae781a"
+  },
+  "salidas/datos/territorio_base.json": {
+    "bytes": 16046649,
+    "sha256": "66995caee40f9261ebe297d4733aae1a6ed41951aefe17791cbde599bc31d76a"
+  },
+  "salidas/datos/territorio_integrado.json": {
+    "bytes": 18585231,
+    "sha256": "cf141c66df5ae5231c70fb4d5cdb1b63aa5f54662b1c46794837291a091e920f"
+  },
+  "salidas/datos/territorio_liderazgos.csv": {
+    "bytes": 1249654,
+    "sha256": "450c7a4a956db4687388803ab00a8930596aaee47fc045bf8eb3ade14694c7ac"
+  },
+  "salidas/datos/territorio_metricas.csv": {
+    "bytes": 3683039,
+    "sha256": "b687fea4ea0c8405fd1b6eb8666ac9a29fce7efcca8ea947868aede61987d8cc"
+  },
+  "salidas/datos/territorio_quiebre.csv": {
+    "bytes": 78179,
+    "sha256": "7307501a51ab61061d55b755b95d9b854bcdd1c94d41c2f9e1a137f4e6cdada0"
+  },
+  "salidas/datos/territorio_votos_partidarios.csv": {
+    "bytes": 12277378,
+    "sha256": "b4892bc5c22effe892c0cc4dd9a500ee38f7729749b639cbacb3a64ed0a356c8"
+  },
+  "salidas/datos/territorios.json": {
+    "bytes": 6278334,
+    "sha256": "a8b3e042af86529590c4d2519d9725fd005c773372c87a5fc7857587ec033991"
+  },
+  "salidas/datos/territorios_manifiesto.json": {
+    "bytes": 1006,
+    "sha256": "3730c18d01fce7eb14805d1feef56cd952a425222b10e4f06df527aa60b567a7"
+  },
+  "salidas/datos/totales.csv": {
+    "bytes": 64045,
+    "sha256": "c8a00971554551c62163982b355ad563d3648c40a8c5e422c9b819b7c199b0d1"
+  },
+  "salidas/datos/transiciones_resultados.csv": {
+    "bytes": 955837,
+    "sha256": "c3326980cd316a3c594d198119cf53a536cd72047c8cc528bf4eb266613de644"
+  },
+  "salidas/datos/votos.csv": {
+    "bytes": 393060,
+    "sha256": "c154fbda569b931855f864674128da103f754ad897268e457f2399ea9fb8cf8d"
+  },
+  "scripts/restaurar_aplicacion.py": {
+    "bytes": 1496,
+    "sha256": "fd31c83e659857ef7d75d4b11d0ecc7dd838ba2c9928d2b7177fc6a2d3d7ef33"
+  },
+  "scripts/verificar_proyecto.py": {
+    "bytes": 3172,
+    "sha256": "77ac071ce566a10ea85b99a73dda8796b1a033d4959f064fb8c38d2df7695308"
+  }
+}

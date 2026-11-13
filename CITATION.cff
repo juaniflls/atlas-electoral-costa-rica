@@ -1,16 +1,16 @@
 cff-version: 1.2.0
-title: "Atlas electoral interactivo de Costa Rica"
-message: "Si utiliza este repositorio, por favor cítelo." 
+title: "Atlas Electoral de Costa Rica: 1953–2026"
+message: "Si utiliza el código o las visualizaciones, cite esta versión y las fuentes originales pertinentes."
 type: software
 authors:
-  - family-names: Garbanzo Fallas
-    given-names: Juan Ignacio
-    orcid: ""
-version: "22.0"
-date-released: 2026-10-17
+  - family-names: "Garbanzo Fallas"
+    given-names: "Juan Ignacio"
+version: "38.0"
+date-released: 2026-11-13
 url: "https://github.com/juaniflls/atlas-electoral-costa-rica"
-abstract: >-
-  Producto interactivo de consulta y análisis electoral de Costa Rica
-  (1953–2026), desarrollado en Python y HTML como parte de la Práctica
-  Profesional IFED–TSE.
+repository-code: "https://github.com/juaniflls/atlas-electoral-costa-rica"
 license: MIT
+abstract: >-
+  Aplicación interactiva y pipeline reproducible para explorar resultados,
+  participación, representación, candidaturas, partidos y trayectorias
+  electorales de Costa Rica entre 1953 y 2026.
