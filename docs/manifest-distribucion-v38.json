@@ -12,8 +12,8 @@
     "sha256": "56888c6554a6517c837a2e56a273fb65aea8a81dc3d80197d3d1749171a7bd16"
   },
   "Atlas_Electoral_V38_Publico.ipynb": {
-    "bytes": 5985164,
-    "sha256": "4c82736c71b85cf30ad02f9055ea558e2b990e7d7d9a0e37014f15610560a072"
+    "bytes": 6370144,
+    "sha256": "be1177878769868d9f1471332978bb9e1232bb84935583e5c0e01e2d9cc67595"
   },
   "Base_Electoral_Diputaciones_1953-2026.xlsx": {
     "bytes": 11349713,
@@ -48,20 +48,20 @@
     "sha256": "c5a51115166fd55b4ce3f63b6bfd81dec636fed08440667ab547af36c6ec4c24"
   },
   "CITATION.cff": {
-    "bytes": 678,
-    "sha256": "61d30ba4194dcdd72d4ed4a6b97c24de6bcd8f6172ffebde5b42b87f462b5cab"
+    "bytes": 755,
+    "sha256": "a1196f5a0746517899ab2efc9873b75809e4beb7f03de9287cafc53254b8c52e"
   },
   "LICENSE": {
-    "bytes": 1085,
-    "sha256": "15a216fce70de13060a18a0e75b92b34efcdadac806310e1ba0f1f0876155da2"
+    "bytes": 4749,
+    "sha256": "a2959e380823124985c304a823f965d75bcc89108cb0f8aa9146fa61ab2c4789"
   },
   "NOTICE.md": {
-    "bytes": 1241,
-    "sha256": "73b08e35d4c7f8dd6f666ebde1eeea52a24b1737120e30eb835145a93a8e4b80"
+    "bytes": 1937,
+    "sha256": "330064c1c2445d628be2afad8e868438670ba888dabdf4732f00442272873c40"
   },
   "README.md": {
-    "bytes": 62061,
-    "sha256": "b036b3505d91ef78b03e9442d41adc1108ec2ef43044a187b71a6e7866299536"
+    "bytes": 62445,
+    "sha256": "dec2ae35eea2edaabb8ce6b53b7f41e15d880f4c3ace374baaa69317467563cb"
   },
   "assets/branding/atlas-electoral-v38.png": {
     "bytes": 100913,
@@ -866,5 +866,9 @@
   "scripts/verificar_proyecto.py": {
     "bytes": 3172,
     "sha256": "77ac071ce566a10ea85b99a73dda8796b1a033d4959f064fb8c38d2df7695308"
+  },
+  "LICENSES/MIT.txt": {
+    "bytes": 1085,
+    "sha256": "15a216fce70de13060a18a0e75b92b34efcdadac806310e1ba0f1f0876155da2"
   }
 }

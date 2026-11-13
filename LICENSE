@@ -1,21 +1,93 @@
-MIT License
+ATLAS ELECTORAL DE COSTA RICA · VERSIÓN 38
+LICENCIA PROPIETARIA DE EVALUACIÓN Y RESERVA DE DERECHOS
 
-Copyright (c) 2026 Juan Ignacio Garbanzo Fallas
+Autor identificado: Juan Ignacio Garbanzo Fallas.
+Copyright (c) 2026, respecto de las aportaciones originales cuyos derechos
+correspondan legalmente al autor. Todos los derechos reservables reservados.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. ALCANCE DE ESTA DISTRIBUCIÓN
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Estas condiciones se ofrecen para la distribución actual de la versión 38
+del Atlas Electoral de Costa Rica identificada por el commit que incorpora
+este archivo. No suponen una transferencia de titularidad ni una declaración
+de exclusividad sobre datos públicos, materiales institucionales o componentes
+de terceros. La información histórica de las licencias consta en el apartado 7.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. PERMISO LIMITADO DE EVALUACIÓN
+
+El titular concede a quien reciba esta distribución un permiso no exclusivo,
+intransferible y no sublicenciable para consultar el código y la documentación,
+realizar las copias técnicas necesarias y ejecutar localmente la aplicación
+exclusivamente con fines de evaluación personal, académica o institucional
+interna. Este permiso no autoriza su adopción como servicio institucional,
+su despliegue productivo ni su explotación comercial.
+
+3. USOS SUJETOS A AUTORIZACIÓN ESCRITA
+
+Fuera del permiso de evaluación, se requiere autorización previa y escrita
+del titular de los derechos correspondientes para:
+
+a) integrar o desplegar la aplicación como herramienta institucional o servicio;
+b) modificar, adaptar, traducir o crear productos derivados del material sujeto
+   a estas condiciones;
+c) redistribuir, publicar, alojar para terceros, sublicenciar, vender o incorporar
+   dicho material en otros productos o servicios;
+d) prestar servicios comerciales basados en el material reservado.
+
+Estas restricciones se aplican únicamente a los derechos que el titular pueda
+reservar y no limitan permisos preexistentes, licencias de terceros ni usos
+que la ley permita sin autorización.
+
+4. AUTORÍA Y TRAZABILIDAD
+
+Deben conservarse los avisos de autoría y procedencia del material utilizado.
+No se autoriza presentar el trabajo original de otra persona como propio ni
+atribuir al autor modificaciones o resultados que no haya realizado o aprobado.
+Las adaptaciones autorizadas deberán identificar a sus responsables y cambios.
+
+5. ENTREGA, INTEGRACIÓN Y ACUERDOS
+
+El acceso al repositorio, la entrega de un HTML o notebook, una demostración o
+una evaluación no constituyen por sí solos cesión de derechos, exclusividad,
+autorización de integración productiva ni autorización comercial adicional.
+Las condiciones de licencia, implementación, adaptación, mantenimiento o
+transferencia deberán constar en un acuerdo escrito de las partes legitimadas.
+El acuerdo podrá ser gratuito u oneroso según lo que expresamente se pacte.
+Este aviso no crea por sí mismo una obligación de pago.
+
+6. DATOS, INSTITUCIONES Y TERCEROS
+
+Los datos electorales, documentos históricos, fotografías, geometrías,
+divisas y otros materiales de terceros mantienen sus derechos y condiciones
+propios. Los datos o hechos subyacentes no se convierten en propiedad exclusiva
+del autor por estar incorporados a esta aplicación. Las librerías y componentes
+de terceros conservan sus respectivas licencias y avisos.
+
+Estas condiciones no desconocen acuerdos válidos ni derechos que correspondan
+al TSE, al IFED, a la UCR o a otras personas. La determinación de titularidad se
+realizará conforme a esos acuerdos y a la legislación aplicable.
+
+7. LICENCIAS Y AUTORIZACIONES PREEXISTENTES
+
+Estas condiciones no revocan ni restringen permisos válidamente concedidos
+con anterioridad sobre el material correspondiente. Quien pueda ejercer esos
+permisos conserva la facultad de hacerlo conforme a sus condiciones.
+Las licencias de componentes y materiales previamente autorizados mantienen
+su alcance, incluso cuando permitan su utilización comercial. El texto MIT
+se conserva en LICENSES/MIT.txt para los materiales a los que corresponda.
+En caso de conflicto prevalecerán las autorizaciones preexistentes y los
+derechos de sus titulares legítimos.
+
+8. GARANTÍAS Y RESPONSABILIDAD
+
+Salvo acuerdo escrito y en la medida permitida por la ley, la distribución
+se entrega sin garantías de exactitud, idoneidad o continuidad del servicio.
+Los resultados deben cotejarse con las fuentes primarias antes de cualquier
+uso oficial o publicable. Nada en este aviso excluye responsabilidades o
+derechos que la ley establezca de forma imperativa.
+
+9. CONTACTO PARA AUTORIZACIONES
+
+Las solicitudes de autorización o contratación deberán dirigirse a
+Juan Ignacio Garbanzo Fallas mediante los canales de contacto del repositorio:
+https://github.com/juaniflls/atlas-electoral-costa-rica

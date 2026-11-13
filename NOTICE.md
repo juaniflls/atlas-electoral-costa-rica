@@ -1,15 +1,23 @@
-# Aviso sobre datos, fuentes y uso
+# Autoría, licenciamiento y procedencia · V38
 
-Este repositorio contiene código, documentación, recursos visuales y un producto interactivo final vinculados al **Atlas Electoral de Costa Rica (1953–2026)**.
+La distribución actual de la versión 38 se presenta bajo la **Licencia propietaria de evaluación y reserva de derechos**, descrita en [LICENSE](LICENSE). La consulta y evaluación autorizadas no implican autorización general de integración productiva, modificación, redistribución o explotación comercial del material sujeto a reserva.
 
-## Alcance de la licencia MIT
-La licencia MIT del repositorio se aplica al código original, a la documentación original y a los recursos visuales originales creados para este proyecto, salvo que se indique lo contrario.
+## Autoría y acuerdos
 
-## Fuentes institucionales y materiales de terceros
-Las bases integradas se construyen a partir de fuentes institucionales, históricas y documentales, en particular del **Tribunal Supremo de Elecciones (TSE)**, el **Instituto de Formación y Estudios en Democracia (IFED)** y otras fuentes citadas en la documentación metodológica. Esas fuentes pueden tener condiciones de uso propias.
+El desarrollo identifica a **Juan Ignacio Garbanzo Fallas** como autor. La reserva comprende únicamente los derechos que legalmente le correspondan; no declara titularidad exclusiva sobre aportes de otras personas ni modifica acuerdos institucionales válidos. Las condiciones de integración, implementación, mantenimiento o cesión se pactarán por escrito entre las partes legitimadas.
 
-## Buenas prácticas de reutilización
-- Cite el repositorio y al autor cuando reutilice código, documentación o visualizaciones.
-- Verifique cifras, nombres, cargos y resultados con las fuentes institucionales primarias antes de un uso oficial o publicable.
-- No convierta coincidencias nominales o de apellidos en afirmaciones de parentesco sin evidencia adicional.
-- Distinga entre descripción, asociación y causalidad.
+## Licencias y autorizaciones aplicables
+
+La reserva se aplica a los derechos que puedan reservarse en esta distribución. No revoca permisos válidamente otorgados con anterioridad ni modifica licencias de terceros. Los materiales previamente autorizados bajo MIT mantienen sus condiciones; su texto está en [LICENSES/MIT.txt](LICENSES/MIT.txt).
+
+## Datos y materiales de terceros
+
+Los datos electorales y documentos institucionales mantienen su procedencia y condiciones propias. La protección de una compilación no atribuye exclusividad sobre los hechos o datos subyacentes. Se mantienen las licencias de las dependencias y los derechos de sus titulares, incluidos los avisos incorporados en las bibliotecas distribuidas con el HTML.
+
+## Uso responsable
+
+- Conservar la autoría y la procedencia documental.
+- Cotejar cifras, nombres, cargos y resultados con las fuentes institucionales primarias.
+- No interpretar coincidencias nominales o de apellidos como prueba de parentesco.
+- Distinguir descripción, asociación y causalidad.
+- Identificar las modificaciones y a sus responsables en las adaptaciones autorizadas.

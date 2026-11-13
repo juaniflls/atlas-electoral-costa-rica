@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-pipeline%20anal%C3%ADtico-3776AB?logo=python&logoColor=white)](Atlas_Electoral_V38_Publico.ipynb)
 [![Jupyter](https://img.shields.io/badge/Jupyter-notebook%20reproducible-F37626?logo=jupyter&logoColor=white)](Atlas_Electoral_V38_Publico.ipynb)
 [![Versión](https://img.shields.io/badge/Edici%C3%B3n%20p%C3%BAblica-38-087F8C)](#recorrido-completo)
-[![Licencia](https://img.shields.io/badge/C%C3%B3digo-MIT-229977)](LICENSE)
+[![Licencia](https://img.shields.io/badge/Licencia-Evaluaci%C3%B3n%20y%20reserva-8A4C6B)](LICENSE)
 [![Cobertura](https://img.shields.io/badge/1953%E2%80%932026-19%20elecciones-254B62)](#cobertura-y-fuentes)
 
 **Autor:** [Juan Ignacio Garbanzo Fallas](https://github.com/juaniflls) · Ciencia Política, Economía y Ciencia de Datos.  
@@ -788,10 +788,13 @@ Referencia: [personalizar la vista previa social de un repositorio](https://docs
 
 ## Licencia y cita
 
-El código original y la documentación original se distribuyen bajo la [licencia MIT](LICENSE), conservando la autoría de Juan Ignacio Garbanzo Fallas. Las fuentes institucionales, fotografías, geometrías, banderas y otros materiales de terceros conservan sus derechos y condiciones propios: ver [NOTICE.md](NOTICE.md). La licencia del software no atribuye al autor propiedad sobre los documentos históricos ni concede una autorización institucional de publicación adicional.
+La distribución actual de la **versión 38** se presenta bajo una [licencia propietaria de evaluación y reserva de derechos](LICENSE), respecto de los derechos que correspondan a Juan Ignacio Garbanzo Fallas. La evaluación autorizada no implica permiso general de integración productiva, modificación, redistribución o explotación comercial del material reservado. Esos usos requieren autorización escrita o un acuerdo específico de las partes legitimadas.
+
+La reserva no revoca autorizaciones válidamente otorgadas con anterioridad ni modifica las licencias aplicables a componentes de terceros. El texto MIT se conserva en [LICENSES/MIT.txt](LICENSES/MIT.txt) para los materiales correspondientes. Las fuentes institucionales y los datos electorales mantienen su procedencia y condiciones propias. Consulte [NOTICE.md](NOTICE.md).
 
 **Referencia sugerida del software:**
 
 Garbanzo Fallas, J. I. (2026). *Atlas Electoral de Costa Rica: 1953–2026* (Versión 38) [Software]. GitHub. https://github.com/juaniflls/atlas-electoral-costa-rica
 
 GitHub puede ofrecer la cita mediante [CITATION.cff](CITATION.cff). Para una cifra, una candidatura o una interpretación histórica, añadir la referencia de la fuente primaria pertinente; citar el software no reemplaza la atribución documental. Las incidencias deben describir sección, selección de filtros, resultado esperado y comportamiento observado para facilitar su reproducción.
+
