@@ -8,7 +8,7 @@ El desarrollo identifica a **Juan Ignacio Garbanzo Fallas** como autor. La reser
 
 ## Licencias y autorizaciones aplicables
 
-La reserva se aplica a los derechos que puedan reservarse en esta distribución. No revoca permisos válidamente otorgados con anterioridad ni modifica licencias de terceros. Los materiales previamente autorizados bajo MIT mantienen sus condiciones; su texto está en [LICENSES/MIT.txt](LICENSES/MIT.txt).
+La reserva se aplica a los derechos que puedan reservarse en esta distribución. No revoca permisos válidamente otorgados con anterioridad ni modifica licencias de terceros.
 
 ## Datos y materiales de terceros
 

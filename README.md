@@ -790,7 +790,7 @@ Referencia: [personalizar la vista previa social de un repositorio](https://docs
 
 La distribución actual de la **versión 38** se presenta bajo una [licencia propietaria de evaluación y reserva de derechos](LICENSE), respecto de los derechos que correspondan a Juan Ignacio Garbanzo Fallas. La evaluación autorizada no implica permiso general de integración productiva, modificación, redistribución o explotación comercial del material reservado. Esos usos requieren autorización escrita o un acuerdo específico de las partes legitimadas.
 
-La reserva no revoca autorizaciones válidamente otorgadas con anterioridad ni modifica las licencias aplicables a componentes de terceros. El texto MIT se conserva en [LICENSES/MIT.txt](LICENSES/MIT.txt) para los materiales correspondientes. Las fuentes institucionales y los datos electorales mantienen su procedencia y condiciones propias. Consulte [NOTICE.md](NOTICE.md).
+La reserva no revoca autorizaciones válidamente otorgadas con anterioridad ni modifica las licencias aplicables a componentes de terceros. Las fuentes institucionales y los datos electorales mantienen su procedencia y condiciones propias. Consulte [NOTICE.md](NOTICE.md).
 
 **Referencia sugerida del software:**
 
